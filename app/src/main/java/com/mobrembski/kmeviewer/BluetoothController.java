@@ -1,45 +1,29 @@
 package com.mobrembski.kmeviewer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
+import java.util.Observable;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.os.Handler;
-import android.util.Log;
-import android.widget.TextView;
 
-public class BluetoothController {
+public class BluetoothController extends Observable {
 
 	private BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
 	private BluetoothSocket socket = null;
-	private BluetoothDevice device = null;
 	
 	private Thread connectionThread;
     private Thread parseThread;
-	
-	public boolean toRun = true;
-	public KMEDataActual DataActual = new KMEDataActual();
+
 	private boolean connected = false;
-    private Handler _handle;
-    private static long packetsRcv=0;
-    private static long packetsError=0;
+    private long packetsRcv=0;
+    private long packetsError=0;
 	
 	private InputStream inStream;
 	private OutputStream outStream;
-	
-	private ArrayList<KMEDataChanged> eventObservers = new ArrayList<KMEDataChanged>();
-	
-	public void onKMEDataChanged(KMEDataChanged observer) {
-		eventObservers.add(observer);
-	}
 
     //private final UUID MY_UUID = UUID
     //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
@@ -47,11 +31,9 @@ public class BluetoothController {
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
     byte[] buffer;
     byte[] askFrame = new byte[]{0x65,0x02,0x02,0x69};
+    private KMEDataActual actualParam = new KMEDataActual();
 	
-	public BluetoothController(BluetoothDevice device, final Handler mHandler) {
-		this.device = device;
-        this._handle = mHandler;
-        // Get a BluetoothSocket for a connection with the given BluetoothDevice
+	public BluetoothController(BluetoothDevice device) {
         try {
             socket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
@@ -60,16 +42,14 @@ public class BluetoothController {
         connectionThread  = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Always cancel discovery because it will slow down a connection
                 _bluetooth.cancelDiscovery();
 
-                // Make a connection to the BluetoothSocket
                 try {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
                     socket.connect();
+                    connected = true;
                 } catch (IOException e) {
-                    //connection to device failed so close the socket
                     try {
                         socket.close();
                     } catch (IOException e2) {
@@ -83,8 +63,6 @@ public class BluetoothController {
             public void run() {
                 InputStream tmpIn = null;
                 OutputStream tmpOut = null;
-
-                // Get the BluetoothSocket input and output streams
                 try {
                     tmpIn = socket.getInputStream();
                     tmpOut = socket.getOutputStream();
@@ -97,11 +75,17 @@ public class BluetoothController {
 
                 inStream = tmpIn;
                 outStream = tmpOut;
-                while (true) {
+                while (connected) {
                     try {
                         outStream.write(askFrame);
                         outStream.flush();
-                        Thread.sleep(50);
+                        do {
+                            if(!connected)
+                                break;
+                        }
+                        while(inStream.available() <=10);
+                        if(!connected)
+                            break;
                         int i = inStream.read(buffer);
                         int sum=0;
                         int values[] = new int[buffer.length];
@@ -113,21 +97,31 @@ public class BluetoothController {
                         }
                         sum=sum&0xFF;
                         if(sum==values[values.length-1] && sum!=0)
-                            mHandler.obtainMessage(1,i, -1, values).sendToTarget();
+                            actualParam = actualParam.GetDataFromByteArray(values);
                         else
                             packetsError++;
-                        mHandler.obtainMessage(2,packetsError).sendToTarget();
-                        mHandler.obtainMessage(3,packetsRcv).sendToTarget();
+                        setChanged();
+                        notifyObservers();
+
                     } catch (IOException e) {
-                        break;
-                    } catch (InterruptedException e) {
                         break;
                     }
                 }
             }
         });
-
 	}
+
+    public KMEDataActual GetActualParameters() {
+        return actualParam;
+    }
+
+    public long GetRecvPacketsCount() {
+        return packetsRcv;
+    }
+
+    public long GetErrorsCount() {
+        return packetsError;
+    }
 
     public void Start() {
         connectionThread.start();
@@ -135,13 +129,16 @@ public class BluetoothController {
     }
 
     public void Stop() {
-        if(parseThread!=null)
-            parseThread.interrupt();
-        if(connectionThread!=null)
-            connectionThread.interrupt();
+        connected=false;
         try {
+            if(parseThread!=null)
+                parseThread.join();
+            if(connectionThread!=null)
+                connectionThread.join();
             socket.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

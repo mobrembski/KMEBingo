@@ -2,9 +2,7 @@ package com.mobrembski.kmeviewer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Message;
 import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,44 +10,17 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Observable;
+import java.util.Observer;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends Activity implements Observer {
 
     private static final int REQUEST_DISCOVERY = 0x1;
 	private BluetoothController btcntrl;
     SharedPreferences prefs;
-    KMEDataActual dtn = new KMEDataActual();
-
-    private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    EditText tv = (EditText)findViewById(R.id.editText1);
-                    dtn = dtn.GetDataFromByteArray((int[])msg.obj);
-                    tv.setText(String.valueOf(dtn.TPS));
-                    tv = (EditText)findViewById(R.id.editTextActuator);
-                    tv.setText(String.valueOf(dtn.actuator));
-                    tv = (EditText)findViewById(R.id.editTextActualTemp);
-                    tv.setText(String.valueOf(dtn.actualTemp));
-                    break;
-                case 2:
-                    TextView received = (TextView)findViewById(R.id.receivedCount);
-                    Long rec = (Long)msg.obj;
-                    received.setText(String.valueOf(rec));
-                    break;
-                case 3:
-                    TextView errors = (TextView)findViewById(R.id.errorsCount);
-                    Long err = (Long)msg.obj;
-                    errors.setText(String.valueOf(err));
-                    break;
-            }
-
-        }
-    };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +29,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
         String address = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-        if(device!=null) {
-            btcntrl = new BluetoothController(device, mHandler);
-            btcntrl.Start();
-        }
+        btcntrl = new BluetoothController(device);
+        btcntrl.addObserver(this);
+        btcntrl.Start();
 	}
 
 	@Override
@@ -102,28 +72,27 @@ public class MainActivity extends Activity {
 		}
 		final BluetoothDevice device = data.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if(device!=null) {
-            btcntrl = new BluetoothController(device, mHandler);
+            btcntrl = new BluetoothController(device);
+            btcntrl.addObserver(this);
             btcntrl.Start();
             prefs.edit().putString("com.mobrembski.kmeviewer.Device",device.getAddress()).apply();
         }
-        return;
-		
 	}
-	
-	private class MyListener implements KMEDataChanged {
 
-		@Override
-		public void onDataChanged(final KMEDataActual data) {
-			// TODO Auto-generated method stub
-			runOnUiThread(new Runnable(){
-				public void run(){
-					EditText tv = (EditText)findViewById(R.id.editText1);
-					tv.setText(Float.toString(data.TPS));
-				}
-			});
-
-		}
-		
-	}
+    @Override
+    public void update(Observable observable, Object o) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EditText tv = (EditText)findViewById(R.id.editText1);
+                KMEDataActual dtn = btcntrl.GetActualParameters();
+                tv.setText(String.valueOf(dtn.TPS));
+                tv = (EditText)findViewById(R.id.editTextActuator);
+                tv.setText(String.valueOf(dtn.actuator));
+                tv = (EditText)findViewById(R.id.editTextActualTemp);
+                tv.setText(String.valueOf(dtn.actualTemp));
+            }
+        });
+    }
 
 }
