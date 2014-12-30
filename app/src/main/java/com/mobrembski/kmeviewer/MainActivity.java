@@ -1,36 +1,66 @@
 package com.mobrembski.kmeviewer;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
 
 
-public class MainActivity extends Activity implements Observer {
+public class MainActivity extends FragmentActivity implements Observer {
 
     private static final int REQUEST_DISCOVERY = 0x1;
 	private BluetoothController btcntrl;
     SharedPreferences prefs;
-	
+    KMEViewerTab actualParametersFragment;
+
+    ActionBar.Tab actualParamTab,infoTab;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
 		setContentView(R.layout.activity_main);
+        prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         String address = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
         btcntrl = new BluetoothController(device);
         btcntrl.addObserver(this);
+        ActionBar actionBar = getActionBar();
+
+        // Screen handling while hiding ActionBar icon.
+        actionBar.setDisplayShowHomeEnabled(false);
+
+        // Screen handling while hiding Actionbar title.
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        // Creating ActionBar tabs.
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actualParametersFragment = new ActualParametersTab();
+        KMEViewerTab kmeInfoFragment = new KmeInfoTab();
+        actualParamTab = actionBar.newTab();
+        actualParamTab.setText("ActualParam");
+        infoTab = actionBar.newTab();
+        infoTab.setText("Info");
+        actualParamTab.setTabListener(new TabListener(actualParametersFragment,btcntrl));
+        infoTab.setTabListener(new TabListener(kmeInfoFragment,btcntrl));
+        actualParametersFragment.setController(btcntrl);
+        kmeInfoFragment.setController(btcntrl);
+        btcntrl.addObserver(actualParametersFragment);
+        // Setting tab listeners.
+        // Adding tabs to the ActionBar.
+        actionBar.addTab(actualParamTab);
+        actionBar.addTab(infoTab);
+
+
         btcntrl.Start();
 	}
 
@@ -74,6 +104,7 @@ public class MainActivity extends Activity implements Observer {
         if(device!=null) {
             btcntrl = new BluetoothController(device);
             btcntrl.addObserver(this);
+            btcntrl.addObserver(actualParametersFragment);
             btcntrl.Start();
             prefs.edit().putString("com.mobrembski.kmeviewer.Device",device.getAddress()).apply();
         }
@@ -84,13 +115,13 @@ public class MainActivity extends Activity implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                EditText tv = (EditText)findViewById(R.id.editText1);
+                /*EditText tv = (EditText)findViewById(R.id.editText1);
                 KMEDataActual dtn = btcntrl.GetActualParameters();
                 tv.setText(String.valueOf(dtn.TPS));
                 tv = (EditText)findViewById(R.id.editTextActuator);
                 tv.setText(String.valueOf(dtn.actuator));
                 tv = (EditText)findViewById(R.id.editTextActualTemp);
-                tv.setText(String.valueOf(dtn.actualTemp));
+                tv.setText(String.valueOf(dtn.actualTemp));*/
             }
         });
     }
