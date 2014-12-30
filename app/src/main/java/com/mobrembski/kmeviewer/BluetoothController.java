@@ -31,7 +31,7 @@ public class BluetoothController extends Observable {
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
     byte[] buffer;
     byte[] askFrame = new byte[]{0x65,0x02,0x02,0x69};
-    private KMEDataActual actualParam = new KMEDataActual();
+    private static KMEDataActual actualParam = new KMEDataActual();
 	
 	public BluetoothController(BluetoothDevice device) {
         try {
@@ -142,4 +142,6 @@ public class BluetoothController extends Observable {
             e.printStackTrace();
         }
     }
+    @Override public synchronized boolean hasChanged() { return super.hasChanged(); }
+    @Override public synchronized void notifyObservers() { super.notifyObservers(); }
 }

@@ -20,8 +20,10 @@ public class TabListener implements ActionBar.TabListener {
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         ft.replace(R.id.activity_main, fragment);
-        if(this.controller!=null)
+        if(this.controller!=null) {
             fragment.setController(this.controller);
+            this.controller.addObserver(fragment);
+        }
     }
 
     // When a tab is unselected, we have to hide it from the user's view.
@@ -29,7 +31,7 @@ public class TabListener implements ActionBar.TabListener {
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         if(this.controller!=null)
             this.controller.deleteObserver(fragment);
-            ft.remove(fragment);
+        ft.remove(fragment);
     }
 
     // Nothing special here. Fragments already did the job.
