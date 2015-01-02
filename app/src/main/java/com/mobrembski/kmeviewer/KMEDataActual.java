@@ -6,6 +6,8 @@ public class KMEDataActual {
     public int Actuator;
     public int ActualTemp;
     public int PWA;
+    public int RPMRaw1;
+    public int RPMRaw2;
     public boolean WorkingOnGas;
     public boolean CutOffActivated;
     public boolean TemperatureOK;
@@ -21,6 +23,8 @@ public class KMEDataActual {
             dataActual.Lambda = 0 + array[2];
             dataActual.Actuator = 0 + array[3];
             dataActual.PWA = 0 + array[4];
+            dataActual.RPMRaw1 = array[5];
+            dataActual.RPMRaw2 = array[6];
 
             dataActual.WorkingOnGas = (array[8] & 1) == 1;
             dataActual.CutOffActivated = (array[8] & 8) == 8;
