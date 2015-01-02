@@ -1,36 +1,38 @@
 package com.mobrembski.kmeviewer;
+
+import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.app.ActionBar;
 
 public class TabListener implements ActionBar.TabListener {
-
     private KMEViewerTab fragment;
     private BluetoothController controller = null;
 
-    // The contructor.
     public TabListener(KMEViewerTab fragment, BluetoothController controller) {
         this.fragment = fragment;
         this.controller = controller;
     }
 
-    // When a tab is tapped, the FragmentTransaction replaces
-    // the content of our main layout with the specified fragment;
-    // that's why we declared an id for the main layout.
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         ft.replace(R.id.activity_main, fragment);
-        if(this.controller!=null) {
+        if (this.controller != null) {
             fragment.setController(this.controller);
-            this.controller.addObserver(fragment);
         }
+        this.fragment.askingThreadRunning = true;
+        fragment.CreateAskingThread(50);
+        fragment.askingThread.start();
     }
 
-    // When a tab is unselected, we have to hide it from the user's view.
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        if(this.controller!=null)
-            this.controller.deleteObserver(fragment);
+        try {
+            this.fragment.askingThreadRunning = false;
+            if (this.fragment.askingThread != null)
+                this.fragment.askingThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ft.remove(fragment);
     }
 
