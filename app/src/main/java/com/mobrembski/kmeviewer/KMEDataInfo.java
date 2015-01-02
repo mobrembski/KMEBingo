@@ -8,7 +8,7 @@ public class KMEDataInfo {
     public int SensorLevel2;
     public int SensorLevel3;
     public int SensorLevel4;
-    public int byte5;
+    public int LevelIndicatorOn;
     public int byte6;
     public int byte7;
     public int minutesOnGas;
@@ -25,7 +25,7 @@ public class KMEDataInfo {
             dataInfo.SensorLevel2 = array[2];
             dataInfo.SensorLevel3 = array[3];
             dataInfo.SensorLevel4 = array[4];
-            dataInfo.byte5 = array[5];
+            dataInfo.LevelIndicatorOn = (array[5] & 7);
             dataInfo.byte6 = array[6];
             dataInfo.byte7 = array[7];
             dataInfo.minutesOnGas = array[8];

@@ -27,6 +27,25 @@ public class KmeInfoTab extends KMEViewerTab {
                     tv.setText(dtn.RegistrationPlate);
                     tv = (TextView) myView.findViewById(R.id.DateOfInstallationValue);
                     tv.setText(dtn.DayOfInstallation+"-"+dtn.MonthOfInstallation+"-"+dtn.YearOfInstallation);
+                    tv = (TextView) myView.findViewById(R.id.TankLevelValue);
+                    switch (dtn.LevelIndicatorOn)
+                    {
+                        case 4:
+                            tv.setText("100%");
+                            break;
+                        case 3:
+                            tv.setText("75%");
+                            break;
+                        case 2:
+                            tv.setText("50%");
+                            break;
+                        case 1:
+                            tv.setText("25%");
+                            break;
+                        case 0:
+                            tv.setText("LOW LEVEL");
+                            break;
+                    }
                 }
             });
     }

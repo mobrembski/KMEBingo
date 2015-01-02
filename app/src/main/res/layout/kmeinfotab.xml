@@ -67,5 +67,26 @@
                 android:text="Medium Text"
                 android:id="@+id/DateOfInstallationValue" />
         </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Tank level:"
+                android:id="@+id/TankLevel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/TankLevelValue" />
+
+        </TableRow>
     </TableLayout>
+
 </RelativeLayout>
