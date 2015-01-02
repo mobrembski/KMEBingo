@@ -1,8 +1,5 @@
 package com.mobrembski.kmeviewer;
 
-import java.nio.channels.spi.AbstractSelectionKey;
-import java.util.BitSet;
-
 public class KMEDataInfo {
     public int SensorLevel1;
     public int SensorLevel2;
@@ -25,17 +22,17 @@ public class KMEDataInfo {
             dataInfo.SensorLevel2 = array[2];
             dataInfo.SensorLevel3 = array[3];
             dataInfo.SensorLevel4 = array[4];
-            dataInfo.LevelIndicatorOn = (array[5] & 7);
+            dataInfo.LevelIndicatorOn = BitUtils.GetMaskedBytes(array[5],7);
             dataInfo.byte6 = array[6];
             dataInfo.byte7 = array[7];
             dataInfo.minutesOnGas = array[8];
             dataInfo.hoursOnGas = array[9]+256*array[10];
 
-            int monthLow = ((array[11] & 224) >>5);
-            int monthHigh = ((array[12] & 128) >>4);
+            int monthLow = (BitUtils.GetMaskedBytes(array[11],224) >>5);
+            int monthHigh = (BitUtils.GetMaskedBytes(array[12],128) >>4);
             dataInfo.MonthOfInstallation = (monthHigh | monthLow) + 1;
-            dataInfo.DayOfInstallation = (array[11] & 31) + 1;
-            dataInfo.YearOfInstallation = (array[12] & 127) + 2000;
+            dataInfo.DayOfInstallation = BitUtils.GetMaskedBytes(array[11],31) + 1;
+            dataInfo.YearOfInstallation = BitUtils.GetMaskedBytes(array[12],127) + 2000;
 
             StringBuilder sb = new StringBuilder();
             for (int i=13;i<=19;i++)
