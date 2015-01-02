@@ -3,6 +3,7 @@ package com.mobrembski.kmeviewer;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.text.format.Time;
 
 import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
@@ -16,6 +17,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class BluetoothController extends Observable {
     public static PriorityBlockingQueue<AskFrameClass> queue = new PriorityBlockingQueue<AskFrameClass>(1024);
+    public Time StartTime = new Time();
     //private final UUID SERIAL_UUID = UUID
     //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private final UUID SERIAL_UUID = UUID
@@ -54,6 +56,7 @@ public class BluetoothController extends Observable {
                     inStream = tmpIn;
                     outStream = tmpOut;
                     // TODO: This shouldn't be here...
+                    StartTime.setToNow();
                     Thread.sleep(1000);
                     if (connected)
                         parseThread.start();
@@ -118,7 +121,7 @@ public class BluetoothController extends Observable {
                 if (values != null && waiter != null)
                     waiter.packetReceived(values);
                 else {
-                    waiter.packetReceived(new int[frame.answerSize]);
+                    waiter.packetReceived(null);
                     packetsError++;
                 }
                 setChanged();

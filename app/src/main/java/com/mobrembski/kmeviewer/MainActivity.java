@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.format.DateUtils;
+import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends FragmentActivity implements Observer {
@@ -48,6 +51,9 @@ public class MainActivity extends FragmentActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
+        Time now = new Time();
+        now.setToNow();
+        final long diff = TimeUnit.MILLISECONDS.toSeconds(now.toMillis(true)-btcntrl.StartTime.toMillis(true));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -56,7 +62,10 @@ public class MainActivity extends FragmentActivity implements Observer {
                 TextView connected = (TextView) findViewById(R.id.connectedLabel);
                 errors.setText(String.valueOf(btcntrl.GetErrorsCount()));
                 packets.setText(String.valueOf(btcntrl.GetRecvPacketsCount()));
-                connected.setText("Connected");
+                if(!btcntrl.GetConnected())
+                    connected.setText("Disconnected");
+                else
+                    connected.setText(DateUtils.formatElapsedTime(diff));
             }
         });
     }

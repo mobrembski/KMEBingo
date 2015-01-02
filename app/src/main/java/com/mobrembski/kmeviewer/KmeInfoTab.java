@@ -16,7 +16,7 @@ public class KmeInfoTab extends KMEViewerTab {
     @Override
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
-        if (main != null)
+        if (main != null && frame != null)
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
