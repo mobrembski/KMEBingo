@@ -25,6 +25,8 @@ public class KmeInfoTab extends KMEViewerTab {
                     tv.setText(String.valueOf(dtn.hoursOnGas+"h "+dtn.minutesOnGas+"min"));
                     tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
                     tv.setText(dtn.RegistrationPlate);
+                    tv = (TextView) myView.findViewById(R.id.DateOfInstallationValue);
+                    tv.setText(dtn.DayOfInstallation+"-"+dtn.MonthOfInstallation+"-"+dtn.YearOfInstallation);
                 }
             });
     }
