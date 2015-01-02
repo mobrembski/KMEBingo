@@ -20,9 +20,11 @@ public class KmeInfoTab extends KMEViewerTab {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView tv = (TextView) myView.findViewById(R.id.TimeOnGas);
                     KMEDataInfo dtn = KMEDataInfo.GetDataFromByteArray(frame);
-                    tv.setText(String.valueOf(dtn.minutesOnGas));
+                    TextView tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
+                    tv.setText(String.valueOf(dtn.hoursOnGas+"h "+dtn.minutesOnGas+"min"));
+                    tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
+                    tv.setText(dtn.RegistrationPlate);
                 }
             });
     }
