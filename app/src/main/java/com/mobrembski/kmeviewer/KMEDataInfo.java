@@ -1,6 +1,6 @@
 package com.mobrembski.kmeviewer;
 
-public class KMEDataInfo extends KMEData {
+public class KMEDataInfo {
     public int sensorLevel1;
     public int sensorLevel2;
     public int sensorLevel3;

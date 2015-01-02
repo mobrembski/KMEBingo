@@ -1,6 +1,6 @@
 package com.mobrembski.kmeviewer;
 
-public class KMEDataActual extends KMEData {
+public class KMEDataActual {
     public float TPS;
     public int actuator;
     public int actualTemp;
