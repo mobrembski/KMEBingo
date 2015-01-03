@@ -24,8 +24,8 @@ public class MainActivity extends FragmentActivity implements Observer {
     private static final int REQUEST_DISCOVERY = 0x1;
     private BluetoothController btcntrl;
     private SharedPreferences prefs;
-    private KMEViewerTab actualParametersFragment, kmeInfoFragment;
-    private ActionBar.Tab actualParamTab, infoTab;
+    private KMEViewerTab actualParametersFragment, kmeInfoFragment, settingsFragment;
+    private ActionBar.Tab actualParamTab, infoTab, settingsTab;
     private String btAddress;
 
     @Override
@@ -130,13 +130,18 @@ public class MainActivity extends FragmentActivity implements Observer {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actualParametersFragment = new ActualParametersTab();
         kmeInfoFragment = new KmeInfoTab();
+        settingsFragment = new KMESettingsTab();
         actualParamTab = actionBar.newTab();
         actualParamTab.setText("ActualParam");
         infoTab = actionBar.newTab();
         infoTab.setText("Info");
+        settingsTab = actionBar.newTab();
+        settingsTab.setText("Settings");
         actualParamTab.setTabListener(new TabListener(actualParametersFragment, btcntrl));
         infoTab.setTabListener(new TabListener(kmeInfoFragment, btcntrl));
+        settingsTab.setTabListener(new TabListener(settingsFragment,btcntrl));
         actionBar.addTab(actualParamTab);
+        actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
         CreateAndStartBtController(btAddress);
     }
