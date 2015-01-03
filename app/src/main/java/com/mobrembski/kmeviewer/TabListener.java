@@ -30,6 +30,9 @@ public class TabListener implements ActionBar.TabListener {
             this.fragment.askingThreadRunning = false;
             if (this.fragment.askingThread != null)
                 this.fragment.askingThread.join();
+            // TODO: Seems to be a workaround for fixing a lag
+            // on switching tab...To be done in future.
+            this.controller.queue.clear();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
