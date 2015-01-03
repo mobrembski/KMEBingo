@@ -2,8 +2,12 @@
 
     <item
         android:id="@+id/action_DeviceSelect"
-        android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Select Device" />
+    <item
+        android:id="@+id/action_StayScreenOn"
+        android:title="Stay on"
+        android:checkable="true"
+        android:checked="false" />
 
 </menu>

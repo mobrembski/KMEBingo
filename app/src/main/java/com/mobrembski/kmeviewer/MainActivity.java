@@ -45,6 +45,10 @@ public class MainActivity extends FragmentActivity implements Observer {
                 Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, REQUEST_DISCOVERY);
                 return true;
+            case R.id.action_StayScreenOn:
+                item.setChecked(!item.isChecked());
+                getWindow().getDecorView().getRootView().setKeepScreenOn(item.isChecked());
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
