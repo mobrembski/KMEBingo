@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity implements Observer {
     protected void onPause() {
         if (btcntrl != null)
             btcntrl.Stop();
-        btcntrl=null;
+        btcntrl = null;
         super.onPause();
     }
 

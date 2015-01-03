@@ -111,6 +111,9 @@ public class BluetoothController extends Observable {
                 do {
                     if (!connected)
                         waiter.packetReceived(new int[frame.answerSize]);
+                    // TODO: remove this sleep. Added just to free some
+                    // cpu time
+                    Thread.sleep(10);
                 }
                 while (inStream.available() <= frame.answerSize && connected);
                 if (!connected)
@@ -128,6 +131,8 @@ public class BluetoothController extends Observable {
                 notifyObservers();
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
