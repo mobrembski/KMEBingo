@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+    android:orientation="horizontal">
 
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_gravity="top">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -17,16 +19,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Lambda:"
-                android:id="@+id/Lambda" />
+                android:id="@+id/Lambda"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Medium Text"
-                android:id="@+id/LambdaValue" />
+                android:id="@+id/LambdaValue"
+                android:textColor="@android:color/white"/>
 
         </TableRow>
 
@@ -37,16 +41,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="RPM:"
-                android:id="@+id/RPM" />
+                android:id="@+id/RPM"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Medium Text:"
-                android:id="@+id/RPMValue" />
+                android:id="@+id/RPMValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -56,16 +62,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="TPS:"
-                android:id="@+id/TPS" />
+                android:id="@+id/TPS"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Medium Text:"
-                android:id="@+id/TPSValue" />
+                android:id="@+id/TPSValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -75,16 +83,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Actuator:"
-                android:id="@+id/Actuator" />
+                android:id="@+id/Actuator"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Medium Text"
-                android:id="@+id/ActuatorValue" />
+                android:id="@+id/ActuatorValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -94,17 +104,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Temperature"
                 android:id="@+id/Temperature"
-                android:paddingRight="20dp"/>
+                android:paddingRight="20dp"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Medium Text"
-                android:id="@+id/TemperatureValue" />
+                android:id="@+id/TemperatureValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -114,16 +126,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Running fuel type:"
-                android:id="@+id/RunningFuelType" />
+                android:id="@+id/RunningFuelType"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/RunningFuelTypeValue" />
+                android:id="@+id/RunningFuelTypeValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -133,16 +147,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="CutOFF Active:"
-                android:id="@+id/CutOffActive" />
+                android:id="@+id/CutOffActive"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/CutOffActiveValue" />
+                android:id="@+id/CutOffActiveValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -152,16 +168,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Temperature OK:"
-                android:id="@+id/TemperatureOK" />
+                android:id="@+id/TemperatureOK"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/TemperatureOKValue" />
+                android:id="@+id/TemperatureOKValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -171,16 +189,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="RPM OK:"
-                android:id="@+id/RPMOK" />
+                android:id="@+id/RPMOK"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/RPMOKValue" />
+                android:id="@+id/RPMOKValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
         <TableRow
@@ -190,17 +210,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Ignition:"
-                android:id="@+id/Ignition" />
+                android:id="@+id/Ignition"
+                android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
-                android:id="@+id/IgnitionValue" />
+                android:id="@+id/IgnitionValue"
+                android:textColor="@android:color/white"/>
         </TableRow>
 
     </TableLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+            <include layout="@layout/footer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
+        </RelativeLayout>
+
 </RelativeLayout>
