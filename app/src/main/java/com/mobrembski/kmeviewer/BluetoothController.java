@@ -146,10 +146,13 @@ public class BluetoothController extends Observable {
     }
 
     public void Start() {
-        connectionThread.start();
+        if(!connected &&
+                connectionThread.getState() != Thread.State.RUNNABLE)
+            connectionThread.start();
     }
 
     public void Stop() {
+        deleteObservers();
         connected = false;
         try {
             if (parseThread != null)

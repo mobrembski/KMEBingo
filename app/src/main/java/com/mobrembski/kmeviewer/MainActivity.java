@@ -26,6 +26,7 @@ public class MainActivity extends FragmentActivity implements Observer {
     private SharedPreferences prefs;
     private KMEViewerTab actualParametersFragment, kmeInfoFragment;
     private ActionBar.Tab actualParamTab, infoTab;
+    private String btAddress;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,6 +61,8 @@ public class MainActivity extends FragmentActivity implements Observer {
                 TextView errors = (TextView) findViewById(R.id.errorsCountLabel);
                 TextView packets = (TextView) findViewById(R.id.packetCountLabel);
                 TextView connected = (TextView) findViewById(R.id.connectedLabel);
+                if (btcntrl == null)
+                    return;
                 errors.setText(String.valueOf(btcntrl.GetErrorsCount()));
                 packets.setText(String.valueOf(btcntrl.GetRecvPacketsCount()));
                 if(!btcntrl.GetConnected())
@@ -85,6 +88,21 @@ public class MainActivity extends FragmentActivity implements Observer {
     }
 
     @Override
+    protected void onPause() {
+        if (btcntrl != null)
+            btcntrl.Stop();
+        btcntrl=null;
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (btcntrl == null)
+            CreateAndStartBtController(btAddress);
+        super.onResume();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode != REQUEST_DISCOVERY) {
             return;
@@ -94,10 +112,9 @@ public class MainActivity extends FragmentActivity implements Observer {
         }
         final BluetoothDevice device = data.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (device != null) {
-            btcntrl = new BluetoothController(device);
-            btcntrl.addObserver(this);
-            btcntrl.Start();
-            prefs.edit().putString("com.mobrembski.kmeviewer.Device", device.getAddress()).apply();
+            String newAddress = device.getAddress();
+            CreateAndStartBtController(newAddress);
+            prefs.edit().putString("com.mobrembski.kmeviewer.Device", newAddress).apply();
         }
     }
 
@@ -106,10 +123,7 @@ public class MainActivity extends FragmentActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
-        String address = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
-        final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-        btcntrl = new BluetoothController(device);
-        btcntrl.addObserver(this);
+        btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -124,6 +138,13 @@ public class MainActivity extends FragmentActivity implements Observer {
         infoTab.setTabListener(new TabListener(kmeInfoFragment, btcntrl));
         actionBar.addTab(actualParamTab);
         actionBar.addTab(infoTab);
+        CreateAndStartBtController(btAddress);
+    }
+
+    private void CreateAndStartBtController(String address) {
+        final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
+        btcntrl = new BluetoothController(device);
+        btcntrl.addObserver(this);
         btcntrl.Start();
     }
 }
