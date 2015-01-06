@@ -5,8 +5,25 @@
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
     -->
+    <style name="SpinnerAppTheme" parent="android:Widget.Holo.Spinner">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>
+        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_dark</item>
+    </style>
+
+    <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/apptheme_btn_radio_holo_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SpinnerItemAppTheme" parent="android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- API 14 theme customizations can go here. -->
+        <item name="android:spinnerStyle">@style/SpinnerAppTheme</item> <!-- API 14 theme customizations can go here. -->
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
     </style>
 
 </resources>

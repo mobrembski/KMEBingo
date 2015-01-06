@@ -4,8 +4,25 @@
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     -->
+    <style name="SpinnerAppTheme" parent="android:Widget.Holo.Spinner">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>
+        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_dark</item>
+    </style>
+
+    <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/apptheme_btn_radio_holo_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SpinnerItemAppTheme" parent="android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-        <!-- API 11 theme customizations can go here. -->
+        <item name="android:spinnerStyle">@style/SpinnerAppTheme</item> <!-- API 11 theme customizations can go here. -->
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
     </style>
 
 </resources>

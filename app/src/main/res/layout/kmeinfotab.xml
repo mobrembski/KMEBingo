@@ -18,18 +18,16 @@
                 android:id="@+id/TimeOnGas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/RowParameterName"
                 android:text="Time on GAS:"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:paddingRight="20dp"
-                android:textColor="@android:color/white"/>
+                android:paddingRight="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/RowParameterName"
                 android:text="New Text"
-                android:id="@+id/TimeOnGasValue"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/TimeOnGasValue"/>
         </TableRow>
 
         <TableRow
@@ -39,19 +37,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="Registration Plate: "
                 android:id="@+id/RegistrationPlate"
-                android:paddingRight="20dp"
-                android:textColor="@android:color/white"/>
+                android:paddingRight="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="RegistrationPlateValue"
-                android:id="@+id/RegistrationPlateValue"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/RegistrationPlateValue"/>
         </TableRow>
 
         <TableRow
@@ -61,18 +57,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="Date of Installation:"
-                android:id="@+id/DateOfInstallation"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/DateOfInstallation"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="Medium Text"
-                android:id="@+id/DateOfInstallationValue"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/DateOfInstallationValue"/>
         </TableRow>
 
         <TableRow
@@ -82,18 +76,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="Tank level:"
-                android:id="@+id/TankLevel"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/TankLevel"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                style="@style/RowParameterName"
                 android:text="Medium Text"
-                android:id="@+id/TankLevelValue"
-                android:textColor="@android:color/white"/>
+                android:id="@+id/TankLevelValue"/>
 
         </TableRow>
     </TableLayout>

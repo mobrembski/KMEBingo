@@ -1,7 +1,6 @@
 package com.mobrembski.kmeviewer;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.SerialFrames.ActualFrame;
@@ -21,17 +20,23 @@ public class ActualParametersTab extends KMEViewerTab {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    int ValueOKColor = getResources().getColor(R.color.ValueOK);
+                    int ValueNotOKColor = getResources().getColor(R.color.ValueNotOK);
+                    int ValueNotImportantColor = getResources().getColor(R.color.ValueNotImportant);
+                    int LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
+                    int LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
+                    int LambdaRedColor = getResources().getColor(R.color.LambdaRed);
                     KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
                     TextView tv = (TextView) myView.findViewById(R.id.TPSValue);
                     tv.setText(String.valueOf(dtn.TPS));
                     tv = (TextView) myView.findViewById(R.id.LambdaValue);
                     tv.setText(String.valueOf(dtn.Lambda));
                     if (dtn.LambdaColor==1) {
-                        tv.setTextColor(Color.rgb(0,255,0));
+                        tv.setTextColor(LambdaGreenColor);
                     } else if (dtn.LambdaColor==4) {
-                        tv.setTextColor(Color.rgb(255,0,0));
+                        tv.setTextColor(LambdaRedColor);
                     } else {
-                        tv.setTextColor(Color.rgb(255,0,255));
+                        tv.setTextColor(LambdaYellowColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.RPMValue);
                     tv.setText(String.valueOf(dtn.RPMRaw1)+" "+String.valueOf(dtn.RPMRaw2));
@@ -44,47 +49,45 @@ public class ActualParametersTab extends KMEViewerTab {
                     tv = (TextView) myView.findViewById(R.id.RPMOKValue);
                     if(dtn.RPOK) {
                         tv.setText("RPM OK!");
-                        tv.setTextColor(Color.rgb(0,255,0));
+                        tv.setTextColor(ValueOKColor);
                     }
                     else {
                         tv.setText("RPM TOO LOW!");
-                        tv.setTextColor(Color.rgb(255,0,0));
+                        tv.setTextColor(ValueNotOKColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.TemperatureOKValue);
                     if(dtn.TemperatureOK) {
                         tv.setText("TEMP OK!");
-                        tv.setTextColor(Color.rgb(0,255,0));
+                        tv.setTextColor(ValueOKColor);
                     }
                     else {
                         tv.setText("TEMP TOO LOW!");
-                        tv.setTextColor(Color.rgb(255,0,0));
+                        tv.setTextColor(ValueNotOKColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.RunningFuelTypeValue);
                     if(dtn.WorkingOnGas) {
                         tv.setText("Working on GAS!");
-                        tv.setTextColor(Color.rgb(0,255,0));
+                        tv.setTextColor(ValueOKColor);
                     }
                     else {
                         tv.setText("Working on Benzin!");
-                        tv.setTextColor(Color.rgb(255,0,0));
+                        tv.setTextColor(ValueNotImportantColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.CutOffActiveValue);
                     if(dtn.CutOffActivated) {
                         tv.setText("CUT OFF ACTIVE!");
-                        tv.setTextColor(Color.rgb(255,255,0));
                     }
                     else {
                         tv.setText("");
-                        tv.setTextColor(Color.rgb(255,0,0));
                     }
                     tv = (TextView) myView.findViewById(R.id.IgnitionValue);
                     if(dtn.Ignition) {
                         tv.setText("Ignition ON!");
-                        tv.setTextColor(Color.rgb(255,255,0));
+                        tv.setTextColor(ValueOKColor);
                     }
                     else {
                         tv.setText("Ignition OFF");
-                        tv.setTextColor(Color.rgb(255,0,0));
+                        tv.setTextColor(ValueNotImportantColor);
                     }
                 }
             });

@@ -4,7 +4,30 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
+    <style name="RowParameterName" >
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="SpinnerAppTheme" parent="android:Widget.Holo.Spinner">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>
+        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_dark</item>
+    </style>
+
+    <style name="SpinnerDropDownItemAppTheme" parent="android:Widget.DropDownItem.Spinner">
+        <item name="android:checkMark">@drawable/apptheme_btn_radio_holo_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SpinnerItemAppTheme" parent="android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Light">
+        <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
