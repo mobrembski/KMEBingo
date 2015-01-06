@@ -27,6 +27,7 @@ public class MainActivity extends FragmentActivity implements Observer {
     private KMEViewerTab actualParametersFragment, kmeInfoFragment, settingsFragment;
     private ActionBar.Tab actualParamTab, infoTab, settingsTab;
     private String btAddress;
+    private TabListener actualParamListener, infoListener, settingsListener;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,6 +78,7 @@ public class MainActivity extends FragmentActivity implements Observer {
         });
     }
 
+    // TODO: fragments doesn't know about finishing app.
     @Override
     protected void onDestroy() {
         if (btcntrl != null)
@@ -121,7 +123,6 @@ public class MainActivity extends FragmentActivity implements Observer {
         setContentView(R.layout.activity_main);
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
-        CreateAndStartBtController(btAddress);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -135,13 +136,10 @@ public class MainActivity extends FragmentActivity implements Observer {
         infoTab.setText("Info");
         settingsTab = actionBar.newTab();
         settingsTab.setText("Settings");
-        actualParamTab.setTabListener(new TabListener(actualParametersFragment, btcntrl));
-        infoTab.setTabListener(new TabListener(kmeInfoFragment, btcntrl));
-        settingsTab.setTabListener(new TabListener(settingsFragment,btcntrl));
+        CreateAndStartBtController(btAddress);
         actionBar.addTab(actualParamTab);
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
-
     }
 
     private void CreateAndStartBtController(String address) {
@@ -149,5 +147,17 @@ public class MainActivity extends FragmentActivity implements Observer {
         btcntrl = new BluetoothController(device);
         btcntrl.addObserver(this);
         btcntrl.Start();
+        if (actualParamTab != null && actualParametersFragment != null) {
+            actualParamListener = new TabListener(actualParametersFragment, btcntrl);
+            actualParamTab.setTabListener(actualParamListener);
+        }
+        if (infoTab != null && kmeInfoFragment != null) {
+            infoListener = new TabListener(kmeInfoFragment, btcntrl);
+            infoTab.setTabListener(infoListener);
+        }
+        if (settingsTab != null && kmeInfoFragment != null) {
+            infoListener = new TabListener(settingsFragment, btcntrl);
+            settingsTab.setTabListener(infoListener);
+        }
     }
 }

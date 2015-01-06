@@ -17,16 +17,16 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 public class BluetoothController extends Observable {
     public static PriorityBlockingQueue<AskFrameClass> queue = new PriorityBlockingQueue<AskFrameClass>(1024);
-    public Time StartTime = new Time();
+    private static boolean connected = false;
     //private final UUID SERIAL_UUID = UUID
     //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private final UUID SERIAL_UUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
+    public Time StartTime = new Time();
     private BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
     private BluetoothSocket socket = null;
     private Thread connectionThread;
     private Thread parseThread;
-    private boolean connected = false;
     private long packetsRcv = 0;
     private long packetsError = 0;
     private InputStream inStream;
@@ -103,22 +103,36 @@ public class BluetoothController extends Observable {
         return null;
     }
 
+    public static int getCRC(byte[] frameByte) {
+        int sum = 0;
+        for (int j = 0; j < frameByte.length; j++) {
+            if (j < frameByte.length - 1)
+                sum += (frameByte[j] & 0xff);
+        }
+        sum = sum & 0xFF;
+        return sum;
+    }
+
     public synchronized int[] askForFrame(KMEFrame frame, PacketReceivedWaiter waiter) {
         try {
             if (connected && outStream != null && inStream != null) {
                 outStream.write(frame.askFrame);
                 outStream.flush();
+                int avail = 0;
                 do {
                     if (!connected) {
                         if(waiter!=null)
-                        waiter.packetReceived(new int[frame.answerSize]);
+                            waiter.packetReceived(new int[frame.answerSize]);
                         return new int[frame.answerSize];
                     }
                     // TODO: remove this sleep. Added just to free some
                     // cpu time
+                    if (frame.answerSize <= 0)
+                        return null;
                     Thread.sleep(10);
+                    avail = inStream.available();
                 }
-                while (inStream.available() <= frame.answerSize && connected);
+                while (avail <= frame.answerSize && connected);
                 if (!connected)
                     return null;
                 int i = inStream.read(buffer);
@@ -188,4 +202,5 @@ public class BluetoothController extends Observable {
     public synchronized void notifyObservers() {
         super.notifyObservers();
     }
+
 }

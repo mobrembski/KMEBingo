@@ -27,7 +27,7 @@ public class ActualParametersTab extends KMEViewerTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater,container,savedInstanceState);
+        View v = super.onCreateView(inflater, container, savedInstanceState);
         ValueOKColor = getResources().getColor(R.color.ValueOK);
         ValueNotOKColor = getResources().getColor(R.color.ValueNotOK);
         ValueNotImportantColor = getResources().getColor(R.color.ValueNotImportant);
@@ -49,61 +49,56 @@ public class ActualParametersTab extends KMEViewerTab {
                     tv.setText(String.valueOf(dtn.TPS));
                     tv = (TextView) myView.findViewById(R.id.LambdaValue);
                     tv.setText(String.valueOf(dtn.Lambda));
-                    if (dtn.LambdaColor==1) {
+                    if (dtn.LambdaColor == 1) {
                         tv.setTextColor(LambdaGreenColor);
-                    } else if (dtn.LambdaColor==4) {
+                    } else if (dtn.LambdaColor == 4) {
                         tv.setTextColor(LambdaRedColor);
                     } else {
                         tv.setTextColor(LambdaYellowColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.RPMValue);
-                    tv.setText(String.valueOf(dtn.RPMRaw1)+" "+String.valueOf(dtn.RPMRaw2));
+                    tv.setText(String.valueOf(dtn.RPMRaw1) + " " + String.valueOf(dtn.RPMRaw2));
                     tv = (TextView) myView.findViewById(R.id.ActuatorValue);
-                    tv.setText(String.valueOf(dtn.Actuator)+" PWA:"+String.valueOf(dtn.PWA));
+                    tv.setText(String.valueOf(dtn.Actuator) + " PWA:" + String.valueOf(dtn.PWA));
                     tv = (TextView) myView.findViewById(R.id.ActuatorValue);
-                    tv.setText(String.valueOf(dtn.Actuator)+" PWA:"+String.valueOf(dtn.PWA));
+                    tv.setText(String.valueOf(dtn.Actuator) + " PWA:" + String.valueOf(dtn.PWA));
                     tv = (TextView) myView.findViewById(R.id.TemperatureValue);
                     tv.setText(String.valueOf(dtn.ActualTemp));
                     tv = (TextView) myView.findViewById(R.id.RPMOKValue);
-                    if(dtn.RPOK) {
+                    if (dtn.RPOK) {
                         tv.setText("RPM OK!");
                         tv.setTextColor(ValueOKColor);
-                    }
-                    else {
+                    } else {
                         tv.setText("RPM TOO LOW!");
                         tv.setTextColor(ValueNotOKColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.TemperatureOKValue);
-                    if(dtn.TemperatureOK) {
+                    if (dtn.TemperatureOK) {
                         tv.setText("TEMP OK!");
                         tv.setTextColor(ValueOKColor);
-                    }
-                    else {
+                    } else {
                         tv.setText("TEMP TOO LOW!");
                         tv.setTextColor(ValueNotOKColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.RunningFuelTypeValue);
-                    if(dtn.WorkingOnGas) {
+                    if (dtn.WorkingOnGas) {
                         tv.setText("Working on GAS!");
                         tv.setTextColor(ValueOKColor);
-                    }
-                    else {
+                    } else {
                         tv.setText("Working on Benzin!");
                         tv.setTextColor(ValueNotImportantColor);
                     }
                     tv = (TextView) myView.findViewById(R.id.CutOffActiveValue);
-                    if(dtn.CutOffActivated) {
+                    if (dtn.CutOffActivated) {
                         tv.setText("CUT OFF ACTIVE!");
-                    }
-                    else {
+                    } else {
                         tv.setText("");
                     }
                     tv = (TextView) myView.findViewById(R.id.IgnitionValue);
-                    if(dtn.Ignition) {
+                    if (dtn.Ignition) {
                         tv.setText("Ignition ON!");
                         tv.setTextColor(ValueOKColor);
-                    }
-                    else {
+                    } else {
                         tv.setText("Ignition OFF");
                         tv.setTextColor(ValueNotImportantColor);
                     }

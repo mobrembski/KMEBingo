@@ -53,7 +53,7 @@ public class DiscoveryActivity extends ListActivity {
      */
     private BroadcastReceiver _foundReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-			/* get the search results */
+            /* get the search results */
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 			/* add to list */
             _devices.add(device);

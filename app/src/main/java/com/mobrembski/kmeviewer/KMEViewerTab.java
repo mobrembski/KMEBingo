@@ -30,7 +30,7 @@ public abstract class KMEViewerTab extends Fragment implements PacketReceivedWai
             public void run() {
                 while (askingThreadRunning) {
                     try {
-                        btcntrl.queue.put(askFrame);
+                        btcntrl.queue.add(askFrame);
                         Thread.sleep(milisecInterval);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -41,6 +41,7 @@ public abstract class KMEViewerTab extends Fragment implements PacketReceivedWai
     }
 
     public void setController(BluetoothController controller) {
+        BluetoothController cc = controller;
         this.btcntrl = controller;
     }
 
