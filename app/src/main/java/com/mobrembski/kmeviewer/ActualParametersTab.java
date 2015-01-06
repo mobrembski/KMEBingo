@@ -1,16 +1,40 @@
 package com.mobrembski.kmeviewer;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.SerialFrames.ActualFrame;
 import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 
 public class ActualParametersTab extends KMEViewerTab {
+    private int ValueOKColor;
+    private int ValueNotOKColor;
+    private int ValueNotImportantColor;
+    private int LambdaGreenColor;
+    private int LambdaYellowColor;
+    private int LambdaRedColor;
+
     public ActualParametersTab() {
         this.layoutId = R.layout.actualparamtab;
         final AskFrameClass askFrame = new AskFrameClass(new ActualFrame(), this);
         super.setAskFrame(askFrame);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater,container,savedInstanceState);
+        ValueOKColor = getResources().getColor(R.color.ValueOK);
+        ValueNotOKColor = getResources().getColor(R.color.ValueNotOK);
+        ValueNotImportantColor = getResources().getColor(R.color.ValueNotImportant);
+        LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
+        LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
+        LambdaRedColor = getResources().getColor(R.color.LambdaRed);
+        return v;
     }
 
     @Override
@@ -20,12 +44,6 @@ public class ActualParametersTab extends KMEViewerTab {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    int ValueOKColor = getResources().getColor(R.color.ValueOK);
-                    int ValueNotOKColor = getResources().getColor(R.color.ValueNotOK);
-                    int ValueNotImportantColor = getResources().getColor(R.color.ValueNotImportant);
-                    int LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
-                    int LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
-                    int LambdaRedColor = getResources().getColor(R.color.LambdaRed);
                     KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
                     TextView tv = (TextView) myView.findViewById(R.id.TPSValue);
                     tv.setText(String.valueOf(dtn.TPS));
