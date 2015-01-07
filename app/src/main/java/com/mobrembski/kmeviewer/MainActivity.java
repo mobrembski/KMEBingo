@@ -81,13 +81,6 @@ public class MainActivity extends FragmentActivity implements Observer {
     protected void onDestroy() {
         if (btcntrl != null)
             btcntrl.Stop();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView connected = (TextView) findViewById(R.id.connectedLabel);
-                connected.setText("Disconnected");
-            }
-        });
         super.onDestroy();
     }
 

@@ -8,6 +8,15 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="SettingsRowParameterName" >
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="FooterStyleSmall" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
     <style name="SpinnerAppTheme" parent="android:Widget.Holo.Spinner">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>

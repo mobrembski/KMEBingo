@@ -14,5 +14,98 @@
         <item>5-0 V +</item>
         <item>0,8-1,6 V</item>
     </string-array>
+    <string-array name="lambda_neutral_point_low">
+        <item>0,40 V</item>
+        <item>0,42 V</item>
+        <item>0,44 V</item>
+        <item>0,46 V</item>
+        <item>0,48 V</item>
+        <item>0,50 V</item>
+        <item>0,52 V</item>
+        <item>0,54 V</item>
+        <item>0,56 V</item>
+        <item>0,58 V</item>
+        <item>0,60 V</item>
+    </string-array>
+    <string-array name="lambda_neutral_point_high">
+        <item>2,02 V</item>
+        <item>2,04 V</item>
+        <item>2,06 V</item>
+        <item>2,08 V</item>
+        <item>2,10 V</item>
+        <item>2,12 V</item>
+        <item>2,14 V</item>
+        <item>2,16 V</item>
+        <item>2,18 V</item>
+        <item>2,20 V</item>
+        <item>2,22 V</item>
+        <item>2,24 V</item>
+        <item>2,26 V</item>
+        <item>2,28 V</item>
+        <item>2,30 V</item>
+        <item>2,32 V</item>
+        <item>2,34 V</item>
+        <item>2,36 V</item>
+        <item>2,38 V</item>
+        <item>2,40 V</item>
+        <item>2,42 V</item>
+        <item>2,44 V</item>
+        <item>2,46 V</item>
+        <item>2,48 V</item>
+        <item>2,50 V</item>
+        <item>2,52 V</item>
+        <item>2,54 V</item>
+        <item>2,56 V</item>
+        <item>2,58 V</item>
+        <item>2,60 V</item>
+        <item>2,62 V</item>
+        <item>2,64 V</item>
+        <item>2,66 V</item>
+        <item>2,68 V</item>
+        <item>2,70 V</item>
+        <item>2,72 V</item>
+        <item>2,74 V</item>
+        <item>2,76 V</item>
+        <item>2,78 V</item>
+        <item>2,80 V</item>
+        <item>2,82 V</item>
+        <item>2,84 V</item>
+        <item>2,86 V</item>
+        <item>2,88 V</item>
+        <item>2,90 V</item>
+        <item>2,92 V</item>
+        <item>2,94 V</item>
+        <item>2,96 V</item>
+        <item>2,98 V</item>
+        <item>3,00 V</item>
+    </string-array>
+    <string-array name="ignition_type">
+        <item>1cyl1coil</item>
+        <item>2cyl1coil</item>
+        <item>2cyl2coil</item>
+        <item>3cyl1coil</item>
+        <item>3cyl3coil</item>
+        <item>4cyl1coil</item>
+        <item>4cyl2coil</item>
+        <item>4cyl4coil</item>
+        <item>5cyl1coil</item>
+        <item>5cyl5coil</item>
+        <item>6cyl1coil</item>
+        <item>6cyl2coil</item>
+        <item>6cyl3coil</item>
+        <item>6cyl6coil</item>
+    </string-array>
+    <string-array name="switch_on_routes">
+        <item>Increasing</item>
+        <item>Falling</item>
+    </string-array>
+    <string-array name="TPS_type">
+        <item>Lin0-5V</item>
+        <item>LIN5-0V</item>
+        <item>No TPS</item>
+        <item>On0-12V</item>
+        <item>On12-0V</item>
+        <item>BOSH-mono</item>
+    </string-array>
 
 </resources>

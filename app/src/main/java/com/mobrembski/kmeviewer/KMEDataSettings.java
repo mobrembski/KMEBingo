@@ -21,6 +21,7 @@ public class KMEDataSettings {
         if (array.length > 0) {
             dataActual.LambdaType = BitUtils.GetMaskedBytes(array[2],240);
             dataActual.TPSType = BitUtils.GetMaskedBytes(array[2],15);
+            // TODO: Figure out how Neutral Point is coded
             dataActual.LambdaNeutralPoint = array[3];
             dataActual.LambdaDelay = array[4];
             dataActual.EmulationType = BitUtils.GetMaskedBytes(array[5],3);
