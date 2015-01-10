@@ -121,6 +121,7 @@ public class MainActivity extends FragmentActivity implements Observer {
         setContentView(R.layout.activity_main);
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
+        CreateAndStartBtController(btAddress);
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -140,7 +141,7 @@ public class MainActivity extends FragmentActivity implements Observer {
         actionBar.addTab(actualParamTab);
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
-        CreateAndStartBtController(btAddress);
+
     }
 
     private void CreateAndStartBtController(String address) {

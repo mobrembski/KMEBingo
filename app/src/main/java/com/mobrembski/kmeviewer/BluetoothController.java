@@ -103,14 +103,17 @@ public class BluetoothController extends Observable {
         return null;
     }
 
-    public int[] askForFrame(KMEFrame frame, PacketReceivedWaiter waiter) {
+    public synchronized int[] askForFrame(KMEFrame frame, PacketReceivedWaiter waiter) {
         try {
             if (connected && outStream != null && inStream != null) {
                 outStream.write(frame.askFrame);
                 outStream.flush();
                 do {
-                    if (!connected)
+                    if (!connected) {
+                        if(waiter!=null)
                         waiter.packetReceived(new int[frame.answerSize]);
+                        return new int[frame.answerSize];
+                    }
                     // TODO: remove this sleep. Added just to free some
                     // cpu time
                     Thread.sleep(10);
@@ -121,14 +124,18 @@ public class BluetoothController extends Observable {
                 int i = inStream.read(buffer);
                 int values[] = checkCRC(buffer, i);
                 packetsRcv++;
-                if (values != null && waiter != null)
-                    waiter.packetReceived(values);
-                else {
-                    waiter.packetReceived(null);
-                    packetsError++;
-                }
                 setChanged();
                 notifyObservers();
+                if (values != null && waiter != null) {
+                    waiter.packetReceived(values);
+                    return values;
+                }
+                else {
+                    if(waiter!=null)
+                    waiter.packetReceived(null);
+                    packetsError++;
+                    return null;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
