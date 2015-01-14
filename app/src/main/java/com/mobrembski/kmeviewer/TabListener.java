@@ -6,36 +6,22 @@ import android.app.FragmentTransaction;
 
 public class TabListener implements ActionBar.TabListener {
     private KMEViewerTab fragment;
-    private BluetoothController controller = null;
 
-    public TabListener(KMEViewerTab fragment, BluetoothController controller) {
+    public TabListener(KMEViewerTab fragment) {
         this.fragment = fragment;
-        this.controller = controller;
     }
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         ft.replace(R.id.activity_main, fragment);
-        if (this.controller != null) {
-            fragment.setController(this.controller);
-        }
-        this.fragment.askingThreadRunning = true;
-        fragment.CreateAskingThread(50);
-        fragment.askingThread.start();
+        BluetoothController.getInstance().AddOnConnectionListener(fragment);
+        fragment.onConnectionStarting();
     }
 
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        try {
-            this.fragment.askingThreadRunning = false;
-            if (this.fragment.askingThread != null)
-                this.fragment.askingThread.join();
-            // TODO: Seems to be a workaround for fixing a lag
-            // on switching tab...To be done in future.
-            this.controller.queue.clear();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        BluetoothController.getInstance().RemoveOnConnectionListener(fragment);
+        fragment.onConnectionStopping();
         ft.remove(fragment);
     }
 

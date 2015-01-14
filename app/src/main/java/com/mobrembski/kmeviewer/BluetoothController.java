@@ -5,88 +5,51 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.text.format.Time;
 
-import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.UUID;
-import java.util.concurrent.PriorityBlockingQueue;
 
 public class BluetoothController extends Observable {
-    public static PriorityBlockingQueue<AskFrameClass> queue = new PriorityBlockingQueue<AskFrameClass>(1024);
+    public Time StartTime = new Time();
     private static boolean connected = false;
+    private static volatile Object lock = new Object();
+    private static volatile BluetoothController instance;
     //private final UUID SERIAL_UUID = UUID
     //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private final UUID SERIAL_UUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    public Time StartTime = new Time();
+    private ArrayList<ControllerEvent> connectionListeners = new ArrayList<ControllerEvent>();
     private BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
+    private BluetoothDevice device = null;
     private BluetoothSocket socket = null;
-    private Thread connectionThread;
-    private Thread parseThread;
-    private long packetsRcv = 0;
-    private long packetsError = 0;
     private InputStream inStream;
     private OutputStream outStream;
+    private Thread connectionThread;
+    private long packetsRcv = 0;
+    private long packetsError = 0;
     private byte[] buffer;
 
-    public BluetoothController(BluetoothDevice device) {
-        try {
-            socket = device.createRfcommSocketToServiceRecord(SERIAL_UUID);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private BluetoothController() {
+
+    }
+
+    public static BluetoothController getInstance() {
+        BluetoothController tmpInst = instance;
+        if (tmpInst == null) {
+            synchronized (lock) {
+                tmpInst = instance;
+                if (tmpInst == null) {
+                    tmpInst = new BluetoothController();
+                    instance = tmpInst;
+                }
+            }
         }
-        connectionThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                _bluetooth.cancelDiscovery();
-                InputStream tmpIn = null;
-                OutputStream tmpOut = null;
-                try {
-                    // This is a blocking call and will only return on a
-                    // successful connection or an exception
-                    socket.connect();
-                    connected = true;
-                    tmpIn = socket.getInputStream();
-                    tmpOut = socket.getOutputStream();
-                    buffer = new byte[21];
-                    inStream = tmpIn;
-                    outStream = tmpOut;
-                    // TODO: This shouldn't be here...
-                    StartTime.setToNow();
-                    Thread.sleep(1000);
-                    if (connected)
-                        parseThread.start();
-                } catch (IOException e) {
-                    try {
-                        socket.close();
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        parseThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (connected) {
-                    if (queue.size() > 0) {
-                        try {
-                            AskFrameClass askingFrame = queue.take();
-                            queue.remove(askingFrame);
-                            askForFrame(askingFrame.frame, askingFrame.waiter);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
+        return tmpInst;
     }
 
     private static int[] checkCRC(byte[] receivedFrame, int frameSize) {
@@ -113,7 +76,82 @@ public class BluetoothController extends Observable {
         return sum;
     }
 
-    public synchronized int[] askForFrame(KMEFrame frame, PacketReceivedWaiter waiter) {
+    public void AddOnConnectionListener(ControllerEvent evt) {
+        connectionListeners.add(evt);
+    }
+
+    public void RemoveOnConnectionListener(ControllerEvent evt) {
+        connectionListeners.remove(evt);
+    }
+
+    public void RemoveAllListeners() {
+        connectionListeners.clear();
+    }
+
+    private void notifyOnConnectionStopping() {
+        for (ControllerEvent ee : connectionListeners)
+            ee.onConnectionStopping();
+    }
+
+    private void notifyOnConnectionStarting() {
+        for (ControllerEvent ee : connectionListeners)
+            ee.onConnectionStarting();
+    }
+
+    public void Connect() {
+        if (device == null)
+            return;
+        try {
+            socket = device.createRfcommSocketToServiceRecord(SERIAL_UUID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connectionThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                _bluetooth.cancelDiscovery();
+                try {
+                    // This is a blocking call and will only return on a
+                    // successful connection or an exception
+                    socket.connect();
+                    connected = true;
+                    buffer = new byte[21];
+                    inStream = socket.getInputStream();
+                    outStream = socket.getOutputStream();
+                    // TODO: This shouldn't be here...
+                    StartTime.setToNow();
+                    Thread.sleep(1000);
+                    notifyOnConnectionStarting();
+                } catch (IOException e) {
+                    try {
+                        socket.close();
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        connectionThread.start();
+    }
+
+    public void Disconnect() {
+        deleteObservers();
+        notifyOnConnectionStopping();
+        connected = false;
+        try {
+            if (connectionThread != null)
+                connectionThread.join();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized int[] askForFrame(KMEFrame frame) {
         try {
             if (connected && outStream != null && inStream != null) {
                 outStream.write(frame.askFrame);
@@ -121,8 +159,6 @@ public class BluetoothController extends Observable {
                 int avail = 0;
                 do {
                     if (!connected) {
-                        if(waiter!=null)
-                            waiter.packetReceived(new int[frame.answerSize]);
                         return new int[frame.answerSize];
                     }
                     // TODO: remove this sleep. Added just to free some
@@ -140,16 +176,9 @@ public class BluetoothController extends Observable {
                 packetsRcv++;
                 setChanged();
                 notifyObservers();
-                if (values != null && waiter != null) {
-                    waiter.packetReceived(values);
-                    return values;
-                }
-                else {
-                    if(waiter!=null)
-                    waiter.packetReceived(null);
+                if (values == null)
                     packetsError++;
-                    return null;
-                }
+                return values;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -167,30 +196,12 @@ public class BluetoothController extends Observable {
         return packetsError;
     }
 
-    public boolean GetConnected() {
+    public boolean IsConnected() {
         return connected;
     }
 
-    public void Start() {
-        if(!connected &&
-                connectionThread.getState() != Thread.State.RUNNABLE)
-            connectionThread.start();
-    }
-
-    public void Stop() {
-        deleteObservers();
-        connected = false;
-        try {
-            if (parseThread != null)
-                parseThread.join();
-            if (connectionThread != null)
-                connectionThread.join();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void SetDevice(BluetoothDevice device) {
+        this.device = device;
     }
 
     @Override

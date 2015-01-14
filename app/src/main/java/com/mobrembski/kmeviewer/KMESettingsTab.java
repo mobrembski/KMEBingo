@@ -9,13 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 import com.mobrembski.kmeviewer.SerialFrames.SettingsFrame;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KMESettingsTab extends KMEViewerTab {
+public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
     private Spinner LambdaNeutralPointSpinner;
     private Spinner LambdaTypeSpinner;
     private Spinner LambdaDelaySpinner;
@@ -31,9 +30,7 @@ public class KMESettingsTab extends KMEViewerTab {
 
     public KMESettingsTab() {
         this.layoutId = R.layout.settingstab;
-        final AskFrameClass askFrame = new AskFrameClass(new SettingsFrame(), this);
-        super.setAskFrame(askFrame);
-
+        super.setAskFrame(null);
     }
 
     @Override
@@ -130,10 +127,11 @@ public class KMESettingsTab extends KMEViewerTab {
                 android.R.layout.simple_spinner_dropdown_item, EngGasStartSpinnerStringlist);
         EngGasStartlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         EngGasStartSpinner.setAdapter(EngGasStartlAdapter);
+
+        packetReceived(BluetoothController.getInstance().askForFrame(new SettingsFrame()));
         return v;
     }
 
-    @Override
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null)
@@ -159,6 +157,5 @@ public class KMESettingsTab extends KMEViewerTab {
                         EngGasOnCheckbox.setChecked(false);
                 }
             });
-        this.askingThreadRunning = false;
     }
 }

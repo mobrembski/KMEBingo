@@ -4,6 +4,5 @@ public class OtherFrame extends KMEFrame {
     public OtherFrame(byte[] customCommandBytes) {
         super.askFrame = customCommandBytes;
         super.answerSize = 0;
-        super.priority = 99;
     }
 }

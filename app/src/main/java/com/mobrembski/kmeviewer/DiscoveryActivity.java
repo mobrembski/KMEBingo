@@ -55,9 +55,9 @@ public class DiscoveryActivity extends ListActivity {
         public void onReceive(Context context, Intent intent) {
             /* get the search results */
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-			/* add to list */
+            /* add to list */
             _devices.add(device);
-			/* show the devices list */
+            /* show the devices list */
             showDevices();
         }
     };
@@ -65,7 +65,7 @@ public class DiscoveryActivity extends ListActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-			/* unRegister Receiver */
+            /* unRegister Receiver */
             Log.d("EF-BTBee", ">>unregisterReceiver");
             unregisterReceiver(_foundReceiver);
             unregisterReceiver(this);

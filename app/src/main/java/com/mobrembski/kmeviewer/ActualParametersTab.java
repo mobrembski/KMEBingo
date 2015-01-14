@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.SerialFrames.ActualFrame;
-import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 
-public class ActualParametersTab extends KMEViewerTab {
+public class ActualParametersTab extends KMEViewerTab implements ControllerEvent {
     private int ValueOKColor;
     private int ValueNotOKColor;
     private int ValueNotImportantColor;
@@ -20,8 +19,7 @@ public class ActualParametersTab extends KMEViewerTab {
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actualparamtab;
-        final AskFrameClass askFrame = new AskFrameClass(new ActualFrame(), this);
-        super.setAskFrame(askFrame);
+        this.askFrame = new ActualFrame();
     }
 
     @Override
@@ -37,7 +35,6 @@ public class ActualParametersTab extends KMEViewerTab {
         return v;
     }
 
-    @Override
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null)

@@ -244,20 +244,6 @@
                 android:id="@+id/errorsCountLabel"/>
 
         </TableRow>
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:visibility="invisible">
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/SettingsRowParameterName"
-                android:text="Errors:"
-                android:paddingRight="20dp"
-                android:id="@+id/connectedLabel"/>
-
-        </TableRow>
     </TableLayout>
 </RelativeLayout>
     </ScrollView>

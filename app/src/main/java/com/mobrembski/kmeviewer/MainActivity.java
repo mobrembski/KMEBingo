@@ -22,12 +22,10 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends FragmentActivity implements Observer {
     private static final int REQUEST_DISCOVERY = 0x1;
-    private BluetoothController btcntrl;
     private SharedPreferences prefs;
     private KMEViewerTab actualParametersFragment, kmeInfoFragment, settingsFragment;
     private ActionBar.Tab actualParamTab, infoTab, settingsTab;
     private String btAddress;
-    private TabListener actualParamListener, infoListener, settingsListener;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -40,8 +38,7 @@ public class MainActivity extends FragmentActivity implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
-                if (btcntrl != null)
-                    btcntrl.Stop();
+                BluetoothController.getInstance().Disconnect();
                 Intent intent = new Intent(this, DiscoveryActivity.class);
                 Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, REQUEST_DISCOVERY);
@@ -59,21 +56,23 @@ public class MainActivity extends FragmentActivity implements Observer {
     public void update(Observable observable, Object o) {
         Time now = new Time();
         now.setToNow();
-        final long diff = TimeUnit.MILLISECONDS.toSeconds(now.toMillis(true)-btcntrl.StartTime.toMillis(true));
+        final long diff = TimeUnit.MILLISECONDS.toSeconds(now.toMillis(true) - BluetoothController.getInstance().StartTime.toMillis(true));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 TextView errors = (TextView) findViewById(R.id.errorsCountLabel);
                 TextView packets = (TextView) findViewById(R.id.packetCountLabel);
                 TextView connected = (TextView) findViewById(R.id.connectedLabel);
-                if (btcntrl == null)
-                    return;
-                errors.setText(String.valueOf(btcntrl.GetErrorsCount()));
-                packets.setText(String.valueOf(btcntrl.GetRecvPacketsCount()));
-                if(!btcntrl.GetConnected())
-                    connected.setText("Disconnected");
-                else
-                    connected.setText(DateUtils.formatElapsedTime(diff));
+                if (errors != null)
+                    errors.setText(String.valueOf(BluetoothController.getInstance().GetErrorsCount()));
+                if (packets != null)
+                    packets.setText(String.valueOf(BluetoothController.getInstance().GetRecvPacketsCount()));
+                if (connected != null) {
+                    if (!BluetoothController.getInstance().IsConnected())
+                        connected.setText("Disconnected");
+                    else
+                        connected.setText(DateUtils.formatElapsedTime(diff));
+                }
             }
         });
     }
@@ -81,23 +80,24 @@ public class MainActivity extends FragmentActivity implements Observer {
     // TODO: fragments doesn't know about finishing app.
     @Override
     protected void onDestroy() {
-        if (btcntrl != null)
-            btcntrl.Stop();
+        BluetoothController.getInstance().Disconnect();
+        BluetoothController.getInstance().deleteObserver(this);
+        // TabListener OnTabUnselected isn't called after pressing back key.
+        // This is a override to remove observer and thus remove Tab object instance.
+        BluetoothController.getInstance().RemoveAllListeners();
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        if (btcntrl != null)
-            btcntrl.Stop();
-        btcntrl = null;
+        BluetoothController.getInstance().Disconnect();
+        BluetoothController.getInstance().deleteObserver(this);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (btcntrl == null)
-            CreateAndStartBtController(btAddress);
+        CreateAndStartBtController(btAddress);
         super.onResume();
     }
 
@@ -132,11 +132,13 @@ public class MainActivity extends FragmentActivity implements Observer {
         settingsFragment = new KMESettingsTab();
         actualParamTab = actionBar.newTab();
         actualParamTab.setText("ActualParam");
+        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
         infoTab = actionBar.newTab();
         infoTab.setText("Info");
+        infoTab.setTabListener(new TabListener(kmeInfoFragment));
         settingsTab = actionBar.newTab();
         settingsTab.setText("Settings");
-        CreateAndStartBtController(btAddress);
+        settingsTab.setTabListener(new TabListener(settingsFragment));
         actionBar.addTab(actualParamTab);
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
@@ -144,20 +146,10 @@ public class MainActivity extends FragmentActivity implements Observer {
 
     private void CreateAndStartBtController(String address) {
         final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
-        btcntrl = new BluetoothController(device);
-        btcntrl.addObserver(this);
-        btcntrl.Start();
-        if (actualParamTab != null && actualParametersFragment != null) {
-            actualParamListener = new TabListener(actualParametersFragment, btcntrl);
-            actualParamTab.setTabListener(actualParamListener);
-        }
-        if (infoTab != null && kmeInfoFragment != null) {
-            infoListener = new TabListener(kmeInfoFragment, btcntrl);
-            infoTab.setTabListener(infoListener);
-        }
-        if (settingsTab != null && kmeInfoFragment != null) {
-            infoListener = new TabListener(settingsFragment, btcntrl);
-            settingsTab.setTabListener(infoListener);
-        }
+        if (BluetoothController.getInstance().IsConnected())
+            BluetoothController.getInstance().Disconnect();
+        BluetoothController.getInstance().SetDevice(device);
+        BluetoothController.getInstance().Connect();
+        BluetoothController.getInstance().addObserver(this);
     }
 }

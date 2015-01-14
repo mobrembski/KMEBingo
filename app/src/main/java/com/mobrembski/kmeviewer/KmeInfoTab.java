@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mobrembski.kmeviewer.SerialFrames.AskFrameClass;
 import com.mobrembski.kmeviewer.SerialFrames.OtherSettingsFrame;
 
-public class KmeInfoTab extends KMEViewerTab {
+public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataInfo dtn;
 
     public KmeInfoTab() {
         this.layoutId = R.layout.kmeinfotab;
-        final AskFrameClass askFrame = new AskFrameClass(new OtherSettingsFrame(), this);
+        this.askFrame = new OtherSettingsFrame();
         super.setAskFrame(askFrame);
     }
 
@@ -38,23 +37,18 @@ public class KmeInfoTab extends KMEViewerTab {
     public void RegistrationChangeBtnClick(View v) {
         final RegistrationPlateChangeDialog dialog = new RegistrationPlateChangeDialog(
                 getActivity(),
-                this.dtn.RegistrationPlate,
-                this.btcntrl);
-        this.askingThreadRunning = false;
-        this.btcntrl.queue.clear();
+                this.dtn.RegistrationPlate);
+        onConnectionStopping();
         final KmeInfoTab tab = this;
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                tab.askingThreadRunning = true;
-                tab.CreateAskingThread(50);
-                tab.askingThread.start();
+                onConnectionStarting();
             }
         });
         dialog.show();
     }
 
-    @Override
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null) {
