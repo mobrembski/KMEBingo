@@ -1,8 +1,10 @@
 package com.mobrembski.kmeviewer;
 
+import static com.mobrembski.kmeviewer.BitUtils.GetVoltage;
+
 public class KMEDataActual {
-    public int TPS;
-    public int Lambda;
+    public float TPS;
+    public float Lambda;
     public int Actuator;
     public int ActualTemp;
     public int PWA;
@@ -19,8 +21,8 @@ public class KMEDataActual {
     public static KMEDataActual GetDataFromByteArray(int[] array) {
         KMEDataActual dataActual = new KMEDataActual();
         if (array.length > 0) {
-            dataActual.TPS = array[1];
-            dataActual.Lambda = array[2];
+            dataActual.TPS = GetVoltage(array[1]);
+            dataActual.Lambda = GetVoltage(array[2]);
             dataActual.Actuator = array[3];
             dataActual.PWA = array[4];
             dataActual.RPMRaw1 = array[5];
@@ -34,7 +36,7 @@ public class KMEDataActual {
             dataActual.TPSColor = BitUtils.GetMaskedBytes(array[7], 240);
 
             dataActual.RPOK = BitUtils.BitIsSet(array[8], 64);
-            dataActual.ActualTemp = array[9];
+            dataActual.ActualTemp = BitUtils.GetTemperature(array[9]);
         }
         return dataActual;
     }
