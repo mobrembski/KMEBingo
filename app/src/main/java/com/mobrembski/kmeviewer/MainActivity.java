@@ -38,7 +38,6 @@ public class MainActivity extends FragmentActivity implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
-                BluetoothController.getInstance().Disconnect();
                 Intent intent = new Intent(this, DiscoveryActivity.class);
                 Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, REQUEST_DISCOVERY);
@@ -111,9 +110,9 @@ public class MainActivity extends FragmentActivity implements Observer {
         }
         final BluetoothDevice device = data.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (device != null) {
-            String newAddress = device.getAddress();
-            CreateAndStartBtController(newAddress);
-            prefs.edit().putString("com.mobrembski.kmeviewer.Device", newAddress).apply();
+            btAddress = device.getAddress();
+            prefs.edit().putString("com.mobrembski.kmeviewer.Device", btAddress).apply();
+            BluetoothController.getInstance().SetDevice(device);
         }
     }
 
