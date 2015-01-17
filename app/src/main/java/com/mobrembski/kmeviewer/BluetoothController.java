@@ -143,7 +143,8 @@ public class BluetoothController extends Observable {
         try {
             if (connectionThread != null)
                 connectionThread.join();
-            socket.close();
+            if (socket != null)
+                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends FragmentActivity implements Observer {
     private static final int REQUEST_DISCOVERY = 0x1;
+    private static final int REQUEST_BT_ENABLE = 0x2;
     private SharedPreferences prefs;
     private KMEViewerTab actualParametersFragment, kmeInfoFragment, settingsFragment;
     private ActionBar.Tab actualParamTab, infoTab, settingsTab;
@@ -106,6 +107,13 @@ public class MainActivity extends FragmentActivity implements Observer {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_BT_ENABLE) {
+            if (resultCode != RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "You must enable Bluetooth!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            return;
+        }
         if (requestCode != REQUEST_DISCOVERY) {
             return;
         }
@@ -148,6 +156,11 @@ public class MainActivity extends FragmentActivity implements Observer {
     }
 
     private void CreateAndStartBtController(String address) {
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
+            return;
+        }
         final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
         if (BluetoothController.getInstance().IsConnected())
             BluetoothController.getInstance().Disconnect();
