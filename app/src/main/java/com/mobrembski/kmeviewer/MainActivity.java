@@ -43,9 +43,11 @@ public class MainActivity extends FragmentActivity implements Observer {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
-                Intent intent = new Intent(this, DiscoveryActivity.class);
-                Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
-                startActivityForResult(intent, REQUEST_DISCOVERY);
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+                //Intent intent = new Intent(this, DiscoveryActivity.class);
+                //Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
+                //startActivityForResult(intent, REQUEST_DISCOVERY);
                 return true;
             case R.id.action_StayScreenOn:
                 item.setChecked(!item.isChecked());
@@ -120,7 +122,7 @@ public class MainActivity extends FragmentActivity implements Observer {
         if (resultCode != RESULT_OK) {
             return;
         }
-        final BluetoothDevice device = data.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+        final BluetoothDevice device = data.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
         if (device != null) {
             btAddress = device.getAddress();
             prefs.edit().putString("com.mobrembski.kmeviewer.Device", btAddress).apply();
