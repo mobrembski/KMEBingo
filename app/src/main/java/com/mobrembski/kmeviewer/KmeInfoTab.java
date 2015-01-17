@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.mobrembski.kmeviewer.SerialFrames.IdentFrame;
 import com.mobrembski.kmeviewer.SerialFrames.OtherSettingsFrame;
 
 public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataInfo dtn;
+    private KMEDataIdent ident;
 
     public KmeInfoTab() {
         this.layoutId = R.layout.kmeinfotab;
@@ -39,7 +41,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 getActivity(),
                 this.dtn.RegistrationPlate);
         onConnectionStopping();
-        final KmeInfoTab tab = this;
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
@@ -56,7 +57,9 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
+                    TextView tv = (TextView) myView.findViewById(R.id.VersionValue);
+                    tv.setText(ident.VersionString);
+                    tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
                     tv.setText(String.valueOf(dtn.hoursOnGas + "h " + dtn.minutesOnGas + "min"));
                     tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
                     tv.setText(dtn.RegistrationPlate);
@@ -83,5 +86,15 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 }
             });
         }
+    }
+
+    @Override
+    public void onConnectionStarting() {
+        // We don't have to update ident. It's just hardcoded
+        // into controller, so let's ask for ident only after connecting.
+        ident = KMEDataIdent.GetDataFromByteArray(
+                BluetoothController.getInstance()
+                        .askForFrame(new IdentFrame()));
+        super.onConnectionStarting();
     }
 }

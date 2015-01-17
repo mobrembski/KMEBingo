@@ -77,7 +77,7 @@ public class DiscoveryActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
         setContentView(R.layout.discovery);
-		
+
 		/* BT isEnable */
         if (!_bluetooth.isEnabled()) {
             Log.w("EF-BTBee", ">>BTBee is disable!");

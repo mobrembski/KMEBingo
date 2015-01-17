@@ -15,6 +15,25 @@
             android:layout_height="fill_parent">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RowParameterName"
+                android:text="Version:"
+                android:paddingRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RowParameterName"
+                android:text="New Text"
+                android:id="@+id/VersionValue"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
                 android:id="@+id/TimeOnGas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

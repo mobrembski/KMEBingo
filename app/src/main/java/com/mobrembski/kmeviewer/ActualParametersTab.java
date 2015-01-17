@@ -43,9 +43,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                 public void run() {
                     KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
                     TextView tv = (TextView) myView.findViewById(R.id.TPSValue);
-                    tv.setText(String.valueOf(dtn.TPS)+" V");
+                    tv.setText(String.valueOf(dtn.TPS) + " V");
                     tv = (TextView) myView.findViewById(R.id.LambdaValue);
-                    tv.setText(String.valueOf(dtn.Lambda)+" V");
+                    tv.setText(String.valueOf(dtn.Lambda) + " V");
                     if (dtn.LambdaColor == 1) {
                         tv.setTextColor(LambdaGreenColor);
                     } else if (dtn.LambdaColor == 4) {
@@ -60,7 +60,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                     tv = (TextView) myView.findViewById(R.id.ActuatorValue);
                     tv.setText(String.valueOf(dtn.Actuator) + " PWA:" + String.valueOf(dtn.PWA));
                     tv = (TextView) myView.findViewById(R.id.TemperatureValue);
-                    tv.setText(String.valueOf(dtn.ActualTemp)+" °C");
+                    tv.setText(String.valueOf(dtn.ActualTemp) + " °C");
                     tv = (TextView) myView.findViewById(R.id.RPMOKValue);
                     if (dtn.RPOK) {
                         tv.setText("RPM OK!");
