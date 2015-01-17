@@ -99,6 +99,15 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         tv.setText("Ignition OFF");
                         tv.setTextColor(ValueNotImportantColor);
                     }
+
+                    tv = (TextView) myView.findViewById(R.id.RPMTooHighValue);
+                    if (dtn.RPMTooHigh) {
+                        tv.setText("RPM too high!");
+                        tv.setTextColor(ValueNotOKColor);
+                    } else {
+                        tv.setText("RPM OK");
+                        tv.setTextColor(ValueOKColor);
+                    }
                 }
             });
     }

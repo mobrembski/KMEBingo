@@ -14,6 +14,7 @@ public class KMEDataActual {
     public boolean CutOffActivated;
     public boolean TemperatureOK;
     public boolean RPOK;
+    public boolean RPMTooHigh;
     public boolean Ignition;
     public int LambdaColor;
     public int TPSColor;
@@ -28,14 +29,16 @@ public class KMEDataActual {
             dataActual.RPMRaw1 = array[5];
             dataActual.RPMRaw2 = array[6];
 
-            dataActual.WorkingOnGas = BitUtils.BitIsSet(array[8], 1);
-            dataActual.CutOffActivated = BitUtils.BitIsSet(array[8], 8);
-            dataActual.TemperatureOK = BitUtils.BitIsSet(array[8], 128);
-            dataActual.Ignition = BitUtils.BitIsSet(array[7], 8);
             dataActual.LambdaColor = BitUtils.GetMaskedBytes(array[7], 7);
+            dataActual.Ignition = BitUtils.BitIsSet(array[7], 8);
             dataActual.TPSColor = BitUtils.GetMaskedBytes(array[7], 240);
 
+            dataActual.WorkingOnGas = BitUtils.BitIsSet(array[8], 1);
+            dataActual.RPMTooHigh = BitUtils.BitIsSet(array[8], 4);
+            dataActual.CutOffActivated = BitUtils.BitIsSet(array[8], 8);
             dataActual.RPOK = BitUtils.BitIsSet(array[8], 64);
+            dataActual.TemperatureOK = BitUtils.BitIsSet(array[8], 128);
+
             dataActual.ActualTemp = BitUtils.GetTemperature(array[9]);
         }
         return dataActual;

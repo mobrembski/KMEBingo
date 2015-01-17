@@ -205,6 +205,24 @@
                 android:id="@+id/IgnitionValue"/>
         </TableRow>
 
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RowParameterName"
+                android:text="RPM Too high:"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RowParameterName"
+                android:text="Large Text"
+                android:id="@+id/RPMTooHighValue"/>
+        </TableRow>
+
     </TableLayout>
     <RelativeLayout
         android:layout_width="match_parent"
