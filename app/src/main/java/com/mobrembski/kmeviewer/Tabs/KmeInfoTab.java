@@ -1,4 +1,4 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mobrembski.kmeviewer.SerialFrames.IdentFrame;
-import com.mobrembski.kmeviewer.SerialFrames.OtherSettingsFrame;
+import com.mobrembski.kmeviewer.BluetoothController;
+import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.R;
+import com.mobrembski.kmeviewer.RegistrationPlateChangeDialog;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataIdent;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataInfo;
 
 public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataInfo dtn;
@@ -18,7 +22,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
 
     public KmeInfoTab() {
         this.layoutId = R.layout.kmeinfotab;
-        this.askFrame = new OtherSettingsFrame();
+        this.askFrame = new KMEDataInfo();
         super.setAskFrame(askFrame);
     }
 
@@ -94,7 +98,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         // into controller, so let's ask for ident only after connecting.
         ident = KMEDataIdent.GetDataFromByteArray(
                 BluetoothController.getInstance()
-                        .askForFrame(new IdentFrame()));
+                        .askForFrame(new KMEDataIdent()));
         super.onConnectionStarting();
     }
 }

@@ -1,4 +1,4 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobrembski.kmeviewer.BluetoothController;
+import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 
 public abstract class KMEViewerTab extends Fragment implements ControllerEvent {

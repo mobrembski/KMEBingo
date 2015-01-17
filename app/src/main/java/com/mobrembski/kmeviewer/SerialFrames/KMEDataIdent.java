@@ -1,10 +1,17 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.SerialFrames;
 
-public class KMEDataIdent {
+import com.mobrembski.kmeviewer.BitUtils;
+
+public class KMEDataIdent extends KMEFrame {
     public int Byte1Raw;
     public int VersionMajor;
     public int VersionMinor;
     public String VersionString;
+
+    public KMEDataIdent() {
+        super.answerSize = 3;
+        super.askFrame = new byte[]{0x65, 0x01, 0x01, 0x67};
+    }
 
     public static KMEDataIdent GetDataFromByteArray(int[] array) {
         KMEDataIdent dataIdent = new KMEDataIdent();

@@ -84,7 +84,7 @@ public class DiscoveryActivity extends ListActivity {
             finish();
             return;
         }
-		/* Register Receiver*/
+        /* Register Receiver*/
         IntentFilter discoveryFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(_discoveryReceiver, discoveryFilter);
         IntentFilter foundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);

@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
-import com.mobrembski.kmeviewer.SerialFrames.OtherFrame;
-
 
 public class RegistrationPlateChangeDialog extends Dialog {
     private String actualRegistration;
@@ -55,7 +53,7 @@ public class RegistrationPlateChangeDialog extends Dialog {
             frameByte[3] = 0;
             frameByte[3] = (byte) BluetoothController.getCRC(frameByte);
             try {
-                KMEFrame tmp = new OtherFrame(frameByte);
+                KMEFrame tmp = new KMEFrame(frameByte);
                 BluetoothController.getInstance().askForFrame(tmp);
                 Thread.sleep(250);
             } catch (InterruptedException e) {

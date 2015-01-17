@@ -1,4 +1,4 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,7 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import com.mobrembski.kmeviewer.SerialFrames.SettingsFrame;
+import com.mobrembski.kmeviewer.BluetoothController;
+import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.R;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +131,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         EngGasStartlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         EngGasStartSpinner.setAdapter(EngGasStartlAdapter);
 
-        packetReceived(BluetoothController.getInstance().askForFrame(new SettingsFrame()));
+        packetReceived(BluetoothController.getInstance().askForFrame(new KMEDataSettings()));
         return v;
     }
 

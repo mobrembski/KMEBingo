@@ -15,10 +15,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobrembski.kmeviewer.Tabs.ActualParametersTab;
+import com.mobrembski.kmeviewer.Tabs.KMESettingsTab;
+import com.mobrembski.kmeviewer.Tabs.KMEViewerTab;
+import com.mobrembski.kmeviewer.Tabs.KmeInfoTab;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-
 
 public class MainActivity extends FragmentActivity implements Observer {
     private static final int REQUEST_DISCOVERY = 0x1;

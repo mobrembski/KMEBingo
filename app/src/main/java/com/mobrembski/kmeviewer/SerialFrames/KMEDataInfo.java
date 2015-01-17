@@ -1,6 +1,8 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.SerialFrames;
 
-public class KMEDataInfo {
+import com.mobrembski.kmeviewer.BitUtils;
+
+public class KMEDataInfo extends KMEFrame {
     public int SensorLevel1;
     public int SensorLevel2;
     public int SensorLevel3;
@@ -14,6 +16,11 @@ public class KMEDataInfo {
     public int DayOfInstallation;
     public int YearOfInstallation;
     public String RegistrationPlate;
+
+    public KMEDataInfo() {
+        super.askFrame = new byte[]{0x65, 0x05, 0x05, 0x6F};
+        super.answerSize = 20;
+    }
 
     public static KMEDataInfo GetDataFromByteArray(int[] array) {
         KMEDataInfo dataInfo = new KMEDataInfo();

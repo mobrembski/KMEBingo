@@ -1,6 +1,8 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.SerialFrames;
 
-public class KMEDataSettings {
+import com.mobrembski.kmeviewer.BitUtils;
+
+public class KMEDataSettings extends KMEFrame {
     public int LambdaType;
     public int TPSType;
     public int LambdaNeutralPoint;
@@ -15,6 +17,10 @@ public class KMEDataSettings {
     public int TPSInertial;
     public boolean TurnOnAtIncreasingRPM;
 
+    public KMEDataSettings() {
+        super.askFrame = new byte[]{0x65, 0x03, 0x03, 0x6B};
+        super.answerSize = 13;
+    }
 
     public static KMEDataSettings GetDataFromByteArray(int[] array) {
         KMEDataSettings dataActual = new KMEDataSettings();

@@ -1,4 +1,4 @@
-package com.mobrembski.kmeviewer;
+package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mobrembski.kmeviewer.SerialFrames.ActualFrame;
+import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.R;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
 
 public class ActualParametersTab extends KMEViewerTab implements ControllerEvent {
     private int ValueOKColor;
@@ -19,7 +21,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actualparamtab;
-        this.askFrame = new ActualFrame();
+        this.askFrame = new KMEDataActual();
     }
 
     @Override
