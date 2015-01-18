@@ -45,9 +45,6 @@ public class MainActivity extends FragmentActivity implements Observer {
             case R.id.action_DeviceSelect:
                 Intent serverIntent = new Intent(this, DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-                //Intent intent = new Intent(this, DiscoveryActivity.class);
-                //Toast.makeText(this, "select device to connect", Toast.LENGTH_SHORT).show();
-                //startActivityForResult(intent, REQUEST_DISCOVERY);
                 return true;
             case R.id.action_StayScreenOn:
                 item.setChecked(!item.isChecked());

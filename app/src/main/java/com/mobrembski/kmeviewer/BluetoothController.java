@@ -140,6 +140,8 @@ public class BluetoothController extends Observable {
         deleteObservers();
         notifyOnConnectionStopping();
         connected = false;
+        packetsError = 0;
+        packetsRcv = 0;
         try {
             if (connectionThread != null)
                 connectionThread.join();
