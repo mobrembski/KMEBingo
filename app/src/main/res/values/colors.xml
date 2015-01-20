@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="LambdaGreen">#00FF00</color>
-    <color name="LambdaYellow">#FFFF00</color>
+    <color name="LambdaGreen">#ff00d100</color>
+    <color name="LambdaYellow">#fffffa5c</color>
     <color name="LambdaRed">#FF0000</color>
-    <color name="ValueOK">#00FF00</color>
+    <color name="ValueOK">#ff00d100</color>
     <color name="ValueNotOK">#FF0000</color>
-    <color name="ValueNotImportant">#FFFF00</color>
+    <color name="ValueNotImportant">#fffffa5c</color>
+    <color name="ValueDisabled">#ff444444</color>
 </resources>

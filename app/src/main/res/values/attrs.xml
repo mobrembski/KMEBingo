@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GraphRow">
+        <attr name="DescriptionText" format="string"/>
+        <attr name="DescriptionColor" format="color"/>
+        <attr name="DescriptionTextSize" format="dimension"/>
+        <attr name="DescriptionValueTextSize" format="dimension"/>
+    </declare-styleable>
+</resources>

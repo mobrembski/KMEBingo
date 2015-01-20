@@ -2,38 +2,38 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:background="@android:color/background_dark"
     android:gravity="bottom"
-    android:orientation="horizontal"
-    android:background="@android:color/background_dark">
+    android:orientation="horizontal">
 
     <TextView
         style="@style/FooterStyleSmall"
         android:paddingRight="8dp"
         android:text="Packets:"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/errorsCountLabel"
         style="@style/FooterStyleSmall"
         android:text="0"
-        android:textColor="#cc0000"/>
+        android:textColor="#cc0000" />
 
     <TextView
         style="@style/FooterStyleSmall"
-        android:text="/"/>
+        android:text="/" />
 
     <TextView
         android:id="@+id/packetCountLabel"
         style="@style/FooterStyleSmall"
         android:paddingRight="8dp"
         android:text="0"
-        android:textColor="#669900"/>
+        android:textColor="#669900" />
 
     <TextView
         android:id="@+id/connectedLabel"
         style="@style/FooterStyleSmall"
         android:paddingLeft="8dp"
         android:text="Disconnected"
-        android:textColor="#669900"/>
+        android:textColor="#669900" />
 </LinearLayout>

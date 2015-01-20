@@ -15,18 +15,18 @@
             android:layout_height="fill_parent">
 
             <TextView
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Version:"
-                android:paddingRight="20dp"/>
+                android:paddingRight="20dp"
+                android:text="Version:" />
 
             <TextView
+                android:id="@+id/VersionValue"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="New Text"
-                android:id="@+id/VersionValue"/>
+                android:text="New Text" />
         </TableRow>
 
         <TableRow
@@ -35,18 +35,18 @@
 
             <TextView
                 android:id="@+id/TimeOnGas"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Time on GAS:"
-                android:paddingRight="20dp"/>
+                android:paddingRight="20dp"
+                android:text="Time on GAS:" />
 
             <TextView
+                android:id="@+id/TimeOnGasValue"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="New Text"
-                android:id="@+id/TimeOnGasValue"/>
+                android:text="New Text" />
         </TableRow>
 
         <TableRow
@@ -54,19 +54,19 @@
             android:layout_height="fill_parent">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Registration Plate: "
                 android:id="@+id/RegistrationPlate"
-                android:paddingRight="20dp"/>
-
-            <TextView
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingRight="20dp"
+                android:text="Registration Plate: " />
+
+            <TextView
+                android:id="@+id/RegistrationPlateValue"
                 style="@style/RowParameterName"
-                android:text="RegistrationPlateValue"
-                android:id="@+id/RegistrationPlateValue"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RegistrationPlateValue" />
         </TableRow>
 
         <TableRow
@@ -74,18 +74,18 @@
             android:layout_height="fill_parent">
 
             <TextView
+                android:id="@+id/DateOfInstallation"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Date of Installation:"
-                android:id="@+id/DateOfInstallation"/>
+                android:text="Date of Installation:" />
 
             <TextView
+                android:id="@+id/DateOfInstallationValue"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Medium Text"
-                android:id="@+id/DateOfInstallationValue"/>
+                android:text="Medium Text" />
         </TableRow>
 
         <TableRow
@@ -93,18 +93,18 @@
             android:layout_height="fill_parent">
 
             <TextView
+                android:id="@+id/TankLevel"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Tank level:"
-                android:id="@+id/TankLevel"/>
+                android:text="Tank level:" />
 
             <TextView
+                android:id="@+id/TankLevelValue"
+                style="@style/RowParameterName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/RowParameterName"
-                android:text="Medium Text"
-                android:id="@+id/TankLevelValue"/>
+                android:text="Medium Text" />
 
         </TableRow>
 
@@ -113,20 +113,23 @@
             android:layout_height="fill_parent">
 
             <Button
+                android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change registration"
-                android:id="@+id/button"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:text="Change registration" />
         </TableRow>
     </TableLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
-        <include layout="@layout/footer"
+
+        <include
+            layout="@layout/footer"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
     </RelativeLayout>
 </RelativeLayout>

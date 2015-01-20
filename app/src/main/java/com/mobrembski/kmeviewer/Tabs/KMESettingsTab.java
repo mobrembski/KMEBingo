@@ -32,7 +32,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
     private Spinner EngGasStartSpinner;
 
     public KMESettingsTab() {
-        this.layoutId = R.layout.settingstab;
+        this.layoutId = R.layout.kme_settings_tab;
         super.setAskFrame(null);
     }
 

@@ -12,6 +12,28 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="StatusTextNormal">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/ValueOK</item>
+    </style>
+    <style name="StatusTextNotImportant">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/ValueNotImportant</item>
+    </style>
+    <style name="StatusTextDisabled">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/ValueDisabled</item>
+    </style>
+    <style name="StatusTextCritical">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@color/ValueNotOK</item>
+    </style>
+    <style name="GraphRowDescription">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+    <style name="GraphRowValue">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
     <style name="FooterStyleSmall" >
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

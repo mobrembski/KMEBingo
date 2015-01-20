@@ -23,7 +23,7 @@ public class RegistrationPlateChangeDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registrationplatechangedialog);
+        setContentView(R.layout.regplate_change_dialog);
         final EditText regEdit = (EditText) findViewById(R.id.registrationplateedit);
         regEdit.setText(this.actualRegistration);
         Button cancelBtn = (Button) this.findViewById(R.id.RegPlateDialogCancelBtn);

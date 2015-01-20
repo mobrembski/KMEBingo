@@ -21,7 +21,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataIdent ident;
 
     public KmeInfoTab() {
-        this.layoutId = R.layout.kmeinfotab;
+        this.layoutId = R.layout.kme_info_tab;
         this.askFrame = new KMEDataInfo();
         super.setAskFrame(askFrame);
     }
