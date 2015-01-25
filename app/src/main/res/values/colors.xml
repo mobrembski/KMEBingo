@@ -3,6 +3,10 @@
     <color name="LambdaGreen">#ff00d100</color>
     <color name="LambdaYellow">#fffffa5c</color>
     <color name="LambdaRed">#FF0000</color>
+    <color name="TPSRect1">#0000FF</color>
+    <color name="TPSRect2">#ff00d100</color>
+    <color name="TPSRect3">#fffffa5c</color>
+    <color name="TPSRect4">#FF0000</color>
     <color name="ValueOK">#ff00d100</color>
     <color name="ValueNotOK">#FF0000</color>
     <color name="ValueNotImportant">#fffffa5c</color>

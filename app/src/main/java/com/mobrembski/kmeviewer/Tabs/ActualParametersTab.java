@@ -14,6 +14,7 @@ import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
+import com.mobrembski.kmeviewer.TPSView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     Time TimeOnBenzinStart = new Time();
     Time TimeOnBenzinEnd = new Time();
     boolean TimeOnBenzinChecked = false;
+    TPSView TpsView;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -56,6 +58,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         ownInflater.inflate(R.layout.actual_param_tab_temp_hidden, parent);
         TimeSpendOnBenzin = (TextView)myView.findViewById(R.id.ActualParamSpendOnBenzinValue);
         // TODO: Make this values depends from Settings.
+        ViewGroup TPSVisible = TPSRow.getInjectVisibleView();
+        ownInflater.inflate(R.layout.actual_param_tab_tps_visible, TPSVisible);
+        TpsView = (TPSView)myView.findViewById(R.id.TPSView);
         TPSRow.CreateRenderer(5,300);
         LambdaRow.CreateRenderer(1,-1,300,0);
         ActuatorRow.CreateRenderer(150,300);
@@ -63,16 +68,35 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         return v;
     }
 
+    private int getTpsFillColor(int rawVal) {
+        switch(rawVal)
+        {
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 4:
+                return 3;
+            case 8:
+                return 4;
+        }
+        return 0;
+    }
+
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null) {
             final KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
+            final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         TPSRow.SetValueText(String.valueOf(dtn.TPS) + " V");
                         TPSRow.AddPoint(dtn.TPS);
+                        TpsView.setRectFilled(TPSFillColor);
                         LambdaRow.SetValueText(String.valueOf(dtn.Lambda) + " V");
                         LambdaRow.AddPoint(dtn.Lambda);
                         switch (dtn.LambdaColor) {

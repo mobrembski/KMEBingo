@@ -38,7 +38,7 @@ public class KMEDataActual extends KMEFrame {
 
             dataActual.LambdaColor = BitUtils.GetMaskedBytes(array[7], 7);
             dataActual.Ignition = BitUtils.BitIsSet(array[7], 8);
-            dataActual.TPSColor = BitUtils.GetMaskedBytes(array[7], 240);
+            dataActual.TPSColor = (BitUtils.GetMaskedBytes(array[7], 240) >> 4);
 
             dataActual.WorkingOnGas = BitUtils.BitIsSet(array[8], 1);
             dataActual.RPMTooHigh = BitUtils.BitIsSet(array[8], 4);
