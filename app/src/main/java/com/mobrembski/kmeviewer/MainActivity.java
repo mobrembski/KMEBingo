@@ -24,7 +24,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends FragmentActivity implements Observer {
+public class MainActivity extends FragmentActivity implements Observer, ControllerExceptionEvent {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private SharedPreferences prefs;
@@ -164,7 +164,19 @@ public class MainActivity extends FragmentActivity implements Observer {
         if (BluetoothController.getInstance().IsConnected())
             BluetoothController.getInstance().Disconnect();
         BluetoothController.getInstance().SetDevice(device);
-        BluetoothController.getInstance().Connect();
+        BluetoothController.getInstance().Connect(this);
         BluetoothController.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void onConnectionException() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),
+                        "Cannot connect to device!", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 }

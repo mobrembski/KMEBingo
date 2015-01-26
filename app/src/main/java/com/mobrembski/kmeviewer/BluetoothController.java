@@ -98,7 +98,7 @@ public class BluetoothController extends Observable {
             ee.onConnectionStarting();
     }
 
-    public void Connect() {
+    public void Connect(final ControllerExceptionEvent cex) {
         if (device == null)
             return;
         try {
@@ -125,6 +125,8 @@ public class BluetoothController extends Observable {
                 } catch (IOException e) {
                     try {
                         socket.close();
+                        if(cex != null)
+                            cex.onConnectionException();
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
