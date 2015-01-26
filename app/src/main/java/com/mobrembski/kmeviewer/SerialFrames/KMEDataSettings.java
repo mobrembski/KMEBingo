@@ -24,7 +24,7 @@ public class KMEDataSettings extends KMEFrame {
 
     public static KMEDataSettings GetDataFromByteArray(int[] array) {
         KMEDataSettings dataActual = new KMEDataSettings();
-        if (array.length > 0) {
+        if (array != null && array.length > 0) {
             dataActual.LambdaType = BitUtils.GetMaskedBytes(array[2], 240);
             dataActual.TPSType = BitUtils.GetMaskedBytes(array[2], 15);
             // TODO: Figure out how Neutral Point is coded

@@ -28,7 +28,7 @@ public class KMEDataActual extends KMEFrame {
 
     public static KMEDataActual GetDataFromByteArray(int[] array) {
         KMEDataActual dataActual = new KMEDataActual();
-        if (array.length > 0) {
+        if (array != null && array.length > 0) {
             dataActual.TPS = GetVoltage(array[1]);
             dataActual.Lambda = GetVoltage(array[2]);
             dataActual.Actuator = array[3];

@@ -24,7 +24,7 @@ public class KMEDataInfo extends KMEFrame {
 
     public static KMEDataInfo GetDataFromByteArray(int[] array) {
         KMEDataInfo dataInfo = new KMEDataInfo();
-        if (array.length > 0) {
+        if (array != null && array.length > 0) {
             dataInfo.SensorLevel1 = array[1];
             dataInfo.SensorLevel2 = array[2];
             dataInfo.SensorLevel3 = array[3];

@@ -15,7 +15,7 @@ public class KMEDataIdent extends KMEFrame {
 
     public static KMEDataIdent GetDataFromByteArray(int[] array) {
         KMEDataIdent dataIdent = new KMEDataIdent();
-        if (array.length > 0) {
+        if (array != null && array.length > 0) {
             dataIdent.Byte1Raw = array[1];
             if (BitUtils.BitIsSet(array[2], 64))
                 dataIdent.VersionMajor = 3;
