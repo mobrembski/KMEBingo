@@ -7,9 +7,9 @@
         <attr name="DescriptionValueTextSize" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="LambdaView">
-        <attr name="BorderWidth" format="dimension"/>
-        <attr name="RectPadding" format="dimension"/>
-        <attr name="RectSize" format="dimension"/>
+        <attr name="LambdaViewBorderWidth" format="dimension"/>
+        <attr name="LambdaViewRectPadding" format="dimension"/>
+        <attr name="LambdaViewRectSize" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="TPSView">
         <attr name="TPSViewBorderWidth" format="dimension" />

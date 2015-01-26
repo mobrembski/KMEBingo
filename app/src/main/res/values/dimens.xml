@@ -5,5 +5,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="TPSView_border_width">3dp</dimen>
     <dimen name="TPSView_rect_padding">2dp</dimen>
+    <dimen name="LambdaView_border_width">3dp</dimen>
+    <dimen name="LambdaView_rect_padding">3dp</dimen>
+    <dimen name="LambdaView_rect_size">3dp</dimen>
 
 </resources>

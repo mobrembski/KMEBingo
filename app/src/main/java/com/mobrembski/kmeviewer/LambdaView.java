@@ -28,14 +28,17 @@ public class LambdaView extends View {
         for (int i = 0; i < N; ++i) {
             int attr = attributesArray.getIndex(i);
             switch (attr) {
-                case R.styleable.LambdaView_BorderWidth:
-                    borderWidth = attributesArray.getDimensionPixelSize(attr, 6);
+                case R.styleable.LambdaView_LambdaViewBorderWidth:
+                    borderWidth = attributesArray.getDimensionPixelSize(attr,
+                            ctx.getResources().getDimensionPixelSize(R.dimen.LambdaView_border_width));
                     break;
-                case R.styleable.LambdaView_RectPadding:
-                    rectPadding = attributesArray.getDimensionPixelSize(attr, 3);
+                case R.styleable.LambdaView_LambdaViewRectPadding:
+                    rectPadding = attributesArray.getDimensionPixelSize(attr,
+                            ctx.getResources().getDimensionPixelSize(R.dimen.LambdaView_rect_padding));
                     break;
-                case R.styleable.LambdaView_RectSize:
-                    rectSize = attributesArray.getDimensionPixelSize(attr, 5);
+                case R.styleable.LambdaView_LambdaViewRectSize:
+                    rectSize = attributesArray.getDimensionPixelSize(attr,
+                            ctx.getResources().getDimensionPixelSize(R.dimen.LambdaView_rect_size));
                     break;
             }
         }

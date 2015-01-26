@@ -8,8 +8,8 @@
         android:layout_width="fill_parent"
         android:layout_height="20dp"
         android:id="@+id/LambdaView"
-        app:BorderWidth="3dp"
-        app:RectPadding="3dp"
-        app:RectSize="3dp"/>
+        app:LambdaViewBorderWidth="3dp"
+        app:LambdaViewRectPadding="3dp"
+        app:LambdaViewRectSize="3dp"/>
 
 </LinearLayout>
