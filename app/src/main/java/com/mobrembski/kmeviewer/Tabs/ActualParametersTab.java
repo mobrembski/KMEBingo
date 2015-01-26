@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
+import com.mobrembski.kmeviewer.LambdaView;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
 import com.mobrembski.kmeviewer.TPSView;
@@ -28,6 +29,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     Time TimeOnBenzinEnd = new Time();
     boolean TimeOnBenzinChecked = false;
     TPSView TpsView;
+    LambdaView lambdaView;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -61,6 +63,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         ViewGroup TPSVisible = TPSRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_tps_visible, TPSVisible);
         TpsView = (TPSView)myView.findViewById(R.id.TPSView);
+        ViewGroup LambdaVisible = LambdaRow.getInjectVisibleView();
+        ownInflater.inflate(R.layout.actual_param_tab_lambda_visible, LambdaVisible);
+        lambdaView = (LambdaView)myView.findViewById(R.id.LambdaView);
         TPSRow.CreateRenderer(5,300);
         LambdaRow.CreateRenderer(1,-1,300,0);
         ActuatorRow.CreateRenderer(150,300);
@@ -85,11 +90,24 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         return 0;
     }
 
+    private int getLambdaColor(int rawVal) {
+        switch (rawVal)
+        {
+            case 1:
+                return LambdaGreenColor;
+            case 4:
+                return LambdaRedColor;
+            default:
+                return LambdaYellowColor;
+        }
+    }
+
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null) {
             final KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
             final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
+            final int LambdaColor = getLambdaColor(dtn.LambdaColor);
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -99,17 +117,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         TpsView.setRectFilled(TPSFillColor);
                         LambdaRow.SetValueText(String.valueOf(dtn.Lambda) + " V");
                         LambdaRow.AddPoint(dtn.Lambda);
-                        switch (dtn.LambdaColor) {
-                            case 1:
-                                LambdaRow.SetValueColor(LambdaGreenColor);
-                                break;
-                            case 4:
-                                LambdaRow.SetValueColor(LambdaRedColor);
-                                break;
-                            default:
-                                LambdaRow.SetValueColor(LambdaYellowColor);
-                                break;
-                        }
+                        lambdaView.setLambdaValue(dtn.Lambda, LambdaColor);
+                        LambdaRow.SetValueColor(LambdaColor);
                         ActuatorRow.SetValueText(String.valueOf(dtn.Actuator));
                         ActuatorRow.AddPoint(dtn.Actuator);
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);

@@ -6,4 +6,9 @@
         <attr name="DescriptionTextSize" format="dimension"/>
         <attr name="DescriptionValueTextSize" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="LambdaView">
+        <attr name="BorderWidth" format="dimension"/>
+        <attr name="RectPadding" format="dimension"/>
+        <attr name="RectSize" format="dimension"/>
+    </declare-styleable>
 </resources>
