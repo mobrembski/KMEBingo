@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
 import com.mobrembski.kmeviewer.LambdaView;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmeviewer.TPSView;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     boolean TimeOnBenzinChecked = false;
     TPSView TpsView;
     LambdaView lambdaView;
+    KMEDataSettings actualSettings;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -126,6 +129,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
+                        TemperatureRow.SetAdditionalValueText("ON:"+
+                                String.valueOf(actualSettings.LPGOnTemperature) + " °C");
                         TemperatureRow.AddPoint(dtn.ActualTemp);
                         if (dtn.Ignition) {
                             IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
@@ -200,6 +205,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
 
     @Override
     public void onConnectionStarting() {
+        actualSettings = KMEDataSettings.GetDataFromByteArray(
+                BluetoothController.getInstance()
+                        .askForFrame(new KMEDataSettings()));
         super.onConnectionStarting();
         TimeOnBenzinStart.setToNow();
     }

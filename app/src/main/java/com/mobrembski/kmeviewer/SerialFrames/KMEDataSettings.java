@@ -35,7 +35,7 @@ public class KMEDataSettings extends KMEFrame {
             dataActual.StartOnGasOpenTime = BitUtils.GetMaskedBytes(array[8], 63);
             dataActual.LambdaEmulationHState = array[6];
             dataActual.LambdaEmulationLState = array[7];
-            dataActual.LPGOnTemperature = array[11];
+            dataActual.LPGOnTemperature = BitUtils.GetTemperature(array[11]);
             dataActual.GazBensinTime = BitUtils.GetMaskedBytes(array[10], 63);
             dataActual.TPSInertial = array[12];
             dataActual.TurnOnAtIncreasingRPM = BitUtils.BitIsSet(array[1], 16);
