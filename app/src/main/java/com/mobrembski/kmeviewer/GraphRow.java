@@ -30,6 +30,7 @@ public class GraphRow extends LinearLayout {
     RelativeLayout chartLayout;
     TextView DescriptionLabel;
     TextView DescriptionValue;
+    TextView DescriptionAdditionalValue;
     XYSeries series;
     XYSeriesRenderer renderer;
     XYMultipleSeriesRenderer mRenderer;
@@ -45,6 +46,7 @@ public class GraphRow extends LinearLayout {
         inflater.inflate(R.layout.graph_row_layout, this);
         DescriptionLabel = (TextView) findViewById(R.id.GraphRowDescription);
         DescriptionValue = (TextView) findViewById(R.id.GraphRowValue);
+        DescriptionAdditionalValue = (TextView) findViewById(R.id.GraphRowAdditionalValue);
         TypedArray attributesArray = context.obtainStyledAttributes(set, R.styleable.GraphRow);
         final int N = attributesArray.getIndexCount();
         for (int i = 0; i < N; ++i) {
@@ -61,6 +63,9 @@ public class GraphRow extends LinearLayout {
                     break;
                 case R.styleable.GraphRow_DescriptionValueTextSize:
                     DescriptionValue.setTextSize(attributesArray.getDimension(attr, 15));
+                    break;
+                case R.styleable.GraphRow_DescriptionAdditionalValueTextSize:
+                    DescriptionAdditionalValue.setTextSize(attributesArray.getDimension(attr, 3));
                     break;
             }
         }
@@ -186,6 +191,11 @@ public class GraphRow extends LinearLayout {
 
     public void SetValueColor(int color) {
         DescriptionValue.setTextColor(color);
+    }
+
+    public void SetAdditionalValueText(String value) {
+        DescriptionAdditionalValue.setVisibility(View.VISIBLE);
+        DescriptionAdditionalValue.setText(value);
     }
 
     public boolean GetHiddenVisibility() {

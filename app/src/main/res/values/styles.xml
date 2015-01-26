@@ -4,41 +4,54 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="RowParameterName" >
+    <style name="RowParameterName">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
-    <style name="SettingsRowParameterName" >
+
+    <style name="SettingsRowParameterName">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="StatusTextNormal">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/ValueOK</item>
     </style>
+
     <style name="StatusTextNotImportant">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/ValueNotImportant</item>
     </style>
+
     <style name="StatusTextDisabled">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/ValueDisabled</item>
     </style>
+
     <style name="StatusTextCritical">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@color/ValueNotOK</item>
     </style>
+
     <style name="GraphRowDescription">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
+
     <style name="GraphRowValue">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
-    <style name="FooterStyleSmall" >
+
+    <style name="GraphRowAdditionalValue">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="FooterStyleSmall">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
+
     <style name="SpinnerAppTheme" parent="android:Widget.Holo.Spinner">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/apptheme_spinner_background_holo_dark</item>

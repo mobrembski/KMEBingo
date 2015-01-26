@@ -5,6 +5,7 @@
         <attr name="DescriptionColor" format="color"/>
         <attr name="DescriptionTextSize" format="dimension"/>
         <attr name="DescriptionValueTextSize" format="dimension"/>
+        <attr name="DescriptionAdditionalValueTextSize" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="LambdaView">
         <attr name="LambdaViewBorderWidth" format="dimension"/>

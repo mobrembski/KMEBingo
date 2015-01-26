@@ -108,12 +108,14 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
             final KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
             final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
             final int LambdaColor = getLambdaColor(dtn.LambdaColor);
+            final float TPSPercentage = (dtn.TPS / 5.0f) * 100;
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         TPSRow.SetValueText(String.valueOf(dtn.TPS) + " V");
                         TPSRow.AddPoint(dtn.TPS);
+                        TPSRow.SetAdditionalValueText(String.format("%.1f%%", TPSPercentage));
                         TpsView.setRectFilled(TPSFillColor);
                         LambdaRow.SetValueText(String.valueOf(dtn.Lambda) + " V");
                         LambdaRow.AddPoint(dtn.Lambda);
