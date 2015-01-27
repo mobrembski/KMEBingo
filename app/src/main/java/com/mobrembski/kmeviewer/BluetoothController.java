@@ -61,7 +61,7 @@ public class BluetoothController extends Observable {
                 sum += values[j];
         }
         sum = sum & 0xFF;
-        if (sum == values[frameSize - 1] && sum != 0)
+        if (sum == values[frameSize - 1])
             return values;
         return null;
     }

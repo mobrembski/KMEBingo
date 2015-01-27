@@ -1,12 +1,14 @@
 package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.BluetoothController;
@@ -15,6 +17,8 @@ import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.RegistrationPlateChangeDialog;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataIdent;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataInfo;
+
+import java.util.Calendar;
 
 public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataInfo dtn;
@@ -30,11 +34,32 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        Button registrationChangeBtn = (Button) v.findViewById(R.id.button);
+        Button registrationChangeBtn = (Button) v.findViewById(R.id.ChangeRegPlateBtn);
+        Button installationDateChangeBtn = (Button) v.findViewById(R.id.ChangeInstallDateBtn);
         registrationChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 RegistrationChangeBtnClick(view);
+            }
+        });
+        installationDateChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dpd = new DatePickerDialog(view.getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                            }
+                        }, mYear, mMonth, mDay);
+                dpd.show();
             }
         });
         return v;

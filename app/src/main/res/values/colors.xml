@@ -11,4 +11,5 @@
     <color name="ValueNotOK">#FF0000</color>
     <color name="ValueNotImportant">#fffffa5c</color>
     <color name="ValueDisabled">#ff444444</color>
+    <color name="ButtonText">#ffffff</color>
 </resources>

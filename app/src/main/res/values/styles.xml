@@ -4,9 +4,15 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="RowParameterName">
+    <style name="InfoRowParameterName">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="InfoRowParameterValue">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">right</item>
     </style>
 
     <style name="SettingsRowParameterName">
