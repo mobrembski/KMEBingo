@@ -4,121 +4,129 @@
     android:layout_height="fill_parent"
     android:background="@android:color/background_dark">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:layout_above="@+id/relLayoutFooter">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/InfoRowParameterName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Version:" />
-
-            <TextView
-                android:id="@+id/VersionValue"
-                style="@style/InfoRowParameterValue"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/TimeOnGas"
-                style="@style/InfoRowParameterName"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time on GAS:" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/TimeOnGasValue"
-                style="@style/InfoRowParameterValue"
+                <TextView
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Version:" />
+
+                <TextView
+                    android:id="@+id/VersionValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/RegistrationPlate"
-                style="@style/InfoRowParameterName"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registration Plate: " />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/RegistrationPlateValue"
-                style="@style/InfoRowParameterValue"
+                <TextView
+                    android:id="@+id/TimeOnGas"
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time on GAS:" />
+
+                <TextView
+                    android:id="@+id/TimeOnGasValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/DateOfInstallation"
-                style="@style/InfoRowParameterName"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date of Installation:" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/DateOfInstallationValue"
-                style="@style/InfoRowParameterValue"
+                <TextView
+                    android:id="@+id/RegistrationPlate"
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Registration Plate: " />
+
+                <TextView
+                    android:id="@+id/RegistrationPlateValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/TankLevel"
-                style="@style/InfoRowParameterName"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tank level:" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/TankLevelValue"
-                style="@style/InfoRowParameterValue"
+                <TextView
+                    android:id="@+id/DateOfInstallation"
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date of Installation:" />
+
+                <TextView
+                    android:id="@+id/DateOfInstallationValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/TankLevel"
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tank level:" />
+
+                <TextView
+                    android:id="@+id/TankLevelValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/ChangeRegPlateBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Change registration"
+                android:textColor="@color/ButtonText"/>
+
+            <Button
+                android:id="@+id/ChangeInstallDateBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Change installation date"
+                android:textColor="@color/ButtonText"/>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/ChangeRegPlateBtn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Change registration"
-            android:textColor="@color/ButtonText"/>
-
-        <Button
-            android:id="@+id/ChangeInstallDateBtn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Change installation date"
-            android:textColor="@color/ButtonText"/>
-    </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/relLayoutFooter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
