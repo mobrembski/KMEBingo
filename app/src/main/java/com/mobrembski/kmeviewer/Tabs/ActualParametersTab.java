@@ -25,7 +25,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     private int LambdaGreenColor;
     private int LambdaYellowColor;
     private int LambdaRedColor;
-    GraphRow TPSRow,LambdaRow,ActuatorRow,TemperatureRow;
+    GraphRow TPSRow,LambdaRow,ActuatorRow,TemperatureRow, RPMRow;
     TextView IgnitionTV, FuelTypeTV, TempTV, RPMStatusTV, CutOFFTV, TimeSpendOnBenzin;
     Time TimeOnBenzinStart = new Time();
     Time TimeOnBenzinEnd = new Time();
@@ -46,6 +46,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
         LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
         LambdaRedColor = getResources().getColor(R.color.LambdaRed);
+        RPMRow = (GraphRow)myView.findViewById(R.id.RPMChartRow);
         TPSRow = (GraphRow)myView.findViewById(R.id.TPSChartRow);
         LambdaRow = (GraphRow)myView.findViewById(R.id.LambdaChartRow);
         ActuatorRow = (GraphRow)myView.findViewById(R.id.ActuatorChartRow);
@@ -69,6 +70,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         ViewGroup LambdaVisible = LambdaRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_lambda_visible, LambdaVisible);
         lambdaView = (LambdaView)myView.findViewById(R.id.LambdaView);
+        RPMRow.CreateRenderer(7000,0,300,0);
         TPSRow.CreateRenderer(5,300);
         LambdaRow.CreateRenderer(1,-1,300,0);
         ActuatorRow.CreateRenderer(150,300);
@@ -116,6 +118,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                 @Override
                 public void run() {
                     try {
+                        RPMRow.SetValueText(String.valueOf(dtn.RPM));
+                        RPMRow.AddPoint(dtn.RPM);
                         TPSRow.SetValueText(String.valueOf(dtn.TPS) + " V");
                         TPSRow.AddPoint(dtn.TPS);
                         TPSRow.SetAdditionalValueText(String.format("%.1f%%", TPSPercentage));

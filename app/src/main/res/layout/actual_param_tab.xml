@@ -20,6 +20,13 @@
             android:orientation="vertical">
 
             <com.mobrembski.kmeviewer.GraphRow
+                android:id="@+id/RPMChartRow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                app:DescriptionText="RPM"/>
+
+            <com.mobrembski.kmeviewer.GraphRow
                 android:id="@+id/TPSChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

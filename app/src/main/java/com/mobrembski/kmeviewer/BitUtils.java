@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class BitUtils {
-
+    // Accuracy is number of digits of precision of converting Raw data into RPM
+    private static final int RPMAccuracy = 1;
     private static final HashMap tempMap = new HashMap<Integer, Integer>() {{
         //region ConversionMap
         put(70, 1);
@@ -223,6 +224,13 @@ public class BitUtils {
         if (rawVal < 70)
             return 0;
         return Integer.parseInt(tempMap.get(new Integer(rawVal)).toString());
+    }
+
+    public static int GetRPM(int rawVal) {
+        // This is a real magic. Don't ask what does this numbers means.
+        // I don't know, i've just get this equation from KME.
+        return 50 * RPMAccuracy * (
+                (15000064 / rawVal + 25 * RPMAccuracy) / (50 * RPMAccuracy));
     }
 }
 

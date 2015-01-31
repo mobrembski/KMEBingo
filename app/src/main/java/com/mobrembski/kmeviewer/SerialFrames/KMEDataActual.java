@@ -2,6 +2,7 @@ package com.mobrembski.kmeviewer.SerialFrames;
 
 import com.mobrembski.kmeviewer.BitUtils;
 
+import static com.mobrembski.kmeviewer.BitUtils.GetRPM;
 import static com.mobrembski.kmeviewer.BitUtils.GetVoltage;
 
 public class KMEDataActual extends KMEFrame {
@@ -10,8 +11,6 @@ public class KMEDataActual extends KMEFrame {
     public int Actuator;
     public int ActualTemp;
     public int PWA;
-    public int RPMRaw1;
-    public int RPMRaw2;
     public boolean WorkingOnGas;
     public boolean CutOffActivated;
     public boolean TemperatureOK;
@@ -20,6 +19,7 @@ public class KMEDataActual extends KMEFrame {
     public boolean Ignition;
     public int LambdaColor;
     public int TPSColor;
+    public int RPM;
 
     public KMEDataActual() {
         super.answerSize = 10;
@@ -33,8 +33,7 @@ public class KMEDataActual extends KMEFrame {
             dataActual.Lambda = GetVoltage(array[2]);
             dataActual.Actuator = array[3];
             dataActual.PWA = array[4];
-            dataActual.RPMRaw1 = array[5];
-            dataActual.RPMRaw2 = array[6];
+            dataActual.RPM = GetRPM(array[6]<<8 | array[5]);
 
             dataActual.LambdaColor = BitUtils.GetMaskedBytes(array[7], 7);
             dataActual.Ignition = BitUtils.BitIsSet(array[7], 8);
