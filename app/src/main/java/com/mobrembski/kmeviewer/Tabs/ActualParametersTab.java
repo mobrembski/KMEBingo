@@ -15,6 +15,7 @@ import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
 import com.mobrembski.kmeviewer.LambdaView;
 import com.mobrembski.kmeviewer.R;
+import com.mobrembski.kmeviewer.RPMView;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmeviewer.TPSView;
@@ -22,9 +23,6 @@ import com.mobrembski.kmeviewer.TPSView;
 import java.util.concurrent.TimeUnit;
 
 public class ActualParametersTab extends KMEViewerTab implements ControllerEvent {
-    private int LambdaGreenColor;
-    private int LambdaYellowColor;
-    private int LambdaRedColor;
     GraphRow TPSRow,LambdaRow,ActuatorRow,TemperatureRow, RPMRow;
     TextView IgnitionTV, FuelTypeTV, TempTV, RPMStatusTV, CutOFFTV, TimeSpendOnBenzin;
     Time TimeOnBenzinStart = new Time();
@@ -32,7 +30,11 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     boolean TimeOnBenzinChecked = false;
     TPSView TpsView;
     LambdaView lambdaView;
+    RPMView rpmView;
     KMEDataSettings actualSettings;
+    private int LambdaGreenColor;
+    private int LambdaYellowColor;
+    private int LambdaRedColor;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -70,6 +72,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         ViewGroup LambdaVisible = LambdaRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_lambda_visible, LambdaVisible);
         lambdaView = (LambdaView)myView.findViewById(R.id.LambdaView);
+        ViewGroup RPMVisible = RPMRow.getInjectVisibleView();
+        ownInflater.inflate(R.layout.actual_param_tab_rpm_visible, RPMVisible);
+        rpmView = (RPMView) myView.findViewById(R.id.RPMView);
         RPMRow.CreateRenderer(7000,0,300,0);
         TPSRow.CreateRenderer(5,300);
         LambdaRow.CreateRenderer(1,-1,300,0);
@@ -120,6 +125,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                     try {
                         RPMRow.SetValueText(String.valueOf(dtn.RPM));
                         RPMRow.AddPoint(dtn.RPM);
+                        rpmView.setRpmValue(dtn.RPM);
                         TPSRow.SetValueText(String.valueOf(dtn.TPS) + " V");
                         TPSRow.AddPoint(dtn.TPS);
                         TPSRow.SetAdditionalValueText(String.format("%.1f%%", TPSPercentage));

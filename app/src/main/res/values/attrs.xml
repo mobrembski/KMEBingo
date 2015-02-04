@@ -16,4 +16,8 @@
         <attr name="TPSViewBorderWidth" format="dimension" />
         <attr name="TPSViewRectPadding" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="RPMView">
+        <attr name="RPMViewBorderWidth" format="dimension" />
+        <attr name="RPMViewRectPadding" format="dimension" />
+    </declare-styleable>
 </resources>

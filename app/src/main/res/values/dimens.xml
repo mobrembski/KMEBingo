@@ -8,5 +8,7 @@
     <dimen name="LambdaView_border_width">3dp</dimen>
     <dimen name="LambdaView_rect_padding">3dp</dimen>
     <dimen name="LambdaView_rect_size">3dp</dimen>
+    <dimen name="RPMView_border_width">3dp</dimen>
+    <dimen name="RPMView_rect_padding">3dp</dimen>
 
 </resources>
