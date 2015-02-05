@@ -143,8 +143,6 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actualParametersFragment = new ActualParametersTab();
         kmeInfoFragment = new KmeInfoTab();
