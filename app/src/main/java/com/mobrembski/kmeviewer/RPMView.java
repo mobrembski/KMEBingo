@@ -18,11 +18,17 @@ public class RPMView extends View {
     int markerLowColor;
     int markerHighColor;
     int markersPosTab[];
+    int markersTextPadding;
+    int markerTextSize;
+    int markerTextWidth;
+    int markerTop;
+    int markerBottom;
     int viewWidth;
     int viewHeight;
     int rpmRectWidth;
     int oldValue = 0;
-    int drawRectStartMargin;
+    int drawRectStartLeftMargin;
+    int drawRectStartTopMargin;
     int drawRectEndMargin;
     float rpmsPerPixel;
 
@@ -41,6 +47,16 @@ public class RPMView extends View {
                     rectPadding = attributesArray.getDimensionPixelSize(attr,
                             ctx.getResources().getDimensionPixelSize(R.dimen.RPMView_rect_padding));
                     break;
+                case R.styleable.RPMView_RPMViewMarkerTextPadding:
+                    markersTextPadding = attributesArray.getDimensionPixelSize(attr,
+                            ctx.getResources().getDimensionPixelSize(
+                                    R.dimen.RPMView_markers_text_top_padding));
+                    break;
+                case R.styleable.RPMView_RPMViewMarkerTextSize:
+                    markerTextSize = attributesArray.getDimensionPixelSize(attr,
+                            ctx.getResources().getDimensionPixelSize(
+                                    R.dimen.RPMView_markers_text_size));
+                    break;
             }
         }
         rectColor = ctx.getResources().getColor(R.color.RPMRect);
@@ -52,6 +68,7 @@ public class RPMView extends View {
         border_paint.setStyle(Paint.Style.STROKE);
         border_paint.setColor(borderColor);
         border_paint.setStrokeWidth(borderWidth);
+        marker_paint.setTextSize(markerTextSize);
     }
 
     public void setRpmValue(int value) {
@@ -70,9 +87,14 @@ public class RPMView extends View {
         viewWidth = MeasureSpec.getSize(widthMeasureSpec);
         viewHeight = MeasureSpec.getSize(heightMeasureSpec);
         rpmsPerPixel = (float) (viewWidth - rectPadding - borderWidth) / (float) 8000;
-        drawRectStartMargin = borderWidth + rectPadding;
+        drawRectStartLeftMargin = borderWidth + rectPadding;
+        drawRectStartTopMargin = borderWidth + rectPadding + markersTextPadding;
         drawRectEndMargin = viewHeight - borderWidth - rectPadding;
+        markerTop = borderWidth + markersTextPadding;
+        markerBottom = viewHeight - borderWidth;
         markersPosTab = new int[8];
+        // We're measuring only one segment of text. Rest is same.
+        markerTextWidth = (int) marker_paint.measureText("1k") / 2;
         for (int i = 1; i < 9; i++) {
             markersPosTab[i - 1] = (int) (rpmsPerPixel * 1000 * i);
         }
@@ -82,18 +104,35 @@ public class RPMView extends View {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        canvas.drawRect(0, 0, viewWidth, viewHeight, border_paint);
-        canvas.drawRect(drawRectStartMargin, //Start X
-                drawRectStartMargin, // Start Y, to be looking nice, we're omitting border
+        canvas.drawRect(0, markersTextPadding, viewWidth, viewHeight, border_paint);
+        canvas.drawRect(drawRectStartLeftMargin, //Start X
+                drawRectStartTopMargin, // Start Y, to be looking nice, we're omitting border
                 rpmRectWidth, // End X
                 drawRectEndMargin, // End Y
                 rect_paint);
         int i;
         marker_paint.setColor(markerLowColor);
-        for (i = 0; i < 6; i++)
-            canvas.drawRect(markersPosTab[i], 0, markersPosTab[i] + 3, viewWidth, marker_paint);
+        for (i = 0; i < 6; i++) {
+            canvas.drawText(String.valueOf(i + 1) + "k",
+                    markersPosTab[i] - markerTextWidth,
+                    markerTextSize,
+                    marker_paint);
+            canvas.drawRect(markersPosTab[i],
+                    markerTop, markersPosTab[i] + 3,
+                    markerBottom,
+                    marker_paint);
+        }
         marker_paint.setColor(markerHighColor);
-        for (i = 5; i < 8; i++)
-            canvas.drawRect(markersPosTab[i], 0, markersPosTab[i] + 3, viewWidth, marker_paint);
+        for (i = 6; i < 8; i++) {
+            canvas.drawText(String.valueOf(i + 1) + "k",
+                    markersPosTab[i] - markerTextWidth,
+                    markerTextSize,
+                    marker_paint);
+            canvas.drawRect(markersPosTab[i],
+                    markerTop,
+                    markersPosTab[i] + 3,
+                    markerBottom,
+                    marker_paint);
+        }
     }
 }

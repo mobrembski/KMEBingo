@@ -19,5 +19,7 @@
     <declare-styleable name="RPMView">
         <attr name="RPMViewBorderWidth" format="dimension" />
         <attr name="RPMViewRectPadding" format="dimension" />
+        <attr name="RPMViewMarkerTextPadding" format="dimension" />
+        <attr name="RPMViewMarkerTextSize" format="dimension" />
     </declare-styleable>
 </resources>
