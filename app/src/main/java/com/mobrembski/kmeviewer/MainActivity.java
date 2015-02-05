@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
@@ -106,6 +105,12 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("selected-tab", getActionBar().getSelectedNavigationIndex());
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_BT_ENABLE) {
             if (resultCode != RESULT_OK) {
@@ -132,6 +137,9 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int selectedTab = 0;
+        if (savedInstanceState != null)
+            selectedTab = savedInstanceState.getInt("selected-tab");
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         ActionBar actionBar = getActionBar();
@@ -153,6 +161,7 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
         actionBar.addTab(actualParamTab);
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
+        actionBar.setSelectedNavigationItem(selectedTab);
     }
 
     private void CreateAndStartBtController(String address) {
