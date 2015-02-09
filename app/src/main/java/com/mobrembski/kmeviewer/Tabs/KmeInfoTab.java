@@ -1,22 +1,26 @@
 package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.R;
-import com.mobrembski.kmeviewer.RegistrationPlateChangeDialog;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataIdent;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataInfo;
+import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 
 import java.util.Calendar;
 
@@ -65,20 +69,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         return v;
     }
 
-    public void RegistrationChangeBtnClick(View v) {
-        final RegistrationPlateChangeDialog dialog = new RegistrationPlateChangeDialog(
-                getActivity(),
-                this.dtn.RegistrationPlate);
-        onConnectionStopping();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                onConnectionStarting();
-            }
-        });
-        dialog.show();
-    }
-
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null) {
@@ -125,5 +115,49 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 BluetoothController.getInstance()
                         .askForFrame(new KMEDataIdent()));
         super.onConnectionStarting();
+    }
+
+    private void RegistrationChangeBtnClick(View v) {
+        final EditText inputText = new EditText(v.getContext());
+        inputText.setText(this.dtn.RegistrationPlate);
+        inputText.setGravity(Gravity.CENTER);
+        inputText.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(7)});
+        onConnectionStopping();
+        new AlertDialog.Builder(v.getContext())
+                .setTitle("Registration Change")
+                .setMessage("Enter registration number")
+                .setView(inputText)
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String newRegNumber = inputText.getText().toString();
+                        changeRegistrationPlate(newRegNumber);
+                        onConnectionStarting();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        onConnectionStarting();
+                    }
+                })
+                .show();
+    }
+
+    private void changeRegistrationPlate(String newPlate) {
+        char tab[] = newPlate.toCharArray();
+        for (int i = 0; i < tab.length; i++) {
+            byte[] frameByte = new byte[4];
+            frameByte[0] = 0x65;
+            frameByte[1] = (byte) (0x2B + i);
+            frameByte[2] = (byte) tab[i];
+            frameByte[3] = 0;
+            frameByte[3] = (byte) BluetoothController.getCRC(frameByte);
+            try {
+                KMEFrame tmp = new KMEFrame(frameByte);
+                BluetoothController.getInstance().askForFrame(tmp);
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
