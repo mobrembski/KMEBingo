@@ -2,6 +2,7 @@ package com.mobrembski.kmeviewer.SerialFrames;
 
 import com.mobrembski.kmeviewer.BitUtils;
 
+@SuppressWarnings("WeakerAccess, UnusedDeclaration")
 public class KMEDataIdent extends KMEFrame {
     public int Byte1Raw;
     public int VersionMajor;

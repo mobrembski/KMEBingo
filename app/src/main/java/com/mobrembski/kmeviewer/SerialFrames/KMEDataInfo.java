@@ -2,6 +2,7 @@ package com.mobrembski.kmeviewer.SerialFrames;
 
 import com.mobrembski.kmeviewer.BitUtils;
 
+@SuppressWarnings("UnusedDeclaration")
 public class KMEDataInfo extends KMEFrame {
     public int SensorLevel1;
     public int SensorLevel2;

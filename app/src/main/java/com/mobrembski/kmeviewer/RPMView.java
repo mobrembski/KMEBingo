@@ -8,29 +8,27 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class RPMView extends View {
-    final Paint border_paint = new Paint();
-    final Paint rect_paint = new Paint();
-    final Paint marker_paint = new Paint();
-    int borderWidth;
-    int rectPadding;
-    int rectColor;
-    int borderColor;
-    int markerLowColor;
-    int markerHighColor;
-    int markersPosTab[];
-    int markersTextPadding;
-    int markerTextSize;
-    int markerTextWidth;
-    int markerTop;
-    int markerBottom;
-    int viewWidth;
-    int viewHeight;
-    int rpmRectWidth;
-    int oldValue = 0;
-    int drawRectStartLeftMargin;
-    int drawRectStartTopMargin;
-    int drawRectEndMargin;
-    float rpmsPerPixel;
+    private final Paint border_paint = new Paint();
+    private final Paint rect_paint = new Paint();
+    private final Paint marker_paint = new Paint();
+    private int borderWidth;
+    private int rectPadding;
+    private final int markerLowColor;
+    private final int markerHighColor;
+    private int[] markersPosTab;
+    private int markersTextPadding;
+    private int markerTextSize;
+    private int markerTextWidth;
+    private int markerTop;
+    private int markerBottom;
+    private int viewWidth;
+    private int viewHeight;
+    private int rpmRectWidth;
+    private int oldValue = 0;
+    private int drawRectStartLeftMargin;
+    private int drawRectStartTopMargin;
+    private int drawRectEndMargin;
+    private float rpmsPerPixel;
 
     public RPMView(Context ctx, AttributeSet set) {
         super(ctx, set);
@@ -59,8 +57,8 @@ public class RPMView extends View {
                     break;
             }
         }
-        rectColor = ctx.getResources().getColor(R.color.RPMRect);
-        borderColor = ctx.getResources().getColor(R.color.RPMBorder);
+        int rectColor = ctx.getResources().getColor(R.color.RPMRect);
+        int borderColor = ctx.getResources().getColor(R.color.RPMBorder);
         markerLowColor = ctx.getResources().getColor(R.color.RPMMarkerLow);
         markerHighColor = ctx.getResources().getColor(R.color.RPMMarkerHigh);
         rect_paint.setStyle(Paint.Style.FILL);

@@ -28,8 +28,6 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private SharedPreferences prefs;
-    private KMEViewerTab actualParametersFragment, kmeInfoFragment, settingsFragment;
-    private ActionBar.Tab actualParamTab, infoTab, settingsTab;
     private String btAddress;
 
     @Override
@@ -107,7 +105,9 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("selected-tab", getActionBar().getSelectedNavigationIndex());
+        ActionBar ab = getActionBar();
+        assert ab != null;
+        outState.putInt("selected-tab", ab.getSelectedNavigationIndex());
     }
 
     @Override
@@ -136,24 +136,24 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         int selectedTab = 0;
         if (savedInstanceState != null)
             selectedTab = savedInstanceState.getInt("selected-tab");
         prefs = this.getSharedPreferences("com.mobrembski.kmeviewer", Context.MODE_PRIVATE);
         btAddress = prefs.getString("com.mobrembski.kmeviewer.Device", "00:12:6F:2E:8A:03");
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actualParametersFragment = new ActualParametersTab();
-        kmeInfoFragment = new KmeInfoTab();
-        settingsFragment = new KMESettingsTab();
-        actualParamTab = actionBar.newTab();
+        KMEViewerTab actualParametersFragment = new ActualParametersTab();
+        KMEViewerTab kmeInfoFragment = new KmeInfoTab();
+        KMEViewerTab settingsFragment = new KMESettingsTab();
+        ActionBar.Tab actualParamTab = actionBar.newTab();
         actualParamTab.setText("ActualParam");
         actualParamTab.setTabListener(new TabListener(actualParametersFragment));
-        infoTab = actionBar.newTab();
+        ActionBar.Tab infoTab = actionBar.newTab();
         infoTab.setText("Info");
         infoTab.setTabListener(new TabListener(kmeInfoFragment));
-        settingsTab = actionBar.newTab();
+        ActionBar.Tab settingsTab = actionBar.newTab();
         settingsTab.setText("Settings");
         settingsTab.setTabListener(new TabListener(settingsFragment));
         actionBar.addTab(actualParamTab);

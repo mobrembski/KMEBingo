@@ -15,11 +15,11 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
     protected View myView = null;
     protected Thread askingThread = null;
     protected boolean askingThreadRunning = false;
-    protected int askingDelay = 100;
+    protected final int askingDelay = 100;
 
     protected KMEFrame askFrame = null;
 
-    private Runnable askingRunnable = new Runnable() {
+    private final Runnable askingRunnable = new Runnable() {
         @Override
         public void run() {
             while (askingThreadRunning) {

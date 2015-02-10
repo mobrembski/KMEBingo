@@ -23,15 +23,24 @@ import com.mobrembski.kmeviewer.TPSView;
 import java.util.concurrent.TimeUnit;
 
 public class ActualParametersTab extends KMEViewerTab implements ControllerEvent {
-    GraphRow TPSRow,LambdaRow,ActuatorRow,TemperatureRow, RPMRow;
-    TextView IgnitionTV, FuelTypeTV, TempTV, RPMStatusTV, CutOFFTV, TimeSpendOnBenzin;
-    Time TimeOnBenzinStart = new Time();
-    Time TimeOnBenzinEnd = new Time();
-    boolean TimeOnBenzinChecked = false;
-    TPSView TpsView;
-    LambdaView lambdaView;
-    RPMView rpmView;
-    KMEDataSettings actualSettings;
+    private GraphRow TPSRow;
+    private GraphRow LambdaRow;
+    private GraphRow ActuatorRow;
+    private GraphRow TemperatureRow;
+    private GraphRow RPMRow;
+    private TextView IgnitionTV;
+    private TextView FuelTypeTV;
+    private TextView TempTV;
+    private TextView RPMStatusTV;
+    private TextView CutOFFTV;
+    private TextView TimeSpendOnBenzin;
+    private final Time TimeOnBenzinStart = new Time();
+    private final Time TimeOnBenzinEnd = new Time();
+    private boolean TimeOnBenzinChecked = false;
+    private TPSView TpsView;
+    private LambdaView lambdaView;
+    private RPMView rpmView;
+    private KMEDataSettings actualSettings;
     private int LambdaGreenColor;
     private int LambdaYellowColor;
     private int LambdaRedColor;
@@ -48,44 +57,43 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
         LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
         LambdaRedColor = getResources().getColor(R.color.LambdaRed);
-        RPMRow = (GraphRow)myView.findViewById(R.id.RPMChartRow);
-        TPSRow = (GraphRow)myView.findViewById(R.id.TPSChartRow);
-        LambdaRow = (GraphRow)myView.findViewById(R.id.LambdaChartRow);
-        ActuatorRow = (GraphRow)myView.findViewById(R.id.ActuatorChartRow);
-        TemperatureRow = (GraphRow)myView.findViewById(R.id.TempChartRow);
-        IgnitionTV = (TextView)myView.findViewById(R.id.IgnitionStatusValue);
-        FuelTypeTV = (TextView)myView.findViewById(R.id.FuelTypeStatusValue);
-        TempTV = (TextView)myView.findViewById(R.id.TempStatusValue);
-        RPMStatusTV = (TextView)myView.findViewById(R.id.RPMStatusValue);
-        CutOFFTV = (TextView)myView.findViewById(R.id.CutOFFValue);
+        RPMRow = (GraphRow) myView.findViewById(R.id.RPMChartRow);
+        TPSRow = (GraphRow) myView.findViewById(R.id.TPSChartRow);
+        LambdaRow = (GraphRow) myView.findViewById(R.id.LambdaChartRow);
+        ActuatorRow = (GraphRow) myView.findViewById(R.id.ActuatorChartRow);
+        TemperatureRow = (GraphRow) myView.findViewById(R.id.TempChartRow);
+        IgnitionTV = (TextView) myView.findViewById(R.id.IgnitionStatusValue);
+        FuelTypeTV = (TextView) myView.findViewById(R.id.FuelTypeStatusValue);
+        TempTV = (TextView) myView.findViewById(R.id.TempStatusValue);
+        RPMStatusTV = (TextView) myView.findViewById(R.id.RPMStatusValue);
+        CutOFFTV = (TextView) myView.findViewById(R.id.CutOFFValue);
         LayoutInflater ownInflater = (LayoutInflater) getActivity().
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewGroup parent = ActuatorRow.getInjectHiddenView();
         ownInflater.inflate(R.layout.actual_param_tab_actuator_hidden, parent);
         parent = TemperatureRow.getInjectHiddenView();
         ownInflater.inflate(R.layout.actual_param_tab_temp_hidden, parent);
-        TimeSpendOnBenzin = (TextView)myView.findViewById(R.id.ActualParamSpendOnBenzinValue);
+        TimeSpendOnBenzin = (TextView) myView.findViewById(R.id.ActualParamSpendOnBenzinValue);
         // TODO: Make this values depends from Settings.
         ViewGroup TPSVisible = TPSRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_tps_visible, TPSVisible);
-        TpsView = (TPSView)myView.findViewById(R.id.TPSView);
+        TpsView = (TPSView) myView.findViewById(R.id.TPSView);
         ViewGroup LambdaVisible = LambdaRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_lambda_visible, LambdaVisible);
-        lambdaView = (LambdaView)myView.findViewById(R.id.LambdaView);
+        lambdaView = (LambdaView) myView.findViewById(R.id.LambdaView);
         ViewGroup RPMVisible = RPMRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_rpm_visible, RPMVisible);
         rpmView = (RPMView) myView.findViewById(R.id.RPMView);
-        RPMRow.CreateRenderer(7000,0,300,0);
-        TPSRow.CreateRenderer(5,300);
-        LambdaRow.CreateRenderer(1,-1,300,0);
-        ActuatorRow.CreateRenderer(150,300);
-        TemperatureRow.CreateRenderer(80,0,5000,0);
+        RPMRow.CreateRenderer(7000, 0, 300, 0);
+        TPSRow.CreateRenderer(5, 300);
+        LambdaRow.CreateRenderer(1, -1, 300, 0);
+        ActuatorRow.CreateRenderer(150, 300);
+        TemperatureRow.CreateRenderer(80, 0, 5000, 0);
         return v;
     }
 
     private int getTpsFillColor(int rawVal) {
-        switch(rawVal)
-        {
+        switch (rawVal) {
             case 0:
                 return 0;
             case 1:
@@ -101,8 +109,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     }
 
     private int getLambdaColor(int rawVal) {
-        switch (rawVal)
-        {
+        switch (rawVal) {
             case 1:
                 return LambdaGreenColor;
             case 4:
@@ -139,7 +146,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
-                        TemperatureRow.SetAdditionalValueText("ON:"+
+                        TemperatureRow.SetAdditionalValueText("ON:" +
                                 String.valueOf(actualSettings.LPGOnTemperature) + " °C");
                         TemperatureRow.AddPoint(dtn.ActualTemp);
                         if (dtn.Ignition) {
@@ -202,8 +209,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                                 diff = 0;
                             TimeSpendOnBenzin.setText(DateUtils.formatElapsedTime(diff));
                         }
-                    }
-                    catch(NullPointerException ex) {
+                    } catch (NullPointerException ex) {
                         // TODO: This is a hack. After rotating screen, elements are NULL.
                         // Beside null-checking of everything, now it just quits this frame.
                         // However i think there must be better solution.

@@ -33,7 +33,7 @@ public class KMEDataActual extends KMEFrame {
             dataActual.Lambda = GetVoltage(array[2]);
             dataActual.Actuator = array[3];
             dataActual.PWA = array[4];
-            dataActual.RPM = GetRPM(array[6]<<8 | array[5]);
+            dataActual.RPM = GetRPM(array[6] << 8 | array[5]);
 
             dataActual.LambdaColor = BitUtils.GetMaskedBytes(array[7], 7);
             dataActual.Ignition = BitUtils.BitIsSet(array[7], 8);

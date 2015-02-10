@@ -38,6 +38,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+        assert v != null;
         Button registrationChangeBtn = (Button) v.findViewById(R.id.ChangeRegPlateBtn);
         Button installationDateChangeBtn = (Button) v.findViewById(R.id.ChangeInstallDateBtn);
         registrationChangeBtn.setOnClickListener(new View.OnClickListener() {

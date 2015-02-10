@@ -18,13 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
-    private Spinner LambdaNeutralPointSpinner;
     private Spinner LambdaTypeSpinner;
     private Spinner LambdaDelaySpinner;
     private Spinner LambdaEmulationHTimeSpinner;
     private Spinner LambdaEmulationLTimeSpinner;
-    private Spinner IgnitionTypeSpinner;
-    private Spinner GasONRPMSpinner;
     private Spinner SwitchOnSpinner;
     private Spinner TPSTypeSpinner;
     private Spinner TPSInertial;
@@ -41,58 +38,58 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         LambdaTypeSpinner = (Spinner) myView.findViewById(R.id.LambdaTypeSpinner);
-        LambdaNeutralPointSpinner = (Spinner) myView.findViewById(R.id.LambdaNeutralPointSpinner);
+        Spinner lambdaNeutralPointSpinner = (Spinner) myView.findViewById(R.id.LambdaNeutralPointSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 myView.getContext(),
                 R.array.lambda_neutral_point_low,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        LambdaNeutralPointSpinner.setAdapter(adapter);
+        lambdaNeutralPointSpinner.setAdapter(adapter);
 
         LambdaDelaySpinner = (Spinner) myView.findViewById(R.id.LambdaDelaySpinner);
-        List<String> stringi = new ArrayList<String>();
+        List<String> stringi = new ArrayList<>();
         for (int i = 0; i < 255; i++)
             stringi.add(String.valueOf(i));
-        ArrayAdapter<String> adapterDelayTime = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapterDelayTime = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, stringi);
         adapterDelayTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         LambdaDelaySpinner.setAdapter(adapterDelayTime);
 
         LambdaEmulationHTimeSpinner = (Spinner) myView.findViewById(R.id.LambdaEmulationHTimeSpinner);
-        List<String> HTimeSpinnerStringlist = new ArrayList<String>();
+        List<String> HTimeSpinnerStringlist = new ArrayList<>();
         for (float f = 0.025f; f < 6.375; f += 0.025)
             HTimeSpinnerStringlist.add(String.valueOf(f));
-        ArrayAdapter<String> adapterHTime = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapterHTime = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, HTimeSpinnerStringlist);
         adapterDelayTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         LambdaEmulationHTimeSpinner.setAdapter(adapterHTime);
 
         LambdaEmulationLTimeSpinner = (Spinner) myView.findViewById(R.id.LambdaEmulationLTimeSpinner);
-        ArrayAdapter<String> adapterLTime = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapterLTime = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, HTimeSpinnerStringlist);
         adapterDelayTime.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         LambdaEmulationLTimeSpinner.setAdapter(adapterLTime);
 
-        IgnitionTypeSpinner = (Spinner) myView.findViewById(R.id.IgnitionTypeSpinner);
+        Spinner ignitionTypeSpinner = (Spinner) myView.findViewById(R.id.IgnitionTypeSpinner);
         ArrayAdapter<CharSequence> ignitionTypeAdapter = ArrayAdapter.createFromResource(
                 myView.getContext(),
                 R.array.ignition_type,
                 android.R.layout.simple_spinner_item);
         ignitionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        IgnitionTypeSpinner.setAdapter(ignitionTypeAdapter);
+        ignitionTypeSpinner.setAdapter(ignitionTypeAdapter);
 
-        GasONRPMSpinner = (Spinner) myView.findViewById(R.id.GasONRPMSpinner);
-        List<String> GasOnRPMStringlist = new ArrayList<String>();
+        Spinner gasONRPMSpinner = (Spinner) myView.findViewById(R.id.GasONRPMSpinner);
+        List<String> GasOnRPMStringlist = new ArrayList<>();
         for (int i = 1500; i < 3500; i += 100)
             GasOnRPMStringlist.add(String.valueOf(i));
-        ArrayAdapter<String> adapterGasOnRPM = new ArrayAdapter<String>(
+        ArrayAdapter<String> adapterGasOnRPM = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, GasOnRPMStringlist);
         adapterGasOnRPM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        GasONRPMSpinner.setAdapter(adapterGasOnRPM);
+        gasONRPMSpinner.setAdapter(adapterGasOnRPM);
 
         SwitchOnSpinner = (Spinner) myView.findViewById(R.id.SwitchOnSpinner);
         ArrayAdapter<CharSequence> switchOnAdapter = ArrayAdapter.createFromResource(
@@ -111,10 +108,10 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         TPSTypeSpinner.setAdapter(TPStypeAdapter);
 
         TPSInertial = (Spinner) myView.findViewById(R.id.TPSInertial);
-        List<String> TPSInertialSpinnerStringlist = new ArrayList<String>();
+        List<String> TPSInertialSpinnerStringlist = new ArrayList<>();
         for (float f = 0.04f; f < 0.4; f += 0.02)
             TPSInertialSpinnerStringlist.add(String.valueOf(f));
-        ArrayAdapter<String> TPSInertialAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> TPSInertialAdapter = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, TPSInertialSpinnerStringlist);
         TPSInertialAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,10 +119,10 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
 
         EngGasOnCheckbox = (CheckBox) myView.findViewById(R.id.EngGasStartCheckbox);
         EngGasStartSpinner = (Spinner) myView.findViewById(R.id.EngGasStartSpinner);
-        List<String> EngGasStartSpinnerStringlist = new ArrayList<String>();
+        List<String> EngGasStartSpinnerStringlist = new ArrayList<>();
         for (float f = 0.1f; f < 5.0f; f += 0.1)
             EngGasStartSpinnerStringlist.add(String.valueOf(f));
-        ArrayAdapter<String> EngGasStartlAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> EngGasStartlAdapter = new ArrayAdapter<>(
                 myView.getContext(),
                 android.R.layout.simple_spinner_dropdown_item, EngGasStartSpinnerStringlist);
         EngGasStartlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

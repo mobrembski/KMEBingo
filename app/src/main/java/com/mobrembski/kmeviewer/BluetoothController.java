@@ -15,16 +15,16 @@ import java.util.Observable;
 import java.util.UUID;
 
 public class BluetoothController extends Observable {
-    public Time StartTime = new Time();
     private static boolean connected = false;
-    private static volatile Object lock = new Object();
+    private static final Object lock = new Object();
     private static volatile BluetoothController instance;
     //private final UUID SERIAL_UUID = UUID
     //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     private final UUID SERIAL_UUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
-    private ArrayList<ControllerEvent> connectionListeners = new ArrayList<ControllerEvent>();
-    private BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
+    public final Time StartTime = new Time();
+    private final ArrayList<ControllerEvent> connectionListeners = new ArrayList<>();
+    private final BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
     private BluetoothDevice device = null;
     private BluetoothSocket socket = null;
     private InputStream inStream;
@@ -125,7 +125,7 @@ public class BluetoothController extends Observable {
                 } catch (IOException e) {
                     try {
                         socket.close();
-                        if(cex != null)
+                        if (cex != null)
                             cex.onConnectionException();
                     } catch (IOException e2) {
                         e2.printStackTrace();
@@ -149,9 +149,7 @@ public class BluetoothController extends Observable {
                 connectionThread.join();
             if (socket != null)
                 socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -161,7 +159,7 @@ public class BluetoothController extends Observable {
             if (connected && outStream != null && inStream != null) {
                 outStream.write(frame.askFrame);
                 outStream.flush();
-                int avail = 0;
+                int avail;
                 do {
                     if (!connected) {
                         return new int[frame.answerSize];
@@ -185,9 +183,7 @@ public class BluetoothController extends Observable {
                     packetsError++;
                 return values;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -207,16 +203,6 @@ public class BluetoothController extends Observable {
 
     public void SetDevice(BluetoothDevice device) {
         this.device = device;
-    }
-
-    @Override
-    public synchronized boolean hasChanged() {
-        return super.hasChanged();
-    }
-
-    @Override
-    public synchronized void notifyObservers() {
-        super.notifyObservers();
     }
 
 }

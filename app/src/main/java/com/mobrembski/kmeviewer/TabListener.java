@@ -7,7 +7,7 @@ import android.app.FragmentTransaction;
 import com.mobrembski.kmeviewer.Tabs.KMEViewerTab;
 
 public class TabListener implements ActionBar.TabListener {
-    private KMEViewerTab fragment;
+    private final KMEViewerTab fragment;
 
     public TabListener(KMEViewerTab fragment) {
         this.fragment = fragment;
@@ -15,7 +15,7 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        ft.replace(R.id.activity_main, fragment);
+        ft.replace(android.R.id.content, fragment);
         BluetoothController.getInstance().AddOnConnectionListener(fragment);
         fragment.onConnectionStarting();
     }

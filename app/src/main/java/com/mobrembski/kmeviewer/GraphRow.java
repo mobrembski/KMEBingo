@@ -22,29 +22,25 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 public class GraphRow extends LinearLayout {
-    Animation slideDown;
-    Animation slideUp;
-    GraphicalView mChartView;
-    ImageView arrowImg;
-    LinearLayout hiddenLayout;
-    RelativeLayout chartLayout;
-    TextView DescriptionLabel;
-    TextView DescriptionValue;
-    TextView DescriptionAdditionalValue;
-    XYSeries series;
-    XYSeriesRenderer renderer;
-    XYMultipleSeriesRenderer mRenderer;
-    double YMax = 0;
-    double XMax = 0;
-    int chartPos = 0;
-    boolean isAnimating = false;
-    boolean graphEnabled = false;
+    private final Animation slideDown;
+    private final Animation slideUp;
+    private GraphicalView mChartView;
+    private final ImageView arrowImg;
+    private final LinearLayout hiddenLayout;
+    private final RelativeLayout chartLayout;
+    private final TextView DescriptionValue;
+    private final TextView DescriptionAdditionalValue;
+    private XYSeries series;
+    private double XMax = 0;
+    private int chartPos = 0;
+    private boolean isAnimating = false;
+    private boolean graphEnabled = false;
 
     public GraphRow(Context context, AttributeSet set) {
         super(context, set);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.graph_row_layout, this);
-        DescriptionLabel = (TextView) findViewById(R.id.GraphRowDescription);
+        TextView descriptionLabel = (TextView) findViewById(R.id.GraphRowDescription);
         DescriptionValue = (TextView) findViewById(R.id.GraphRowValue);
         DescriptionAdditionalValue = (TextView) findViewById(R.id.GraphRowAdditionalValue);
         TypedArray attributesArray = context.obtainStyledAttributes(set, R.styleable.GraphRow);
@@ -53,13 +49,13 @@ public class GraphRow extends LinearLayout {
             int attr = attributesArray.getIndex(i);
             switch (attr) {
                 case R.styleable.GraphRow_DescriptionText:
-                    DescriptionLabel.setText(attributesArray.getString(attr));
+                    descriptionLabel.setText(attributesArray.getString(attr));
                     break;
                 case R.styleable.GraphRow_DescriptionColor:
-                    DescriptionLabel.setTextColor(attributesArray.getColor(attr, Color.BLACK));
+                    descriptionLabel.setTextColor(attributesArray.getColor(attr, Color.BLACK));
                     break;
                 case R.styleable.GraphRow_DescriptionTextSize:
-                    DescriptionLabel.setTextSize(attributesArray.getDimension(attr, 15));
+                    descriptionLabel.setTextSize(attributesArray.getDimension(attr, 15));
                     break;
                 case R.styleable.GraphRow_DescriptionValueTextSize:
                     DescriptionValue.setTextSize(attributesArray.getDimension(attr, 15));
@@ -80,9 +76,9 @@ public class GraphRow extends LinearLayout {
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(graphEnabled) {
+                if (graphEnabled) {
                     if (hiddenLayout.getVisibility() != View.VISIBLE) {
-                        hiddenLayout.setVisibility(hiddenLayout.VISIBLE);
+                        hiddenLayout.setVisibility(View.VISIBLE);
                         hiddenLayout.startAnimation(slideDown);
                     } else
                         hiddenLayout.startAnimation(slideUp);
@@ -139,18 +135,18 @@ public class GraphRow extends LinearLayout {
     }
 
     public void CreateRenderer(double YMax, double XMax) {
-        CreateRenderer(YMax,0,XMax,0);
+        CreateRenderer(YMax, 0, XMax, 0);
     }
 
     public void CreateRenderer(double YMax, double YMin, double XMax, double XMin) {
         series = new XYSeries("");
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(series);
-        renderer = new XYSeriesRenderer();
+        XYSeriesRenderer renderer = new XYSeriesRenderer();
         renderer.setLineWidth(2);
         renderer.setColor(Color.RED);
         renderer.setDisplayBoundingPoints(false);
-        mRenderer = new XYMultipleSeriesRenderer();
+        XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
         mRenderer.addSeriesRenderer(renderer);
         mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
         mRenderer.setPanEnabled(false, false);
@@ -169,7 +165,6 @@ public class GraphRow extends LinearLayout {
         mChartView.setClickable(false);
         mChartView.setBackgroundColor(Color.WHITE);
         chartLayout.addView(mChartView);
-        this.YMax = YMax;
         this.XMax = XMax;
         graphEnabled = true;
         arrowImg.setVisibility(VISIBLE);
@@ -199,9 +194,7 @@ public class GraphRow extends LinearLayout {
     }
 
     public boolean GetHiddenVisibility() {
-        if (!graphEnabled)
-            return false;
-        return (hiddenLayout.getVisibility()== VISIBLE);
+        return graphEnabled && (hiddenLayout.getVisibility() == VISIBLE);
     }
 
 }

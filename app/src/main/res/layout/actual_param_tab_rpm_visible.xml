@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.mobrembski.kmeviewer.RPMView
+        android:id="@+id/RPMView"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:id="@+id/RPMView"
         app:RPMViewBorderWidth="3dp"
-        app:RPMViewRectPadding="1dp"
         app:RPMViewMarkerTextPadding="10dp"
-        app:RPMViewMarkerTextSize="8dp"/>
+        app:RPMViewMarkerTextSize="8dp"
+        app:RPMViewRectPadding="1dp" />
 
 </LinearLayout>

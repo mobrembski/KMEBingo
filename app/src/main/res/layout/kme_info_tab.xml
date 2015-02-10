@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -114,14 +114,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change registration"
-                android:textColor="@color/ButtonText"/>
+                android:textColor="@color/ButtonText" />
 
             <Button
                 android:id="@+id/ChangeInstallDateBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change installation date"
-                android:textColor="@color/ButtonText"/>
+                android:textColor="@color/ButtonText" />
         </LinearLayout>
     </ScrollView>
 

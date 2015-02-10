@@ -8,18 +8,18 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class LambdaView extends View {
-    final Paint border_paint = new Paint();
-    final Paint line_paint = new Paint();
-    int borderWidth;
-    int rectPadding;
-    int rectSize;
-    int rectColor;
-    int viewWidth;
-    int viewHeight;
-    int rectWidth;
-    int startPoint = 10;
-    float oldValue = 0;
-    int maxPoints;
+    private final Paint border_paint = new Paint();
+    private final Paint line_paint = new Paint();
+    private int borderWidth;
+    private int rectPadding;
+    private int rectSize;
+    private int rectColor;
+    private int viewWidth;
+    private int viewHeight;
+    private int rectWidth;
+    private int startPoint = 10;
+    private float oldValue = 0;
+    private int maxPoints;
 
     public LambdaView(Context ctx, AttributeSet set) {
         super(ctx, set);

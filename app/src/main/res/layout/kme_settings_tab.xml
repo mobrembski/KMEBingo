@@ -6,7 +6,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/background_dark">
 
         <TableLayout
@@ -23,6 +23,7 @@
                     style="@style/SettingsRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Lambda type:" />
 
@@ -41,6 +42,7 @@
                     style="@style/SettingsRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Lambda neutral point:" />
 
@@ -58,6 +60,7 @@
                     style="@style/SettingsRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Lambda delay:" />
 
@@ -75,6 +78,7 @@
                     style="@style/SettingsRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Lambda emul type:" />
 
@@ -92,6 +96,7 @@
                     style="@style/SettingsRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:text="Lambda emul time:" />
             </TableRow>
@@ -104,15 +109,15 @@
                     android:id="@+id/LambdaEmulationHTimeSpinner"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:gravity="left" />
+                    android:layout_gravity="start"
+                    android:gravity="start" />
 
                 <Spinner
                     android:id="@+id/LambdaEmulationLTimeSpinner"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right" />
+                    android:layout_gravity="end"
+                    android:gravity="end" />
             </TableRow>
 
             <TableRow

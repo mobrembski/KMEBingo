@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/GraphRowDescription"
@@ -30,21 +31,20 @@
         <TextView
             android:id="@+id/GraphRowValue"
             style="@style/GraphRowValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:gravity="right"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:gravity="end" />
 
         <TextView
             android:id="@+id/GraphRowAdditionalValue"
             style="@style/GraphRowAdditionalValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:gravity="right"
-            android:visibility="gone"/>
+            android:gravity="end"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -52,7 +52,7 @@
         android:id="@+id/injectVisibleLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
     <LinearLayout
         android:id="@+id/HiddenLayout"
@@ -65,11 +65,11 @@
             android:id="@+id/injectHiddenLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
         <RelativeLayout
             android:id="@+id/chartLayout"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="200dp" />
     </LinearLayout>
 </LinearLayout>

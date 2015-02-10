@@ -2,6 +2,7 @@ package com.mobrembski.kmeviewer.SerialFrames;
 
 import com.mobrembski.kmeviewer.BitUtils;
 
+@SuppressWarnings("UnusedDeclaration")
 public class KMEDataSettings extends KMEFrame {
     public int LambdaType;
     public int TPSType;

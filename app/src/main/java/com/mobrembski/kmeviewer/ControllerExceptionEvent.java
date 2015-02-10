@@ -1,5 +1,5 @@
 package com.mobrembski.kmeviewer;
 
-public interface ControllerExceptionEvent {
+interface ControllerExceptionEvent {
     public void onConnectionException();
 }
