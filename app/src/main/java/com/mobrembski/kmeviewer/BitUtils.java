@@ -60,6 +60,35 @@ public class BitUtils {
         return 50 * RPMAccuracy * (
                 (15000064 / rawVal + 25 * RPMAccuracy) / (50 * RPMAccuracy));
     }
+
+    public static char[] GetRawDate(int year, int month, int day) {
+        char ret[] = new char[2];
+        month = month;
+        day = day - 1;
+        year = year - 2000;
+        int monthHigh = GetMaskedBytes(month, 8) << 4;
+        int monthLow = GetMaskedBytes(month, 7) << 5;
+        ret[0] = (char) (monthLow | day);
+        ret[1] = (char) (monthHigh | year);
+        return ret;
+    }
+
+    public static byte[] packFrame(char id, char val) {
+        byte[] frameByte = new byte[4];
+        frameByte[0] = 0x65;
+        frameByte[1] = (byte) id;
+        frameByte[2] = (byte) val;
+        // This zero here is just for simplyfing CRC
+        // generation algorithm
+        frameByte[3] = 0;
+        frameByte[3] = (byte) BluetoothController.getCRC(frameByte);
+        return frameByte;
+    }
+
+    public static byte[] packFrame(int id, int val) {
+        return packFrame((char) id, (char) val);
+    }
+
 }
 
 

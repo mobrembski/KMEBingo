@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.mobrembski.kmeviewer.BitUtils;
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.R;
@@ -50,21 +51,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         installationDateChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dpd = new DatePickerDialog(view.getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                            }
-                        }, mYear, mMonth, mDay);
-                dpd.show();
+                InstallationDateChangeOpenDialog(view);
             }
         });
         return v;
@@ -143,22 +130,57 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 .show();
     }
 
+    private void InstallationDateChangeOpenDialog(View v) {
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        onConnectionStopping();
+        DatePickerDialog dpd = new DatePickerDialog(v.getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int month, int day) {
+                        changeInstallationDate(year, month, day);
+                        onConnectionStarting();
+
+                    }
+                }, mYear, mMonth, mDay);
+        dpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                onConnectionStarting();
+            }
+        });
+        dpd.show();
+    }
+
+
     private void changeRegistrationPlate(String newPlate) {
         char tab[] = newPlate.toCharArray();
         for (int i = 0; i < tab.length; i++) {
-            byte[] frameByte = new byte[4];
-            frameByte[0] = 0x65;
-            frameByte[1] = (byte) (0x2B + i);
-            frameByte[2] = (byte) tab[i];
-            frameByte[3] = 0;
-            frameByte[3] = (byte) BluetoothController.getCRC(frameByte);
             try {
-                KMEFrame tmp = new KMEFrame(frameByte);
-                BluetoothController.getInstance().askForFrame(tmp);
+                BluetoothController.getInstance().askForFrame(new KMEFrame(
+                        BitUtils.packFrame(0x2B + i, tab[i])));
                 Thread.sleep(250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void changeInstallationDate(int year, int month, int day) {
+        char tab[] = BitUtils.GetRawDate(year, month, day);
+        try {
+            KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]));
+            KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]));
+            BluetoothController.getInstance().askForFrame(DateFrame1);
+            Thread.sleep(250);
+            BluetoothController.getInstance().askForFrame(DateFrame2);
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
