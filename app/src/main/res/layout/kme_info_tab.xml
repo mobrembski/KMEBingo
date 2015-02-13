@@ -24,6 +24,24 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Controller Type:" />
+
+                <TextView
+                    android:id="@+id/ControllerTypeValue"
+                    style="@style/InfoRowParameterValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/InfoRowParameterName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Version:" />
 
                 <TextView

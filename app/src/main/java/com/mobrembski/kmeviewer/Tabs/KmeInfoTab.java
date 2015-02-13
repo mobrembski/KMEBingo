@@ -64,7 +64,12 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView tv = (TextView) myView.findViewById(R.id.VersionValue);
+                    TextView tv = (TextView) myView.findViewById(R.id.ControllerTypeValue);
+                    if (ident.ControllerType == KMEDataIdent.BingoType.BingoM)
+                        tv.setText("Bingo M");
+                    else
+                        tv.setText("Bingo S");
+                    tv = (TextView) myView.findViewById(R.id.VersionValue);
                     tv.setText(ident.VersionString);
                     tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
                     tv.setText(String.valueOf(dtn.hoursOnGas + "h " + dtn.minutesOnGas + "min"));
