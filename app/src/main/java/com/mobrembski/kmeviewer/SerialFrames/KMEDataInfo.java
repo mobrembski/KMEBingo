@@ -9,8 +9,10 @@ public class KMEDataInfo extends KMEFrame {
     public int SensorLevel3;
     public int SensorLevel4;
     public int LevelIndicatorOn;
-    public int byte6;
-    public int byte7;
+    public int ActuatorSpeedIdleClosingCorrection;
+    public int ActuatorSpeedIdleOpeningCorrection;
+    public int ActuatorSpeedLoadClosingCorrection;
+    public int ActuatorSpeedLoadOpeningCorrection;
     public int minutesOnGas;
     public int hoursOnGas;
     public int MonthOfInstallation;
@@ -31,8 +33,10 @@ public class KMEDataInfo extends KMEFrame {
             dataInfo.SensorLevel3 = array[3];
             dataInfo.SensorLevel4 = array[4];
             dataInfo.LevelIndicatorOn = BitUtils.GetMaskedBytes(array[5], 7);
-            dataInfo.byte6 = array[6];
-            dataInfo.byte7 = array[7];
+            dataInfo.ActuatorSpeedIdleClosingCorrection = BitUtils.GetMaskedBytes(array[6], 240);
+            dataInfo.ActuatorSpeedIdleOpeningCorrection = BitUtils.GetMaskedBytes(array[6], 15);
+            dataInfo.ActuatorSpeedLoadClosingCorrection = BitUtils.GetMaskedBytes(array[7], 240);
+            dataInfo.ActuatorSpeedLoadClosingCorrection = BitUtils.GetMaskedBytes(array[7], 15);
             dataInfo.minutesOnGas = array[8];
             dataInfo.hoursOnGas = array[9] + 256 * array[10];
 
