@@ -161,13 +161,12 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         dpd.show();
     }
 
-
     private void changeRegistrationPlate(String newPlate) {
         char tab[] = newPlate.toCharArray();
         for (int i = 0; i < tab.length; i++) {
             try {
                 BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x2B + i, tab[i])));
+                        BitUtils.packFrame(0x2B + i, tab[i]), 2));
                 Thread.sleep(250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -178,8 +177,8 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private void changeInstallationDate(int year, int month, int day) {
         char tab[] = BitUtils.GetRawDate(year, month, day);
         try {
-            KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]));
-            KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]));
+            KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]), 2);
+            KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]), 2);
             BluetoothController.getInstance().askForFrame(DateFrame1);
             Thread.sleep(250);
             BluetoothController.getInstance().askForFrame(DateFrame2);

@@ -12,4 +12,9 @@ public class KMEFrame {
         askFrame = customCommandBytes;
         answerSize = 0;
     }
+
+    public KMEFrame(byte[] customCommandBytes, int expectedAnswerSize) {
+        askFrame = customCommandBytes;
+        answerSize = expectedAnswerSize;
+    }
 }
