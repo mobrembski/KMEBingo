@@ -3,7 +3,9 @@ package com.mobrembski.kmeviewer.Tabs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Gravity;
@@ -76,7 +78,8 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                     tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
                     tv.setText(dtn.RegistrationPlate);
                     tv = (TextView) myView.findViewById(R.id.DateOfInstallationValue);
-                    tv.setText(dtn.DayOfInstallation + "-" + dtn.MonthOfInstallation + "-" + dtn.YearOfInstallation);
+                    tv.setText(dtn.DayOfInstallation + "-" + dtn.MonthOfInstallation + "-" +
+                            dtn.YearOfInstallation);
                     tv = (TextView) myView.findViewById(R.id.TankLevelValue);
                     switch (dtn.LevelIndicatorOn) {
                         case 4:
@@ -121,14 +124,16 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 .setMessage("Enter registration number")
                 .setView(inputText)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String newRegNumber = inputText.getText().toString();
-                        changeRegistrationPlate(newRegNumber);
-                        onConnectionStarting();
+                        //changeRegistrationTask will handle starting again asking thread
+                        new changeRegistrationTask().execute(newRegNumber);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         onConnectionStarting();
                     }
                 })
@@ -161,30 +166,50 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         dpd.show();
     }
 
-    private void changeRegistrationPlate(String newPlate) {
-        char tab[] = newPlate.toCharArray();
-        for (int i = 0; i < tab.length; i++) {
-            try {
-                BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x2B + i, tab[i]), 2));
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void changeInstallationDate(int year, int month, int day) {
         char tab[] = BitUtils.GetRawDate(year, month, day);
-        try {
-            KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]), 2);
-            KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]), 2);
-            BluetoothController.getInstance().askForFrame(DateFrame1);
-            Thread.sleep(250);
-            BluetoothController.getInstance().askForFrame(DateFrame2);
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]), 2);
+        KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]), 2);
+        BluetoothController.getInstance().askForFrame(DateFrame1);
+        BluetoothController.getInstance().askForFrame(DateFrame2);
+    }
+
+    private class changeRegistrationTask extends AsyncTask<String, Integer, Void> {
+        ProgressDialog waitDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            onConnectionStopping();
+            waitDialog = new ProgressDialog(myView.getContext());
+            waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            waitDialog.setMax(7);
+            waitDialog.setMessage("Changing..");
+            waitDialog.setTitle("Registration change...");
+            waitDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            char tab[] = params[0].toCharArray();
+            for (int i = 0; i < tab.length; i++) {
+                BluetoothController.getInstance().askForFrame(new KMEFrame(
+                        BitUtils.packFrame(0x2B + i, tab[i]), 2));
+                publishProgress(i + 1);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void notUsed) {
+            super.onPreExecute();
+            waitDialog.dismiss();
+            onConnectionStarting();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            this.waitDialog.setProgress(progress[0]);
         }
     }
 }
