@@ -23,6 +23,8 @@ import com.mobrembski.kmeviewer.TPSView;
 import java.util.concurrent.TimeUnit;
 
 public class ActualParametersTab extends KMEViewerTab implements ControllerEvent {
+    private final Time TimeOnBenzinStart = new Time();
+    private final Time TimeOnBenzinEnd = new Time();
     private GraphRow TPSRow;
     private GraphRow LambdaRow;
     private GraphRow ActuatorRow;
@@ -34,8 +36,6 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     private TextView RPMStatusTV;
     private TextView CutOFFTV;
     private TextView TimeSpendOnBenzin;
-    private final Time TimeOnBenzinStart = new Time();
-    private final Time TimeOnBenzinEnd = new Time();
     private boolean TimeOnBenzinChecked = false;
     private TPSView TpsView;
     private LambdaView lambdaView;
@@ -122,7 +122,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     public void packetReceived(final int[] frame) {
         Activity main = getActivity();
         if (main != null && frame != null) {
-            final KMEDataActual dtn = KMEDataActual.GetDataFromByteArray(frame);
+            final KMEDataActual dtn = new KMEDataActual(frame);
             final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
             final int LambdaColor = getLambdaColor(dtn.LambdaColor);
             final float TPSPercentage = (dtn.TPS / 5.0f) * 100;
@@ -221,9 +221,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
 
     @Override
     public void onConnectionStarting() {
-        actualSettings = KMEDataSettings.GetDataFromByteArray(
-                BluetoothController.getInstance()
-                        .askForFrame(new KMEDataSettings()));
+        actualSettings = new KMEDataSettings(BluetoothController.getInstance()
+                .askForFrame(new KMEDataSettings()));
         super.onConnectionStarting();
         TimeOnBenzinStart.setToNow();
     }

@@ -138,7 +138,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    KMEDataSettings ds = KMEDataSettings.GetDataFromByteArray(frame);
+                    KMEDataSettings ds = new KMEDataSettings(frame);
                     LambdaTypeSpinner.setSelection(ds.LambdaType);
                     //LambdaNeutralPointSpinner.setSelection(ds.LambdaNeutralPoint-1);
                     LambdaDelaySpinner.setSelection(ds.LambdaDelay);

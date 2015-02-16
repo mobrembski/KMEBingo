@@ -57,6 +57,7 @@ public class RPMView extends View {
                     break;
             }
         }
+        attributesArray.recycle();
         int rectColor = ctx.getResources().getColor(R.color.RPMRect);
         int borderColor = ctx.getResources().getColor(R.color.RPMBorder);
         markerLowColor = ctx.getResources().getColor(R.color.RPMMarkerLow);

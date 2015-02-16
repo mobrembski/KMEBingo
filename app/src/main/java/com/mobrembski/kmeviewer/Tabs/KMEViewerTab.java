@@ -11,12 +11,11 @@ import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 
 public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
+    protected final int askingDelay = 100;
     protected int layoutId;
     protected View myView = null;
     protected Thread askingThread = null;
     protected boolean askingThreadRunning = false;
-    protected final int askingDelay = 100;
-
     protected KMEFrame askFrame = null;
 
     private final Runnable askingRunnable = new Runnable() {

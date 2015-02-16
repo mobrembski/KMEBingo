@@ -34,6 +34,7 @@ public class TPSView extends View {
                     break;
             }
         }
+        attributesArray.recycle();
         colorTab[0] = ctx.getResources().getColor(R.color.TPSRect1);
         colorTab[1] = ctx.getResources().getColor(R.color.TPSRect2);
         colorTab[2] = ctx.getResources().getColor(R.color.TPSRect3);

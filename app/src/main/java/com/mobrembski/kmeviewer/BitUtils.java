@@ -63,13 +63,20 @@ public class BitUtils {
 
     public static char[] GetRawDate(int year, int month, int day) {
         char ret[] = new char[2];
-        month = month;
         day = day - 1;
         year = year - 2000;
         int monthHigh = GetMaskedBytes(month, 8) << 4;
         int monthLow = GetMaskedBytes(month, 7) << 5;
         ret[0] = (char) (monthLow | day);
         ret[1] = (char) (monthHigh | year);
+        return ret;
+    }
+
+    public static char[] GetRawRunningCounter(int hours, int min) {
+        char ret[] = new char[3];
+        ret[0] = (char) min;
+        ret[2] = (char) (hours / (char)256);
+        ret[1] = (char) ( hours - ret[2]*256);
         return ret;
     }
 

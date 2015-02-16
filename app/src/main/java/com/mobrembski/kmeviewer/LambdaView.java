@@ -42,6 +42,7 @@ public class LambdaView extends View {
                     break;
             }
         }
+        attributesArray.recycle();
         rectColor = ctx.getResources().getColor(R.color.LambdaYellow);
         line_paint.setStrokeWidth(borderWidth);
         line_paint.setStyle(Paint.Style.STROKE);

@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="@android:color/background_dark">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -126,6 +126,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/ChangeRunningCounterBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Change running time"
+                android:textColor="@color/ButtonText" />
 
             <Button
                 android:id="@+id/ChangeRegPlateBtn"
