@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import com.mobrembski.kmeviewer.BitUtils;
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.LPGSensorSensivityChangeDialog;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataIdent;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataInfo;
@@ -32,6 +32,10 @@ import java.util.Calendar;
 public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private KMEDataInfo dtn;
     private KMEDataIdent ident;
+    private Button registrationChangeBtn;
+    private Button installationDateChangeBtn;
+    private Button changeRunningTimeBtn;
+    private Button changeSensorLevelLevelsBtn;
 
     public KmeInfoTab() {
         this.layoutId = R.layout.kme_info_tab;
@@ -44,9 +48,10 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         assert v != null;
-        Button registrationChangeBtn = (Button) v.findViewById(R.id.ChangeRegPlateBtn);
-        Button installationDateChangeBtn = (Button) v.findViewById(R.id.ChangeInstallDateBtn);
-        Button changeRunningTimeBtn = (Button) v.findViewById(R.id.ChangeRunningCounterBtn);
+        registrationChangeBtn = (Button) v.findViewById(R.id.ChangeRegPlateBtn);
+        installationDateChangeBtn = (Button) v.findViewById(R.id.ChangeInstallDateBtn);
+        changeRunningTimeBtn = (Button) v.findViewById(R.id.ChangeRunningCounterBtn);
+        changeSensorLevelLevelsBtn = (Button) v.findViewById(R.id.ChangeSensorLevelBtn);
         registrationChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +68,13 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
             @Override
             public void onClick(View view) {
                 changeRunningCounterBtnClick(view);
+            }
+        });
+        changeSensorLevelLevelsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LPGSensorSensivityChangeDialog dialog = new LPGSensorSensivityChangeDialog(getActivity());
+                dialog.show();
             }
         });
         return v;
@@ -121,15 +133,19 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         super.onConnectionStarting();
     }
 
+    @Override
+    public void onConnectionStopping() {
+        super.onConnectionStopping();
+    }
+
     private void changeRunningCounterBtnClick(View v) {
-        LayoutInflater inflater = (LayoutInflater)
-                v.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View npView = inflater.inflate(R.layout.running_counter_change_dialog, null);
+        View npView = View.inflate(v.getContext(), R.layout.running_counter_change_dialog, null);
         final NumberPicker hoursPicker = (NumberPicker) npView.findViewById(R.id.RunningHoursPicker);
         hoursPicker.setMaxValue(65535);
         hoursPicker.setMinValue(0);
         hoursPicker.setValue(dtn.hoursOnGas);
-        final NumberPicker minutesPicker = (NumberPicker) npView.findViewById(R.id.RunningMinutesPicker);
+        final NumberPicker minutesPicker = (NumberPicker) npView.findViewById(
+                R.id.RunningMinutesPicker);
         minutesPicker.setMaxValue(60);
         minutesPicker.setMinValue(0);
         minutesPicker.setValue(dtn.minutesOnGas);
@@ -234,7 +250,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
 
         @Override
         protected void onPostExecute(Void notUsed) {
-            super.onPreExecute();
+            super.onPostExecute(notUsed);
             waitDialog.dismiss();
             onConnectionStarting();
         }
@@ -286,7 +302,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
 
         @Override
         protected void onPostExecute(Void notUsed) {
-            super.onPreExecute();
+            super.onPostExecute(notUsed);
             waitDialog.dismiss();
             onConnectionStarting();
         }
@@ -324,7 +340,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
 
         @Override
         protected void onPostExecute(Void notUsed) {
-            super.onPreExecute();
+            super.onPostExecute(notUsed);
             waitDialog.dismiss();
             onConnectionStarting();
         }

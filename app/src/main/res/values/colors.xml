@@ -16,4 +16,6 @@
     <color name="RPMMarkerLow">#ffffff</color>
     <color name="RPMMarkerHigh">#ff0000</color>
     <color name="ButtonText">#ffffff</color>
+    <color name="IndicatorGreenON">#ff00d100</color>
+    <color name="IndicatorGreenOFF">#ff006900</color>
 </resources>
