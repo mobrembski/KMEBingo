@@ -21,22 +21,14 @@ public class LPGSensorSensivityChangeDialog extends Dialog {
                 @Override
                 public void callback(View v) {
                     // Funny, but it seems that java couldn't switch on View type
-                    if (v == level1) {
-                        BluetoothController.getInstance().askForFrame(new KMEFrame(
-                                BitUtils.packFrame(0x22, level1.getSeekbarValue()), 2));
-                    }
-                    if (v == level2) {
-                        BluetoothController.getInstance().askForFrame(new KMEFrame(
-                                BitUtils.packFrame(0x23, level2.getSeekbarValue()), 2));
-                    }
-                    if (v == level3) {
-                        BluetoothController.getInstance().askForFrame(new KMEFrame(
-                                BitUtils.packFrame(0x24, level3.getSeekbarValue()), 2));
-                    }
-                    if (v == level4) {
-                        BluetoothController.getInstance().askForFrame(new KMEFrame(
-                                BitUtils.packFrame(0x25, level4.getSeekbarValue()), 2));
-                    }
+                    if (v == level1)
+                        new changeSensivityTask().execute(1, level1.getSeekbarValue());
+                    if (v == level2)
+                        new changeSensivityTask().execute(2, level2.getSeekbarValue());
+                    if (v == level3)
+                        new changeSensivityTask().execute(3, level3.getSeekbarValue());
+                    if (v == level4)
+                        new changeSensivityTask().execute(4, level4.getSeekbarValue());
                 }
             };
     private Thread askingThread;
@@ -168,6 +160,18 @@ public class LPGSensorSensivityChangeDialog extends Dialog {
                     BitUtils.packFrame(0x24, 137), 2));
             BluetoothController.getInstance().askForFrame(new KMEFrame(
                     BitUtils.packFrame(0x25, 205), 2));
+            return null;
+        }
+
+    }
+
+    private class changeSensivityTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            // params[1] is number of seekbar. - 1 for better using (Seekbar1 will be 1, not 0 etc.)
+            BluetoothController.getInstance().askForFrame(new KMEFrame(
+                    BitUtils.packFrame(0x22 + (byte)(params[0] - 1), params[1]), 2));
             return null;
         }
 
