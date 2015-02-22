@@ -1,6 +1,7 @@
 package com.mobrembski.kmeviewer;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -24,11 +25,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends FragmentActivity implements Observer, ControllerExceptionEvent {
+public class MainActivity extends FragmentActivity implements Observer,
+        ControllerExceptionEvent, ControllerEvent {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private SharedPreferences prefs;
     private String btAddress;
+    private ProgressDialog connectProgressDialog;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,6 +96,7 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     protected void onPause() {
         BluetoothController.getInstance().Disconnect();
         BluetoothController.getInstance().deleteObserver(this);
+        BluetoothController.getInstance().RemoveOnConnectionListener(this);
         super.onPause();
     }
 
@@ -136,6 +140,9 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        connectProgressDialog = new ProgressDialog(this);
+        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        connectProgressDialog.setMessage("Connecting...");
         int selectedTab = 0;
         if (savedInstanceState != null)
             selectedTab = savedInstanceState.getInt("selected-tab");
@@ -168,12 +175,14 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
             return;
         }
+        connectProgressDialog.show();
         final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
         if (BluetoothController.getInstance().IsConnected())
             BluetoothController.getInstance().Disconnect();
         BluetoothController.getInstance().SetDevice(device);
         BluetoothController.getInstance().Connect(this);
         BluetoothController.getInstance().addObserver(this);
+        BluetoothController.getInstance().AddOnConnectionListener(this);
     }
 
     @Override
@@ -181,10 +190,23 @@ public class MainActivity extends FragmentActivity implements Observer, Controll
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if(connectProgressDialog.isShowing())
+                    connectProgressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),
                         "Cannot connect to device!", Toast.LENGTH_LONG).show();
             }
         });
 
+    }
+
+    @Override
+    public void onConnectionStopping() {
+
+    }
+
+    @Override
+    public void onConnectionStarting() {
+        if(connectProgressDialog.isShowing())
+            connectProgressDialog.dismiss();
     }
 }
