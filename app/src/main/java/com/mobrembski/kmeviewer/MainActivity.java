@@ -1,10 +1,12 @@
 package com.mobrembski.kmeviewer;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ public class MainActivity extends FragmentActivity implements Observer,
         ControllerExceptionEvent, ControllerEvent {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
+    private BluetoothAdapter btAdapter;
     private SharedPreferences prefs;
     private String btAddress;
     private ProgressDialog connectProgressDialog;
@@ -140,6 +143,7 @@ public class MainActivity extends FragmentActivity implements Observer,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CheckIfBtAdapterExist();
         connectProgressDialog = new ProgressDialog(this);
         connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         connectProgressDialog.setMessage("Connecting...");
@@ -170,19 +174,42 @@ public class MainActivity extends FragmentActivity implements Observer,
     }
 
     private void CreateAndStartBtController(String address) {
-        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+        // Device doesn't have a Bluetooth at all.
+        if (btAdapter == null)
+            return;
+        if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
             return;
         }
         connectProgressDialog.show();
-        final BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address);
+        final BluetoothDevice device = btAdapter.getRemoteDevice(address);
         if (BluetoothController.getInstance().IsConnected())
             BluetoothController.getInstance().Disconnect();
         BluetoothController.getInstance().SetDevice(device);
         BluetoothController.getInstance().Connect(this);
         BluetoothController.getInstance().addObserver(this);
         BluetoothController.getInstance().AddOnConnectionListener(this);
+    }
+
+    private void CheckIfBtAdapterExist() {
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+            alertDialogBuilder.setTitle("No BT Adapter");
+            alertDialogBuilder.setMessage("We're sorry, but no bluetooth adapter has been found.\n" +
+                    "However, if your device support USB OTG, you can try connecting" +
+                    "USB Bluetooth adapter and try again.");
+            alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dial = alertDialogBuilder.create();
+            dial.show();
+        }
     }
 
     @Override
