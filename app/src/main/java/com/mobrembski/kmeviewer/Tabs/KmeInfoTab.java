@@ -77,6 +77,9 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                 dialog.show();
             }
         });
+        if (BluetoothController.getInstance().IsConnected())
+            ident = new KMEDataIdent(BluetoothController.getInstance()
+                    .askForFrame(new KMEDataIdent()));
         return v;
     }
 
@@ -173,7 +176,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         final EditText inputText = new EditText(v.getContext());
         inputText.setText(this.dtn.RegistrationPlate);
         inputText.setGravity(Gravity.CENTER);
-        inputText.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(7)});
+        inputText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(7)});
         onConnectionStopping();
         new AlertDialog.Builder(v.getContext())
                 .setTitle("Change registration")

@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 
 public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
@@ -17,6 +19,7 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
     protected Thread askingThread = null;
     protected boolean askingThreadRunning = false;
     protected KMEFrame askFrame = null;
+    private View noConnectOverlay;
 
     private final Runnable askingRunnable = new Runnable() {
         @Override
@@ -33,22 +36,62 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
 
     };
 
-    protected abstract void packetReceived(int[] ints);
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FrameLayout fl = new FrameLayout(getActivity());
+        FrameLayout.LayoutParams layoutParamsFrame = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT);
+        fl.setLayoutParams(layoutParamsFrame);
+
         View rootView = inflater.inflate(layoutId, container, false);
         this.myView = rootView;
-        return rootView;
+        noConnectOverlay = inflater.inflate(R.layout.noconnect_overlay, (ViewGroup) myView.getParent());
+        fl.addView(rootView);
+        fl.addView(noConnectOverlay);
+        if(BluetoothController.getInstance().IsConnected())
+            rootView.bringToFront();
+        return fl;
     }
+
+    @Override
+    public void onConnectionStopping() {
+        stopAskingThread();
+        if (noConnectOverlay != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    noConnectOverlay.bringToFront();
+                }
+            });
+    }
+
+    @Override
+    public void onConnectionStarting() {
+        if (myView != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    myView.bringToFront();
+                }
+            });
+        createAskingThread();
+    }
+
+    public void onTabSelected() {
+        createAskingThread();
+    }
+
+    public void onTabUnselected() {
+        stopAskingThread();
+    }
+
+    protected abstract void packetReceived(int[] ints);
 
     protected void setAskFrame(KMEFrame askFrame) {
         this.askFrame = askFrame;
     }
 
-    @Override
-    public void onConnectionStopping() {
+    private void stopAskingThread() {
         askingThreadRunning = false;
         if (askingThread != null) {
             try {
@@ -60,13 +103,7 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
         askingThread = null;
     }
 
-    @Override
-    public void onConnectionStarting() {
-        // TabListener already invokes this method, so return...
-        if (askingThread != null)
-            return;
-        // If Tab is "configuration" tab, then we don't want to
-        // refresh configuration automatically
+    private void createAskingThread() {
         if (askFrame == null)
             return;
         askingThread = new Thread(askingRunnable);

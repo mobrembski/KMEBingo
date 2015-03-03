@@ -17,13 +17,13 @@ public class TabListener implements ActionBar.TabListener {
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         ft.replace(android.R.id.content, fragment);
         BluetoothController.getInstance().AddOnConnectionListener(fragment);
-        fragment.onConnectionStarting();
+        fragment.onTabSelected();
     }
 
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         BluetoothController.getInstance().RemoveOnConnectionListener(fragment);
-        fragment.onConnectionStopping();
+        fragment.onTabUnselected();
         ft.remove(fragment);
     }
 
