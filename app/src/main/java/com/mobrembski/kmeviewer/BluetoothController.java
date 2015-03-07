@@ -10,18 +10,14 @@ import com.mobrembski.kmeviewer.SerialFrames.KMEFrame;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.UUID;
 
 public class BluetoothController extends Observable {
-    private static boolean connected = false;
     private static final Object lock = new Object();
+    private static boolean connected = false;
     private static volatile BluetoothController instance;
-    //private final UUID SERIAL_UUID = UUID
-    //	.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-    private final UUID SERIAL_UUID = UUID
-            .fromString("00001101-0000-1000-8000-00805F9B34FB");
     public final Time StartTime = new Time();
     private final ArrayList<ControllerEvent> connectionListeners = new ArrayList<>();
     private final BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
@@ -102,9 +98,13 @@ public class BluetoothController extends Observable {
         if (device == null)
             return;
         try {
-            socket = device.createRfcommSocketToServiceRecord(SERIAL_UUID);
-        } catch (IOException e) {
-            e.printStackTrace();
+            // This seems to be a workaround for Service discovery failed for some devices.
+            // See http://stackoverflow.com/questions/3397071 for more details.
+            Method m = device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
+            socket = (BluetoothSocket) m.invoke(device ,1);
+        } catch (Exception e) {
+            if (cex != null)
+                cex.onConnectionException(e.getLocalizedMessage());
         }
         connectionThread = new Thread(new Runnable() {
             @Override
@@ -120,13 +120,13 @@ public class BluetoothController extends Observable {
                     outStream = socket.getOutputStream();
                     // TODO: This shouldn't be here...
                     StartTime.setToNow();
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                     notifyOnConnectionStarting();
                 } catch (IOException e) {
                     try {
                         socket.close();
                         if (cex != null)
-                            cex.onConnectionException();
+                            cex.onConnectionException(e.getLocalizedMessage());
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }

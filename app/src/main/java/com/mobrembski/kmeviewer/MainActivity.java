@@ -213,14 +213,14 @@ public class MainActivity extends FragmentActivity implements Observer,
     }
 
     @Override
-    public void onConnectionException() {
+    public void onConnectionException(final String message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(connectProgressDialog.isShowing())
                     connectProgressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),
-                        "Cannot connect to device!", Toast.LENGTH_LONG).show();
+                        "Cannot connect to device!\nReason:" + message, Toast.LENGTH_LONG).show();
             }
         });
 

@@ -1,5 +1,5 @@
 package com.mobrembski.kmeviewer;
 
 interface ControllerExceptionEvent {
-    public void onConnectionException();
+    public void onConnectionException(final String message);
 }
