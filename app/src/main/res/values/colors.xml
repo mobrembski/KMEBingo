@@ -18,4 +18,6 @@
     <color name="ButtonText">#ffffff</color>
     <color name="IndicatorGreenON">#ff00d100</color>
     <color name="IndicatorGreenOFF">#ff006900</color>
+    <color name="GraphRowDescriptionText">#ff212121</color>
+    <color name="GraphRowValueText">#ff212121</color>
 </resources>

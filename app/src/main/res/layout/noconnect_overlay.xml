@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="@color/ButtonText"
-        android:textSize="48dip"
+        android:textSize="48sp"
         android:text="Not connected" />
 
     <TextView

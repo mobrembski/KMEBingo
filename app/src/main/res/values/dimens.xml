@@ -12,5 +12,6 @@
     <dimen name="RPMView_rect_padding">3dp</dimen>
     <dimen name="RPMView_markers_text_size">3dp</dimen>
     <dimen name="RPMView_markers_text_top_padding">3dp</dimen>
+    <dimen name="GraphRowPadding">5dp</dimen>
 
 </resources>
