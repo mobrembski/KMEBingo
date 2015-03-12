@@ -139,22 +139,6 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
                 @Override
                 public void run() {
                     KMEDataSettings ds = new KMEDataSettings(frame);
-                    LambdaTypeSpinner.setSelection(ds.LambdaType);
-                    //LambdaNeutralPointSpinner.setSelection(ds.LambdaNeutralPoint-1);
-                    LambdaDelaySpinner.setSelection(ds.LambdaDelay);
-                    LambdaEmulationHTimeSpinner.setSelection(ds.LambdaEmulationHState - 1);
-                    LambdaEmulationLTimeSpinner.setSelection(ds.LambdaEmulationLState - 1);
-                    if (ds.TurnOnAtIncreasingRPM)
-                        SwitchOnSpinner.setSelection(0);
-                    else
-                        SwitchOnSpinner.setSelection(1);
-                    TPSTypeSpinner.setSelection(ds.TPSType);
-                    TPSInertial.setSelection(ds.TPSInertial);
-                    EngGasStartSpinner.setSelection(ds.StartOnGasOpenTime - 1);
-                    if (ds.StartOnGas)
-                        EngGasOnCheckbox.setChecked(true);
-                    else
-                        EngGasOnCheckbox.setChecked(false);
                 }
             });
     }

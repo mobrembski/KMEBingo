@@ -33,6 +33,10 @@ public class BitUtils {
         return (testbyte & bitnum) == bitnum;
     }
 
+    public static int PowerOf2(int power) {
+        return 1 << power;
+    }
+
     public static int GetMaskedBytes(int testbyte, int mask) {
         return (testbyte & mask);
     }

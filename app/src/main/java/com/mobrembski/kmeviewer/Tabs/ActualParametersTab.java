@@ -147,7 +147,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
                         TemperatureRow.SetAdditionalValueText("ON:" +
-                                String.valueOf(actualSettings.LPGOnTemperature) + " °C");
+                                String.valueOf(actualSettings.getLPGOnTemperature()) + " °C");
                         TemperatureRow.AddPoint(dtn.ActualTemp);
                         if (dtn.Ignition) {
                             IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
