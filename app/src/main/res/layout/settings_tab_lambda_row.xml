@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:measureWithLargestChild="true"
+    android:orientation="vertical"
+    android:shrinkColumns="1"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Type:" />
+
+        <Spinner
+            android:id="@+id/LambdaTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Neutral point:" />
+
+        <Spinner
+            android:id="@+id/LambdaNeutralPointSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Reading delay:" />
+
+        <Spinner
+            android:id="@+id/LambdaDelaySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Emulation type:" />
+
+        <Spinner
+            android:id="@+id/LambdaEmulationTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Emulation H state:" />
+
+        <Spinner
+            android:id="@+id/LambdaEmulationHStateSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Emulation L state:" />
+
+        <Spinner
+            android:id="@+id/LambdaEmulationLStateSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+</TableLayout>

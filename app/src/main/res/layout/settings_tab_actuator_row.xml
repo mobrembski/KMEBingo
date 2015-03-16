@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:measureWithLargestChild="true"
+    android:orientation="vertical"
+    android:shrinkColumns="1"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set PWA value" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Value" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Minimal open on IDLE:" />
+
+        <Spinner
+            android:id="@+id/MinimalOpenOnIDLESpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Maximum open on IDLE:" />
+
+        <Spinner
+            android:id="@+id/MaximumOpenOnIDLESpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Minimum open on LOAD:" />
+
+        <Spinner
+            android:id="@+id/MinimumOpenOnLOADSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Maximum open on LOAD:" />
+
+        <Spinner
+            android:id="@+id/MaximumOpenOnLOADSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jump ATT to position" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Desired ATT pos" />
+
+        <Spinner
+            android:id="@+id/DesiredATTPosSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="TPS sense level:" />
+
+        <Spinner
+            android:id="@+id/TPSSenseLevelSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opening speed correction on IDLE:" />
+
+        <Spinner
+            android:id="@+id/SpeedCorrectionOpeningIdleSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Closing speed correction on IDLE:" />
+
+        <Spinner
+            android:id="@+id/SpeedCorrectionClosingIdleSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opening speed correction on LOAD:" />
+
+        <Spinner
+            android:id="@+id/SpeedCorrectionOpeningLoadSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Closing speed correction on LOAD:" />
+
+        <Spinner
+            android:id="@+id/SpeedCorrectionClosingLoadSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+</TableLayout>

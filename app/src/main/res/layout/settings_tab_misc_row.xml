@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:measureWithLargestChild="true"
+    android:orientation="vertical"
+    android:shrinkColumns="1"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Temperature sensor:" />
+
+        <CheckBox
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Switch on temp:" />
+
+        <Spinner
+            android:id="@+id/SwitchOnTempSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Economy type:" />
+
+        <Spinner
+            android:id="@+id/EconomyTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Start on gas:" />
+
+        <CheckBox
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Start valve open time:" />
+
+        <Spinner
+            android:id="@+id/StartOnLPGOpenTimeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Sensor type:" />
+
+        <Spinner
+            android:id="@+id/LevelSensorTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Bensin/Gas time:" />
+
+        <Spinner
+            android:id="@+id/BensinGasTimeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+</TableLayout>

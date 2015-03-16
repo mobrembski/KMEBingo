@@ -29,9 +29,18 @@
         <item name="android:textColor">@color/ButtonText</item>
     </style>
 
-    <style name="SettingsRowParameterName">
+    <style name="SettingsRowParameterItem">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/SettingsRowParameterItem</item>
+        <item name="android:paddingRight">@dimen/SettingsRowParameterItem</item>
+    </style>
+
+    <style name="SettingsRowParameterSubItem">
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/SettingsRowParameterItem</item>
+        <item name="android:paddingRight">@dimen/SettingsRowParameterItem</item>
     </style>
 
     <style name="StatusTextNormal">

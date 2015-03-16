@@ -7,14 +7,14 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/SettingsRowParameterName"
+        style="@style/SettingsRowParameterItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PWA:" />
 
     <TextView
         android:id="@+id/ActualParamPWAValue"
-        style="@style/SettingsRowParameterName"
+        style="@style/SettingsRowParameterItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

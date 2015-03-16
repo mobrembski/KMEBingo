@@ -129,31 +129,31 @@
 
             <Button
                 android:id="@+id/ChangeRunningCounterBtn"
+                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change running time"
-                style="@style/InfoTabButton" />
+                android:text="Change running time" />
 
             <Button
                 android:id="@+id/ChangeRegPlateBtn"
+                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change registration"
-                style="@style/InfoTabButton" />
+                android:text="Change registration" />
 
             <Button
                 android:id="@+id/ChangeInstallDateBtn"
+                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change installation date"
-                style="@style/InfoTabButton" />
+                android:text="Change installation date" />
 
             <Button
                 android:id="@+id/ChangeSensorLevelBtn"
+                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change tank level sensor levels"
-                style="@style/InfoTabButton" />
+                android:text="Change tank level sensor levels" />
         </LinearLayout>
     </ScrollView>
 

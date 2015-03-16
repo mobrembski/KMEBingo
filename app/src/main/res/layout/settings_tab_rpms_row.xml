@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:measureWithLargestChild="true"
+    android:orientation="vertical"
+    android:shrinkColumns="1"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Ignition Type:" />
+
+        <Spinner
+            android:id="@+id/LambdaTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="LPG switching point:" />
+
+        <Spinner
+            android:id="@+id/LambdaNeutralPointSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Switch when RPMs:" />
+
+        <RadioButton
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Falling" />
+
+
+    </TableRow>
+
+    <TableRow>
+
+        <RadioButton
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:text="Rising" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Low RPM signal level:" />
+
+        <CheckBox
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="CutOFF enabled:" />
+
+        <CheckBox
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minimal routes:" />
+
+        <Spinner
+            android:id="@+id/LoweringPWASpinne2"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lowering from PWA:" />
+
+        <Spinner
+            android:id="@+id/LoweringPWASpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hight RPM limit" />
+
+        <Spinner
+            android:id="@+id/HighRPMLimitSpinner"
+            style="@style/SettingsRowParameterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/lambda_type" />
+
+    </TableRow>
+</TableLayout>

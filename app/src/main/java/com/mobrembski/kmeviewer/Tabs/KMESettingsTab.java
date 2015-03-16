@@ -1,21 +1,18 @@
 package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
+import com.mobrembski.kmeviewer.ExpandableRowView;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
     private Spinner LambdaTypeSpinner;
@@ -29,7 +26,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
     private Spinner EngGasStartSpinner;
 
     public KMESettingsTab() {
-        this.layoutId = R.layout.kme_settings_tab;
+        this.layoutId = R.layout.settings_tab;
         super.setAskFrame(null);
     }
 
@@ -37,7 +34,26 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        LambdaTypeSpinner = (Spinner) myView.findViewById(R.id.LambdaTypeSpinner);
+        LayoutInflater ownInflater = (LayoutInflater) getActivity().
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ExpandableRowView lambdaRow = (ExpandableRowView) myView.findViewById(R.id.LambdaSettingsRow);
+        ExpandableRowView actuatorRow = (ExpandableRowView) myView.findViewById(R.id.ActuatorSettingsRow);
+        ExpandableRowView tpsRow = (ExpandableRowView) myView.findViewById(R.id.TPSSettingsRow);
+        ExpandableRowView rpmsRow = (ExpandableRowView) myView.findViewById(R.id.RPMsSettingsRow);
+        ExpandableRowView miscRow = (ExpandableRowView) myView.findViewById(R.id.MiscSettingsRow);
+
+        ViewGroup parent = lambdaRow.getInjectHiddenView();
+        ownInflater.inflate(R.layout.settings_tab_lambda_row, parent);
+        parent = actuatorRow.getInjectHiddenView();
+        ownInflater.inflate(R.layout.settings_tab_actuator_row, parent);
+        parent = tpsRow.getInjectHiddenView();
+        ownInflater.inflate(R.layout.settings_tab_tps_row, parent);
+        parent = rpmsRow.getInjectHiddenView();
+        ownInflater.inflate(R.layout.settings_tab_rpms_row, parent);
+        parent = miscRow.getInjectHiddenView();
+        ownInflater.inflate(R.layout.settings_tab_misc_row, parent);
+
+        /*LambdaTypeSpinner = (Spinner) myView.findViewById(R.id.LambdaTypeSpinner);
         Spinner lambdaNeutralPointSpinner = (Spinner) myView.findViewById(R.id.LambdaNeutralPointSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 myView.getContext(),
@@ -128,7 +144,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         EngGasStartlAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         EngGasStartSpinner.setAdapter(EngGasStartlAdapter);
 
-        packetReceived(BluetoothController.getInstance().askForFrame(new KMEDataSettings()));
+        packetReceived(BluetoothController.getInstance().askForFrame(new KMEDataSettings()));*/
         return v;
     }
 
@@ -139,6 +155,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
                 @Override
                 public void run() {
                     KMEDataSettings ds = new KMEDataSettings(frame);
+
                 }
             });
     }

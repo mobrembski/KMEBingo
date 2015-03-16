@@ -38,7 +38,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
     private Button changeSensorLevelLevelsBtn;
 
     public KmeInfoTab() {
-        this.layoutId = R.layout.kme_info_tab;
+        this.layoutId = R.layout.info_tab;
         this.askFrame = new KMEDataInfo();
         super.setAskFrame(askFrame);
     }
