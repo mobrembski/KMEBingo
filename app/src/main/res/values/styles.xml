@@ -102,6 +102,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
         <item name="android:windowActionBar">true</item>
+        <item name="asb_switchStyle">@style/Widget.Holo.CompoundButton.Switch</item>
 
         <!--
             Theme customizations available in newer API levels can go in

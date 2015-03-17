@@ -89,10 +89,10 @@
             android:paddingRight="20dp"
             android:text="Low RPM signal level:" />
 
-        <CheckBox
-            style="@style/SettingsRowParameterItem"
+        <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
     </TableRow>
 
@@ -106,10 +106,10 @@
             android:paddingRight="20dp"
             android:text="CutOFF enabled:" />
 
-        <CheckBox
-            style="@style/SettingsRowParameterItem"
+        <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
     </TableRow>
 

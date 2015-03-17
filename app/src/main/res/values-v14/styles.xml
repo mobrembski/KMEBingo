@@ -24,6 +24,7 @@
         <item name="android:spinnerStyle">@style/SpinnerAppTheme</item> <!-- API 14 theme customizations can go here. -->
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+        <item name="asb_switchStyle">@style/Widget.Holo.CompoundButton.Switch</item>
     </style>
 
 </resources>

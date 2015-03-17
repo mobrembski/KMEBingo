@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Set PWA value" />
 
-        <CheckBox
+        <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:text="Jump ATT to position" />
 
-        <CheckBox
+        <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />

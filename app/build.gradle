@@ -20,6 +20,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'org.jraf:android-switch-backport:1.4.0'
     compile group: 'org.achartengine', name: 'achartengine', version: '1.2.0'
     testCompile 'junit:junit:4.12'
 }
