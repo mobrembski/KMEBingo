@@ -46,6 +46,13 @@
                 android:layout_height="wrap_content"
                 app:DescriptionText="Misc" />
 
+            <Button
+                android:id="@+id/factoryResetBtn"
+                style="@style/InfoTabButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Factory reset" />
+
         </LinearLayout>
 
     </RelativeLayout>

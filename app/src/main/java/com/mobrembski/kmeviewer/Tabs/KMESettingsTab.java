@@ -2,15 +2,18 @@ package com.mobrembski.kmeviewer.Tabs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.ExpandableRowView;
+import com.mobrembski.kmeviewer.FactoryResetDialog;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
 
@@ -36,6 +39,20 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         LayoutInflater ownInflater = (LayoutInflater) getActivity().
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Button factoryResetBtn = (Button) myView.findViewById(R.id.factoryResetBtn);
+        factoryResetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FactoryResetDialog dialog = new FactoryResetDialog(getActivity());
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        
+                    }
+                });
+                dialog.show();
+            }
+        });
         ExpandableRowView lambdaRow = (ExpandableRowView) myView.findViewById(R.id.LambdaSettingsRow);
         ExpandableRowView actuatorRow = (ExpandableRowView) myView.findViewById(R.id.ActuatorSettingsRow);
         ExpandableRowView tpsRow = (ExpandableRowView) myView.findViewById(R.id.TPSSettingsRow);
