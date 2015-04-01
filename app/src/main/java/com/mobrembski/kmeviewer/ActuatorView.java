@@ -24,6 +24,7 @@ public class ActuatorView extends View {
     private float stepsPerPixel;
     private int PWAval;
     private int barMargin;
+    private int actuatorSteps;
     private KMEDataConfig actualConfig = null;
 
     public ActuatorView(Context ctx, AttributeSet set) {
@@ -68,8 +69,6 @@ public class ActuatorView extends View {
         PWA_marker_paint.setStyle(Paint.Style.STROKE);
         PWA_marker_paint.setStrokeWidth(borderWidth);
         PWA_marker_paint.setColor(markerColor);
-        actualConfig = new KMEDataConfig(new int[]{0x65, 0x32, 0x32, 0xC8, 0x1E, 0x10, 0x27, 0x07, 0x10, 0x27, 0x24, 0xC4, 0x09, 0x37, 0x2D});
-        PWAval = 125;
     }
 
     public void setDataConfigFrame(KMEDataConfig config) {
@@ -82,6 +81,13 @@ public class ActuatorView extends View {
     public void setPWAValue(int PWAval) {
         if (PWAval != this.PWAval) {
             this.PWAval = PWAval;
+            invalidate();
+        }
+    }
+
+    public void setActuatorSteps(int steps) {
+        if (actuatorSteps != steps) {
+            actuatorSteps = steps;
             invalidate();
         }
     }
@@ -101,7 +107,7 @@ public class ActuatorView extends View {
         if (actualConfig == null)
             return;
         super.dispatchDraw(canvas);
-        float actuatorSteps = PWAval * stepsPerPixel;
+        float steps = actuatorSteps * stepsPerPixel;
         int idlemin = ((int) stepsPerPixel * PWAval) - ((int) stepsPerPixel * actualConfig.ActuatorMinOpenOnIdle.GetValue());
         int idlemax = ((int) stepsPerPixel * PWAval) + ((int) stepsPerPixel * actualConfig.ActuatorMaxOpenOnIdle.GetValue());
         int loadmin = ((int) stepsPerPixel * PWAval) - ((int) stepsPerPixel * actualConfig.ActuatorMinOpenOnLoad.GetValue());
@@ -110,7 +116,7 @@ public class ActuatorView extends View {
         canvas.drawRect(
                 barMargin,
                 barMargin,
-                actuatorSteps + barMargin,
+                steps + barMargin,
                 barHeight + barMargin,
                 actual_rect_paint);
         canvas.drawRect(

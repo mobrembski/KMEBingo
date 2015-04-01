@@ -41,13 +41,13 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     private boolean TimeOnBenzinChecked = false;
     private TPSView TpsView;
     private LambdaView lambdaView;
-    private ActuatorView actuatorView;
     private RPMView rpmView;
+    private ActuatorView actuatorView;
     private KMEDataSettings actualSettings;
-    private KMEDataConfig actualConfig;
     private int LambdaGreenColor;
     private int LambdaYellowColor;
     private int LambdaRedColor;
+    private KMEDataConfig actualConfig;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -152,6 +152,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         ActuatorRow.AddPoint(dtn.Actuator);
                         actuatorView.setDataConfigFrame(actualConfig);
                         actuatorView.setPWAValue(dtn.PWA);
+                        actuatorView.setActuatorSteps(dtn.Actuator);
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
