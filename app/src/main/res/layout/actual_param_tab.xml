@@ -30,7 +30,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:DescriptionText="TPS" />
+                app:DescriptionText="TPS"
+                app:DescriptionAdditionalValueTextSize="4dp" />
 
             <com.mobrembski.kmeviewer.GraphRow
                 android:id="@+id/LambdaChartRow"
@@ -44,14 +45,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:DescriptionText="Actuator" />
+                app:DescriptionText="Actuator"
+                app:DescriptionAdditionalValueTextSize="4dp" />
 
             <com.mobrembski.kmeviewer.GraphRow
                 android:id="@+id/TempChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:DescriptionText="Temperature" />
+                app:DescriptionText="Temperature"
+                app:DescriptionAdditionalValueTextSize="4dp" />
 
             <TableLayout
                 android:layout_width="fill_parent"

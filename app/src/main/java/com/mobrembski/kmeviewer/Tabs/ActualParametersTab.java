@@ -150,13 +150,14 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         LambdaRow.SetValueColor(LambdaColor);
                         ActuatorRow.SetValueText(String.valueOf(dtn.Actuator));
                         ActuatorRow.AddPoint(dtn.Actuator);
+                        ActuatorRow.SetAdditionalValueText("PWA: "+String.valueOf(dtn.PWA));
                         actuatorView.setDataConfigFrame(actualConfig);
                         actuatorView.setPWAValue(dtn.PWA);
                         actuatorView.setActuatorSteps(dtn.Actuator);
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
-                        TemperatureRow.SetAdditionalValueText("ON:" +
+                        TemperatureRow.SetAdditionalValueText("ON: " +
                                 String.valueOf(actualSettings.getLPGOnTemperature()) + " °C");
                         TemperatureRow.AddPoint(dtn.ActualTemp);
                         if (dtn.Ignition) {
