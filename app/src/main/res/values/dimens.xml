@@ -12,6 +12,9 @@
     <dimen name="RPMView_rect_padding">3dp</dimen>
     <dimen name="RPMView_markers_text_size">3dp</dimen>
     <dimen name="RPMView_markers_text_top_padding">3dp</dimen>
+    <dimen name="ActuatorView_bar_bottom_padding">3dp</dimen>
+    <dimen name="ActuatorView_border_width">16dp</dimen>
+    <dimen name="ActuatorView_rect_padding">3dp</dimen>
     <dimen name="GraphRowPadding">5dp</dimen>
     <dimen name="SettingsRowParameterItem">20dp</dimen>
     <dimen name="SettingsRowParameterSubitem">50dp</dimen>

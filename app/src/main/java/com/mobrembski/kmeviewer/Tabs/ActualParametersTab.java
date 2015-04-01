@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mobrembski.kmeviewer.ActuatorView;
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
@@ -17,6 +18,7 @@ import com.mobrembski.kmeviewer.LambdaView;
 import com.mobrembski.kmeviewer.R;
 import com.mobrembski.kmeviewer.RPMView;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataActual;
+import com.mobrembski.kmeviewer.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmeviewer.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmeviewer.TPSView;
 
@@ -39,8 +41,10 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     private boolean TimeOnBenzinChecked = false;
     private TPSView TpsView;
     private LambdaView lambdaView;
+    private ActuatorView actuatorView;
     private RPMView rpmView;
     private KMEDataSettings actualSettings;
+    private KMEDataConfig actualConfig;
     private int LambdaGreenColor;
     private int LambdaYellowColor;
     private int LambdaRedColor;
@@ -71,6 +75,9 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewGroup parent = ActuatorRow.getInjectHiddenView();
         ownInflater.inflate(R.layout.actual_param_tab_actuator_hidden, parent);
+        parent = ActuatorRow.getInjectVisibleView();
+        ownInflater.inflate(R.layout.actual_param_tab_actuator_visible, parent);
+        actuatorView = (ActuatorView) myView.findViewById(R.id.ActuatorView);
         parent = TemperatureRow.getInjectHiddenView();
         ownInflater.inflate(R.layout.actual_param_tab_temp_hidden, parent);
         TimeSpendOnBenzin = (TextView) myView.findViewById(R.id.ActualParamSpendOnBenzinValue);
@@ -143,6 +150,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         LambdaRow.SetValueColor(LambdaColor);
                         ActuatorRow.SetValueText(String.valueOf(dtn.Actuator));
                         ActuatorRow.AddPoint(dtn.Actuator);
+                        actuatorView.setDataConfigFrame(actualConfig);
+                        actuatorView.setPWAValue(dtn.PWA);
                         TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
@@ -223,6 +232,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     public void onConnectionStarting() {
         actualSettings = new KMEDataSettings(BluetoothController.getInstance()
                 .askForFrame(new KMEDataSettings()));
+        actualConfig = new KMEDataConfig(BluetoothController.getInstance()
+                .askForFrame(new KMEDataConfig()));
         super.onConnectionStarting();
         TimeOnBenzinStart.setToNow();
     }

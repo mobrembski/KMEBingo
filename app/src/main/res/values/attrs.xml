@@ -22,4 +22,9 @@
         <attr name="RPMViewMarkerTextPadding" format="dimension" />
         <attr name="RPMViewMarkerTextSize" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="ActuatorView">
+        <attr name="ActuatorViewBarBottomPadding" format="dimension" />
+        <attr name="ActuatorViewBorderWidth" format="dimension" />
+        <attr name="ActuatorViewRectPadding" format="dimension" />
+    </declare-styleable>
 </resources>

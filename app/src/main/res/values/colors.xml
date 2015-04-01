@@ -20,4 +20,9 @@
     <color name="IndicatorGreenOFF">#ff006900</color>
     <color name="GraphRowDescriptionText">#ff212121</color>
     <color name="GraphRowValueText">#ff212121</color>
+    <color name="ActuatorRowIdleRect">#ff43fffc</color>
+    <color name="ActuatorRowLoadRect">#ff0000</color>
+    <color name="ActuatorRowBorder">#0000ff</color>
+    <color name="ActuatorRowMarker">#ff212121</color>
+    <color name="ActuatorRowActual">#0000ff</color>
 </resources>
