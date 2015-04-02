@@ -15,12 +15,13 @@ public class ActuatorView extends View {
     private final Paint actual_rect_paint = new Paint();
     private final Paint load_rect_paint = new Paint();
     private final Paint PWA_marker_paint = new Paint();
-    private int borderWidth;
-    private int rectPadding;
-    private int barBottomPadding;
-    private int barHeight;
     private int viewWidth;
     private int viewHeight;
+    private int borderWidth;
+    private int stepsBarHeight;
+    private int configBarHeight;
+    private int rectPadding;
+    private int barBottomPadding;
     private float stepsPerPixel;
     private int PWAval;
     private int barMargin;
@@ -69,6 +70,9 @@ public class ActuatorView extends View {
         PWA_marker_paint.setStyle(Paint.Style.STROKE);
         PWA_marker_paint.setStrokeWidth(borderWidth);
         PWA_marker_paint.setColor(markerColor);
+        PWAval = 125;
+        actuatorSteps = 130;
+        actualConfig = new KMEDataConfig(new int[]{0x65,0x32, 0x32, 0xC8, 0x1E, 0x10, 0x27, 0x07, 0x10, 0x27, 0x24, 0xC4, 0x09, 0x37, 0x2D});
     }
 
     public void setDataConfigFrame(KMEDataConfig config) {
@@ -98,8 +102,10 @@ public class ActuatorView extends View {
         viewWidth = MeasureSpec.getSize(widthMeasureSpec);
         viewHeight = MeasureSpec.getSize(heightMeasureSpec);
         stepsPerPixel = (float) (viewWidth - 2 * rectPadding - 2 * borderWidth) / (float) 256;
-        barHeight = ((viewHeight - 2 * barBottomPadding - 2 * rectPadding - 2 * borderWidth) / 3) ;
         barMargin = borderWidth + rectPadding;
+        stepsBarHeight = (int)((float)(viewHeight - 2 * barMargin) * 0.6f);
+        configBarHeight = (viewHeight - stepsBarHeight - 2 * barBottomPadding) / 2;
+
     }
 
     @Override
@@ -117,23 +123,23 @@ public class ActuatorView extends View {
                 barMargin,
                 barMargin,
                 steps + barMargin,
-                barHeight + barMargin,
+                stepsBarHeight + barMargin,
                 actual_rect_paint);
         canvas.drawRect(
                 idlemin + barMargin,
-                barHeight + barMargin + barBottomPadding,
+                stepsBarHeight + barMargin + barBottomPadding,
                 idlemax + barMargin,
-                2 * barHeight + barMargin + barBottomPadding,
+                configBarHeight + stepsBarHeight + barMargin,
                 idle_rect_paint);
         canvas.drawRect(
                 loadmin + barMargin,
-                2 * barHeight + barMargin + 2 * barBottomPadding,
+                configBarHeight + stepsBarHeight + barMargin,
                 loadmax + barMargin,
                 viewHeight - rectPadding - borderWidth,
                 load_rect_paint);
         canvas.drawRect(
                 PWAval * stepsPerPixel + barMargin,
-                barHeight + barMargin + barBottomPadding,
+                stepsBarHeight + barMargin + barBottomPadding,
                 PWAval * stepsPerPixel + barMargin + 1,
                 viewHeight - rectPadding - borderWidth,
                 PWA_marker_paint);
