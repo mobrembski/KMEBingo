@@ -3,11 +3,10 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_gravity="center"
     android:background="@android:color/black"
-    android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:stretchColumns="0">
+    android:stretchColumns="*">
 
     <TableRow>
 
@@ -15,12 +14,14 @@
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:text="Set PWA value" />
 
         <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:id="@+id/SetPWAValueSwitch" />
     </TableRow>
 
@@ -37,7 +38,8 @@
         <Spinner
             android:id="@+id/SetPWAValueSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:dropDownWidth="match_parent"/>
     </TableRow>
 
     <TableRow>

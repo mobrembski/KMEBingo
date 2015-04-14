@@ -197,9 +197,8 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
 
     private ArrayAdapter<String> createAdapterForValveOpen() {
         List<String> temperatureStrings = new ArrayList<>();
-            /*Maximum temp is 110*/
         for(int i=0; i<=50; i++)
-            temperatureStrings.add(String.valueOf(i)+"s");
+            temperatureStrings.add(String.valueOf(i/10) + "," + String.valueOf(i%10) + "s");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 parent.usedView.getContext(),
                 android.R.layout.simple_spinner_item, temperatureStrings);
@@ -209,9 +208,8 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
 
     private ArrayAdapter<String> createAdapterForGasBenzin() {
         List<String> temperatureStrings = new ArrayList<>();
-            /*Maximum temp is 110*/
         for(int i=0; i<=50; i++)
-            temperatureStrings.add(String.valueOf(i)+"s");
+            temperatureStrings.add(String.valueOf(i/10) + "," + String.valueOf(i%10 )+ "s");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 parent.usedView.getContext(),
                 android.R.layout.simple_spinner_item, temperatureStrings);
