@@ -38,9 +38,9 @@ public class KMEDataSettings extends KMEFrame {
 
     private SettingsItem TPSInertness = new SettingsItem(8,0);
 
-    private LevelSensorType LevelSensor;
-    private LambdaEmulationType LambdaEmulation;
-    private EconomyType EconomyMode;
+    private LevelSensorType LevelSensor = LevelSensorType.Prog;
+    private LambdaEmulationType LambdaEmulation = LambdaEmulationType.Course;
+    private EconomyType EconomyMode = EconomyType.Normal;
 
     public enum LevelSensorType {
         Reserve,

@@ -37,6 +37,12 @@ public class KMEDataConfig extends KMEFrame {
         rows[11]= SettingsRow.makeSettingsRow(new SettingsItem[]{HighRPMLimit2});
         rows[12]= SettingsRow.makeSettingsRow(new SettingsItem[]{ActuatorMaxOpenOnIdle});
         rows[13]= SettingsRow.makeSettingsRow(new SettingsItem[]{ActuatorMinOpenOnIdle});
+        HighRPMLimit1.SetValue(0xFF);
+        HighRPMLimit2.SetValue(0xFF);
+        SwitchOnLPGRPM1.SetValue(0xFF);
+        SwitchOnLPGRPM2.SetValue(0xFF);
+        MinimalCutoffRPMS1.SetValue(0xFF);
+        MinimalCutoffRPMS2.SetValue(0xFF);
     }
 
     public KMEDataConfig(int[] array) {
