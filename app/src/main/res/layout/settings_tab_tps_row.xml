@@ -24,7 +24,7 @@
             android:id="@+id/TpsTypeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/lambda_type" />
+            android:entries="@array/TPS_type" />
 
     </TableRow>
 

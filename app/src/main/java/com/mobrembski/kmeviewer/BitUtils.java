@@ -1,12 +1,16 @@
 package com.mobrembski.kmeviewer;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BitUtils {
     // Accuracy is number of digits of precision of converting Raw data into RPM
     private static final int RPMAccuracy = 1;
     private static final int tempMap[] = new int[]{
-            //region ConversionMap
+            //region Temperature Conversion Map
             1, 1, 2, 2, 2, 3, 3, 3, 3, 4,
             4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8,
             9, 9, 9, 10, 10, 10, 11, 11, 12, 12,
@@ -28,6 +32,82 @@ public class BitUtils {
             102, 103, 104, 105, 106, 107, 108, 110
             //endregion
     };
+    //private static SparseArray<int[]> rpmMap = new SparseArray<int[]>() {{
+    private static final Map<Integer,int[]> rpmMap = new TreeMap<Integer, int[]>() {{
+            //region RPM Conversion Map
+            put(1000, new int[] {0x3A, 0x98});
+            put(1100, new int[] {0x35, 0x44});
+            put(1200, new int[] {0x30, 0xD4});
+            put(1300, new int[] {0x2D, 0x12});
+            put(1400, new int[] {0x29, 0xDA});
+            put(1500, new int[] {0x27, 0x10});
+            put(1600, new int[] {0x24, 0x9F});
+            put(1700, new int[] {0x22, 0x77});
+            put(1800, new int[] {0x20, 0x8D});
+            put(1900, new int[] {0x1E, 0xD6});
+            put(2000, new int[] {0x1D, 0x4C});
+            put(2100, new int[] {0x1B, 0xE6});
+            put(2200, new int[] {0x1A, 0xA2});
+            put(2300, new int[] {0x19, 0x79});
+            put(2400, new int[] {0x18, 0x6A});
+            put(2500, new int[] {0x17, 0x70});
+            put(2600, new int[] {0x16, 0x89});
+            put(2700, new int[] {0x15, 0xB3});
+            put(2800, new int[] {0x14, 0xED});
+            put(2900, new int[] {0x14, 0x34});
+            put(3000, new int[] {0x13, 0x88});
+            put(3100, new int[] {0x12, 0xE6});
+            put(3200, new int[] {0x12, 0x4F});
+            put(3300, new int[] {0x11, 0xC1});
+            put(3400, new int[] {0x11, 0x3B});
+            put(3500, new int[] {0x10, 0xBD});
+            put(3600, new int[] {0x10, 0x46});
+            put(3700, new int[] {0x0F, 0xD6});
+            put(3800, new int[] {0x0F, 0x6B});
+            put(3900, new int[] {0x0F, 0x05});
+            put(4000, new int[] {0x0E, 0xA6});
+            put(4100, new int[] {0x0E, 0x4A});
+            put(4200, new int[] {0x0D, 0xF3});
+            put(4300, new int[] {0x0D, 0xA0});
+            put(4400, new int[] {0x0D, 0x51});
+            put(4500, new int[] {0x0D, 0x05});
+            put(4600, new int[] {0x0C, 0xBC});
+            put(4700, new int[] {0x0C, 0x77});
+            put(4800, new int[] {0x0C, 0x35});
+            put(4900, new int[] {0x0B, 0xF5});
+            put(5000, new int[] {0x0B, 0xB8});
+            put(5100, new int[] {0x0B, 0x7D});
+            put(5200, new int[] {0x0B, 0x44});
+            put(5300, new int[] {0x0B, 0x0E});
+            put(5400, new int[] {0x0A, 0xD9});
+            put(5500, new int[] {0x0A, 0xA7});
+            put(5600, new int[] {0x0A, 0x76});
+            put(5700, new int[] {0x0A, 0x47});
+            put(5800, new int[] {0x0A, 0x1A});
+            put(5900, new int[] {0x09, 0xEE});
+            put(6000, new int[] {0x09, 0xC4});
+            put(6100, new int[] {0x09, 0x9B});
+            put(6200, new int[] {0x09, 0x73});
+            put(6300, new int[] {0x09, 0x4C});
+            put(6400, new int[] {0x09, 0x27});
+            put(6500, new int[] {0x09, 0x03});
+            put(6600, new int[] {0x08, 0xE0});
+            put(6700, new int[] {0x08, 0xBE});
+            put(6800, new int[] {0x08, 0x9D});
+            put(6900, new int[] {0x08, 0x7D});
+            put(7000, new int[] {0x08, 0x5E});
+            put(7100, new int[] {0x08, 0x40});
+            put(7200, new int[] {0x08, 0x23});
+            put(7300, new int[] {0x08, 0x06});
+            put(7400, new int[] {0x07, 0xEB});
+            put(7500, new int[] {0x07, 0xD0});
+            put(7600, new int[] {0x07, 0xB5});
+            put(7700, new int[] {0x07, 0x9C});
+            put(7800, new int[] {0x07, 0x83});
+            put(7900, new int[] {0x07, 0x6A});
+            put(8000, new int[] {0x07, 0x53});
+            //endregion
+    }};
 
     public static boolean BitIsSet(int testbyte, int bitnum) {
         return (testbyte & bitnum) == bitnum;
@@ -58,11 +138,38 @@ public class BitUtils {
         return tempMap[rawVal - 70];
     }
 
-    public static int GetRPM(int rawVal) {
+    public static Integer[] GetAvailTemperatures() {
+        List<Integer> tmp = new ArrayList<>();
+        for (int aTempMap : tempMap) {
+            if (!tmp.contains(aTempMap))
+                tmp.add(aTempMap);
+        }
+        return tmp.toArray(new Integer[tmp.size()]);
+    }
+
+    public static int GetTemperatureRaw(int celciusTemp) {
+        for (int i = tempMap.length - 1; i >= 0; i--) {
+            if (tempMap[i] == celciusTemp)
+                return i + 71;
+        }
+        return 70;
+    }
+
+    public static int GetRPMFromRaw(int rawVal) {
         // This is a real magic. Don't ask what does this numbers means.
         // I don't know, i've just get this equation from KME.
         return 50 * RPMAccuracy * (
-                (15000064 / rawVal + 25 * RPMAccuracy) / (50 * RPMAccuracy));
+               (15000064 / rawVal + 25 * RPMAccuracy) / (50 * RPMAccuracy));
+    }
+
+    public static Integer[] GetAvailRpms() {
+        return rpmMap.keySet().toArray(new Integer[0]);
+    }
+
+    public static int[] GetRPMToRaw(int rpm) throws ArrayIndexOutOfBoundsException {
+        if (!rpmMap.containsKey(rpm))
+            throw new ArrayIndexOutOfBoundsException();
+        return rpmMap.get(rpm);
     }
 
     public static char[] GetRawDate(int year, int month, int day) {

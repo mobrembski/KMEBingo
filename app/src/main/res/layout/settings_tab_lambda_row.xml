@@ -7,7 +7,6 @@
     android:background="@android:color/black"
     android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:shrinkColumns="1"
     android:stretchColumns="0">
 
     <TableRow>
@@ -41,8 +40,7 @@
         <Spinner
             android:id="@+id/LambdaNeutralPointSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/lambda_type" />
+            android:layout_height="wrap_content" />
 
     </TableRow>
 
@@ -78,7 +76,7 @@
             android:id="@+id/LambdaEmulationTypeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/lambda_type" />
+            android:entries="@array/lambda_emul_type" />
 
     </TableRow>
 

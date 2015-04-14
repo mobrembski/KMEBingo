@@ -7,7 +7,6 @@
     android:background="@android:color/black"
     android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:shrinkColumns="1"
     android:stretchColumns="0">
 
     <TableRow>
@@ -21,7 +20,8 @@
         <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:id="@+id/SetPWAValueSwitch" />
     </TableRow>
 
     <TableRow>
@@ -35,7 +35,7 @@
             android:text="Value" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/SetPWAValueSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </TableRow>
@@ -85,7 +85,7 @@
             android:text="Minimum open on LOAD:" />
 
         <Spinner
-            android:id="@+id/MinimumOpenOnLOADSpinner"
+            android:id="@+id/MinimalOpenOnLOADSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
@@ -120,7 +120,8 @@
         <org.jraf.android.backport.switchwidget.Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:id="@+id/SetATTPosSwitch"/>
     </TableRow>
 
     <TableRow>

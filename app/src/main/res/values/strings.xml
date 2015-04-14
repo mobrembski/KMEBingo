@@ -6,6 +6,11 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="lambda_prompt">Test</string>
+    <string-array name="lambda_emul_type">
+        <item>Course</item>
+        <item>Ground</item>
+        <item>Disconnected</item>
+    </string-array>
     <string-array name="lambda_type">
         <item>0–1 V</item>
         <item>0–5 V -</item>
@@ -14,7 +19,7 @@
         <item>5–0 V +</item>
         <item>0,8–1,6 V</item>
     </string-array>
-    <string-array name="lambda_neutral_point_low">
+    <string-array name="lambda_neutral_point_0v_1v">
         <item>0,40 V</item>
         <item>0,42 V</item>
         <item>0,44 V</item>
@@ -27,7 +32,26 @@
         <item>0,58 V</item>
         <item>0,60 V</item>
     </string-array>
+    <string-array name="lambda_neutral_point_low">
+        <item>1,00 V</item>
+        <item>1,02 V</item>
+        <item>1,04 V</item>
+        <item>1,06 V</item>
+        <item>1,08 V</item>
+        <item>1,10 V</item>
+        <item>1,12 V</item>
+        <item>1,14 V</item>
+        <item>1,16 V</item>
+        <item>1,18 V</item>
+        <item>1,20 V</item>
+        <item>1,22 V</item>
+        <item>1,24 V</item>
+        <item>1,26 V</item>
+        <item>1,28 V</item>
+        <item>1,30 V</item>
+    </string-array>
     <string-array name="lambda_neutral_point_high">
+        <item>2,00 V</item>
         <item>2,02 V</item>
         <item>2,04 V</item>
         <item>2,06 V</item>
@@ -106,6 +130,16 @@
         <item>On0–12V</item>
         <item>On12–0V</item>
         <item>BOSH-mono</item>
+    </string-array>
+    <string-array name="economy_type">
+        <item>Normal</item>
+        <item>Economical</item>
+        <item>Sport</item>
+    </string-array>
+    <string-array name="level_sensor_type">
+        <item>0 Ohm</item>
+        <item>PRG 9 Prog</item>
+        <item>Reserve</item>
     </string-array>
 
 </resources>

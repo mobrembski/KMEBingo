@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BitUtilsTest {
 
@@ -47,7 +47,21 @@ public class BitUtilsTest {
 
     @Test
     public void testGetRPM() throws Exception {
+        int tmp[] = BitUtils.GetRPMToRaw(1000);
+        int tmp2 = BitUtils.GetRPMFromRaw(tmp[0] << 8 | tmp[1]);
+        assertEquals(1000,tmp2);
 
+        tmp = BitUtils.GetRPMToRaw(3400);
+        tmp2 = BitUtils.GetRPMFromRaw(tmp[0] << 8 | tmp[1]);
+        assertEquals(3400,tmp2);
+
+        tmp = BitUtils.GetRPMToRaw(4500);
+        tmp2 = BitUtils.GetRPMFromRaw(tmp[0] << 8 | tmp[1]);
+        assertEquals(4500,tmp2);
+
+        tmp = BitUtils.GetRPMToRaw(6000);
+        tmp2 = BitUtils.GetRPMFromRaw(tmp[0] << 8 | tmp[1]);
+        assertEquals(6000,tmp2);
     }
 
     @Test

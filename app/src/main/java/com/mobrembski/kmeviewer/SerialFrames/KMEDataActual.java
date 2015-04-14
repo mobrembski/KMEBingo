@@ -2,7 +2,7 @@ package com.mobrembski.kmeviewer.SerialFrames;
 
 import com.mobrembski.kmeviewer.BitUtils;
 
-import static com.mobrembski.kmeviewer.BitUtils.GetRPM;
+import static com.mobrembski.kmeviewer.BitUtils.GetRPMFromRaw;
 import static com.mobrembski.kmeviewer.BitUtils.GetVoltage;
 
 public class KMEDataActual extends KMEFrame {
@@ -36,7 +36,7 @@ public class KMEDataActual extends KMEFrame {
         Lambda = GetVoltage(array[2]);
         Actuator = array[3];
         PWA = array[4];
-        RPM = GetRPM(array[6] << 8 | array[5]);
+        RPM = GetRPMFromRaw(array[6] << 8 | array[5]);
 
         LambdaColor = BitUtils.GetMaskedBytes(array[7], 7);
         Ignition = BitUtils.BitIsSet(array[7], 8);

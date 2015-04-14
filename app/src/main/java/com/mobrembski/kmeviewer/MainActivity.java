@@ -19,9 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobrembski.kmeviewer.Tabs.ActualParametersTab;
-import com.mobrembski.kmeviewer.Tabs.KMESettingsTab;
 import com.mobrembski.kmeviewer.Tabs.KMEViewerTab;
 import com.mobrembski.kmeviewer.Tabs.KmeInfoTab;
+import com.mobrembski.kmeviewer.Tabs.SettingsTab.KMESettingsTab;
 
 import java.util.Observable;
 import java.util.Observer;

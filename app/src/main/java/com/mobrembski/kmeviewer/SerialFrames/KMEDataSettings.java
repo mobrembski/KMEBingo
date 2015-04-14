@@ -198,6 +198,9 @@ public class KMEDataSettings extends KMEFrame {
     public boolean getCutOffHighRPMEnabled() {
         return CutOffHighRPMEnabled.GetValueBool();
     }
+    public int getCutOffHighRPMEnabledRaw() {
+        return CutOffHighRPMEnabled.GenerateRawByte();
+    }
 
     public void setCutOffHighRPMEnabled(boolean val) {
         CutOffHighRPMEnabled.SetValue(val);
@@ -217,6 +220,9 @@ public class KMEDataSettings extends KMEFrame {
     public boolean getTurnOnAtIncreasingRPM() {
         return TurnOnAtIncreasingRPM.GetValueBool();
     }
+    public int getTurnOnAtIncreasingRPMRaw() {
+        return TurnOnAtIncreasingRPM.GenerateRawByte();
+    }
 
     public void setTurnOnAtIncreasingRPM(boolean val) {
         TurnOnAtIncreasingRPM.SetValue(val);
@@ -225,21 +231,31 @@ public class KMEDataSettings extends KMEFrame {
     public boolean getATTEnabled() {
         return ATTEnabled.GetValueBool();
     }
+    public int getATTEnabledRaw() {
+        return ATTEnabled.GenerateRawByte();
+    }
 
     public void setATTEnabled(boolean val) {
         ATTEnabled.SetValue(val);
     }
 
     public boolean getPWAEnabled() {
-        return PWAEnabled.GetValueBool();
+        return !PWAEnabled.GetValueBool();
+    }
+    public int getPWAEnabledRaw() {
+        return PWAEnabled.GenerateRawByte();
     }
 
     public void setPWAEnabled(boolean val) {
-        PWAEnabled.SetValue(val);
+        PWAEnabled.SetValue(!val);
     }
 
     public boolean getTemperatureSensorEnabled() {
         return TemperatureSensorEnabled.GetValueBool();
+    }
+
+    public int getTemperatureSensorEnabledRaw() {
+        return TemperatureSensorEnabled.GenerateRawByte();
     }
 
     public void setTemperatureSensorEnabled(boolean val) {
