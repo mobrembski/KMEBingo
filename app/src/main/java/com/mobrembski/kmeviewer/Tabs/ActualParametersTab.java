@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mobrembski.kmeviewer.ActuatorView;
+import com.mobrembski.kmeviewer.BitUtils;
 import com.mobrembski.kmeviewer.BluetoothController;
 import com.mobrembski.kmeviewer.ControllerEvent;
 import com.mobrembski.kmeviewer.GraphRow;
@@ -158,7 +159,8 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
                         TemperatureRow.SetAdditionalValueText("ON: " +
-                                String.valueOf(actualSettings.getLPGOnTemperature()) + " °C");
+                                String.valueOf(BitUtils.GetTemperature(
+                                        actualSettings.getLPGOnTemperature())) + " °C");
                         TemperatureRow.AddPoint(dtn.ActualTemp);
                         if (dtn.Ignition) {
                             IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
