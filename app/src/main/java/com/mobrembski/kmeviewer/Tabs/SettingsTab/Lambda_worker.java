@@ -79,16 +79,6 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
             BluetoothController.getInstance().askForFrame(new KMEFrame(
                     BitUtils.packFrame(0x0A, raw), 2));
         }
-        if (parent == LambdaNeutralPointSpinner)
-            if (LambdaNeutralPointSpinner.getTag() != position) {
-                LambdaNeutralPointSpinner.setTag(position);
-            }
-        if (parent == LambdaTypeSpinner)
-            if (LambdaNeutralPointSpinner.getTag() != position) {
-                ArrayAdapter<CharSequence> adapter = createAdapterForType(position);
-                LambdaNeutralPointSpinner.setAdapter(adapter);
-                LambdaNeutralPointSpinner.setTag(position);
-            }
 
         if (parent == LambdaEmulationHStateSpinner) {
             Log.d("Lambda_worker", "LambdaEmulationHStateSpinner: " + (position+1));
