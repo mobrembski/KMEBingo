@@ -9,12 +9,14 @@
     android:orientation="vertical"
     android:stretchColumns="0">
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Ignition Type:" />
@@ -27,12 +29,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="LPG switching point:" />
@@ -44,12 +48,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Switch when RPMs:" />
@@ -58,6 +64,7 @@
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_column="1"
             android:text="Falling"
             android:id="@+id/FallingRPMSRadio"/>
@@ -65,23 +72,27 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <RadioButton
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_column="1"
             android:text="Rising"
             android:id="@+id/RisingRPMSRadio"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Low RPM signal level:" />
@@ -94,12 +105,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="CutOFF enabled:" />
@@ -112,12 +125,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Minimal RPMS CutOFF:" />
@@ -131,12 +146,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Lowering from PWA:" />
@@ -149,12 +166,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Hight RPM limit:" />
@@ -167,12 +186,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Limit:" />

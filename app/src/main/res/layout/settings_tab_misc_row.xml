@@ -9,12 +9,14 @@
     android:orientation="vertical"
     android:stretchColumns="0">
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Temperature sensor:" />
@@ -28,13 +30,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Switch on temp:" />
@@ -45,13 +48,14 @@
             android:layout_height="wrap_content" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Economy type:" />
@@ -65,12 +69,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Start on gas:" />
@@ -83,12 +89,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Start valve open time:" />
@@ -99,12 +107,14 @@
             android:layout_height="wrap_content" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Sensor type:" />
@@ -117,12 +127,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Bensin/Gas time:" />

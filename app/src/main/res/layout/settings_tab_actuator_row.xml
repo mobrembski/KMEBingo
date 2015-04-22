@@ -8,12 +8,14 @@
     android:orientation="vertical"
     android:stretchColumns="*">
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Set PWA value" />
@@ -25,46 +27,52 @@
             android:id="@+id/SetPWAValueSwitch" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Value" />
 
         <Spinner
             android:id="@+id/SetPWAValueSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:dropDownWidth="match_parent"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Minimal open on IDLE:" />
 
         <Spinner
             android:id="@+id/MinimalOpenOnIDLESpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Maximum open on IDLE:" />
@@ -76,12 +84,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Minimum open on LOAD:" />
@@ -93,12 +103,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:text="Maximum open on LOAD:" />
@@ -111,12 +123,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Jump ATT to position" />
 
         <org.jraf.android.backport.switchwidget.Switch
@@ -126,12 +140,14 @@
             android:id="@+id/SetATTPosSwitch"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="Desired ATT pos" />
@@ -144,12 +160,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:text="TPS sense level:" />
@@ -163,12 +181,14 @@
 
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Opening speed correction on IDLE:" />
 
         <Spinner
@@ -179,12 +199,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Closing speed correction on IDLE:" />
 
         <Spinner
@@ -195,12 +217,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false" >
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Opening speed correction on LOAD:" />
 
         <Spinner
@@ -211,12 +235,14 @@
             android:entries="@array/lambda_type" />
     </TableRow>
 
-    <TableRow>
+    <TableRow
+        android:baselineAligned="false">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Closing speed correction on LOAD:" />
 
         <Spinner
