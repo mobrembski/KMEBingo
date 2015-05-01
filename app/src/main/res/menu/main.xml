@@ -9,5 +9,8 @@
         android:title="Stay on"
         android:checkable="true"
         android:checked="false" />
+    <item
+        android:id="@+id/action_About"
+        android:title="About..." />
 
 </menu>

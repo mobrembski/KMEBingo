@@ -54,6 +54,11 @@ public class MainActivity extends FragmentActivity implements Observer,
                 item.setChecked(!item.isChecked());
                 getWindow().getDecorView().getRootView().setKeepScreenOn(item.isChecked());
                 return true;
+            case R.id.action_About:
+                AboutDialog about = new AboutDialog(this);
+                about.setTitle("About...");
+                about.show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

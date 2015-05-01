@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+    <TableRow>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bingo_s_orig_icon"
+            android:layout_gravity="left|center"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/info_text"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/app_name"
+                android:textAppearance="?android:textAppearanceLarge"/>
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="by Michał Obrembski"/>
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="for KME Sp.z.o.o"/>
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="http://www.kme.eu"
+                android:linksClickable="true"
+                android:autoLink="web"/>
+            <TextView
+                android:id="@+id/about_version"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Version:"/>
+
+        </LinearLayout>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dip"
+            android:textStyle="italic"
+            android:layout_span="2"
+            android:textColor="#cccccc"
+            android:text="Have you discovered any bug? Or idea for improvement?"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dip"
+            android:textStyle="italic"
+            android:layout_span="2"
+            android:textColor="#cccccc"
+            android:text="Please feel free to send me an mail:"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dip"
+            android:layout_span="2"
+            android:layout_margin="8dip"
+            android:textColor="#cccccc"
+            android:text="michal.o@szerszen.com"
+            android:autoLink="email"
+            android:linksClickable="true"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="10dip"
+            android:textStyle="bold"
+            android:layout_span="2"
+            android:layout_margin="8dip"
+            android:textColor="#cccccc"
+            android:text="Thank you!" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:id="@+id/legal_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10dip"
+            android:textStyle="italic"
+            android:layout_span="2"
+            android:layout_margin="8dip"
+            android:textColor="#cccccc"
+            android:text="Copyright © 2015 all rights reserved.
+            \nThis program and its contents are protected by copyright.
+            \nKME and BINGO are registered trademarks of KME Sp.z o.o.
+            \nNot liable for any damage incurred from use of this software."/>
+    </TableRow>
+</TableLayout>

@@ -97,6 +97,15 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="AboutTheme" parent="android:Theme.Holo.Dialog.MinWidth">
+        <item name="android:windowAnimationStyle">@style/AboutDialogAnimation</item>
+    </style>
+
+    <style name="AboutDialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/overshoot_interpolator</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <item name="android:spinnerStyle">@style/SpinnerAppTheme</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemAppTheme</item>
