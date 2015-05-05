@@ -20,6 +20,12 @@ import java.util.List;
 class Lambda_worker implements AdapterView.OnItemSelectedListener,
         RefreshViewsInterface
 {
+    private static final int LambdaRange1DefaultNeutralPoint = 22;
+    private static final int LambdaRange2DefaultNeutralPoint = 60;
+    private static final int LambdaRange3DefaultNeutralPoint = 127;
+    private static final int LambdaRange1Offset = 20;
+    private static final int LambdaRange2Offset = 50;
+    private static final int LambdaRange3Offset = 100;
     private final Spinner LambdaNeutralPointSpinner;
     private final Spinner LambdaTypeSpinner;
     private final Spinner LambdaDelaySpinner;
@@ -35,6 +41,7 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
         LambdaTypeSpinner.setOnItemSelectedListener(this);
         LambdaNeutralPointSpinner = (Spinner) parent.usedView.findViewById(R.id.LambdaNeutralPointSpinner);
         LambdaNeutralPointSpinner.setAdapter(createAdapterForType(0));
+        LambdaNeutralPointSpinner.setOnItemSelectedListener(this);
         LambdaDelaySpinner = (Spinner) parent.usedView.findViewById(R.id.LambdaDelaySpinner);
         ArrayAdapter<String> adapterDelayTime = new ArrayAdapter<>(
                 parent.usedView.getContext(),
@@ -54,6 +61,27 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent == LambdaTypeSpinner) {
+            Log.d("Lambda_worker", "LambdaTypeSpinner: " + position);
+            actualDS.setLambdaType(position);
+            BluetoothController.getInstance().askForFrame(new KMEFrame(
+                    BitUtils.packFrame(0x07, actualDS.getLambdaTypeRaw()), 2));
+            if (position == 0)
+                BluetoothController.getInstance().askForFrame(new KMEFrame(
+                        BitUtils.packFrame(0x08, LambdaRange1DefaultNeutralPoint), 2));
+            if (position == 5)
+                BluetoothController.getInstance().askForFrame(new KMEFrame(
+                        BitUtils.packFrame(0x08, LambdaRange2DefaultNeutralPoint), 2));
+            if (position > 0 && position != 5)
+                BluetoothController.getInstance().askForFrame(new KMEFrame(
+                        BitUtils.packFrame(0x08, LambdaRange3DefaultNeutralPoint), 2));
+        }
+        if (parent == LambdaNeutralPointSpinner) {
+            int rawVal = getNeutralPointSelectionToRaw(position);
+            Log.d("Lambda_worker", "LambdaNeutralPointSpinner: " + position + " raw: " + rawVal);
+            BluetoothController.getInstance().askForFrame(new KMEFrame(
+                    BitUtils.packFrame(0x08, rawVal), 2));
+        }
         if (parent == LambdaDelaySpinner) {
             Log.d("Lambda_worker", "LambdaDelaySpinner: " + (position + 1));
             BluetoothController.getInstance().askForFrame(new KMEFrame(
@@ -130,11 +158,34 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
         return adapter;
     }
 
+    private static int getNeutralPointSelectionFromRaw(KMEDataSettings ds) {
+        int lambdaType = ds.getLambdaType();
+        int neutralRaw = ds.getLambdaNeutralPoint();
+        if (lambdaType == 5)
+            return neutralRaw - LambdaRange2Offset;
+        if (lambdaType == 0)
+            return neutralRaw - LambdaRange1Offset;
+        return neutralRaw - LambdaRange3Offset;
+    }
+
+    private int getNeutralPointSelectionToRaw(int spinnerPosition) {
+        if (actualDS == null)
+            return 0;
+        int lambdaType = actualDS.getLambdaType();
+        if (lambdaType == 5)
+            return spinnerPosition + LambdaRange2Offset;
+        if (lambdaType == 0)
+            return spinnerPosition + LambdaRange1Offset;
+        return spinnerPosition + LambdaRange3Offset;
+    }
+
     public void refreshValue(KMEDataSettings ds, KMEDataConfig dc, KMEDataInfo di) {
         actualDS = ds;
-        Utils.setSpinnerSelectionWithoutCallingListener(LambdaTypeSpinner, ds.getLambdaType());
-        // TODO: solve problem with different values for different lambdatypes
-        //LambdaNeutralPointSpinner.setSelection(ds.getLambdaNeutralPoint());
+        int lambdaType = ds.getLambdaType();
+        Utils.setSpinnerSelectionWithoutCallingListener(LambdaTypeSpinner, lambdaType);
+        LambdaNeutralPointSpinner.setAdapter(createAdapterForType(lambdaType));
+        Utils.setSpinnerSelectionWithoutCallingListener(LambdaNeutralPointSpinner,
+                getNeutralPointSelectionFromRaw(ds));
         // LambdaState & LambdaDelay is counted from 1, not from 0 (0 is illegal value)
         Utils.setSpinnerSelectionWithoutCallingListener(LambdaDelaySpinner, ds.getLambdaDelay() - 1);
         Utils.setSpinnerSelectionWithoutCallingListener(LambdaEmulationHStateSpinner,
