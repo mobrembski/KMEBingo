@@ -164,14 +164,17 @@ public class MainActivity extends FragmentActivity implements Observer,
         KMEViewerTab kmeInfoFragment = new KmeInfoTab();
         KMEViewerTab settingsFragment = new KMESettingsTab();
         ActionBar.Tab actualParamTab = actionBar.newTab();
-        actualParamTab.setText("ActualParam");
+        actualParamTab.setText("Readings");
         actualParamTab.setTabListener(new TabListener(actualParametersFragment));
+        actualParamTab.setIcon(R.drawable.actual_params_24x24);
         ActionBar.Tab infoTab = actionBar.newTab();
         infoTab.setText("Info");
         infoTab.setTabListener(new TabListener(kmeInfoFragment));
+        infoTab.setIcon(R.drawable.info_24x24);
         ActionBar.Tab settingsTab = actionBar.newTab();
         settingsTab.setText("Settings");
         settingsTab.setTabListener(new TabListener(settingsFragment));
+        settingsTab.setIcon(R.drawable.settings_24x24);
         actionBar.addTab(actualParamTab);
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
