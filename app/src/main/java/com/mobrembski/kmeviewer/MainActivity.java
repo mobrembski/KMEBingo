@@ -15,6 +15,7 @@ import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.mobrembski.kmeviewer.Tabs.KMEViewerTab;
 import com.mobrembski.kmeviewer.Tabs.KmeInfoTab;
 import com.mobrembski.kmeviewer.Tabs.SettingsTab.KMESettingsTab;
 
+import java.lang.reflect.Method;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +43,27 @@ public class MainActivity extends FragmentActivity implements Observer,
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    // Workaround for not showed icons on Android 3.0+
+    // http://stackoverflow.com/questions/19750635/icon-in-menu-not-showing-in-android
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu)
+    {
+        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+                try{
+                    Method m = menu.getClass().getDeclaredMethod(
+                            "setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                }
+                catch(Exception e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
     }
 
     @Override
