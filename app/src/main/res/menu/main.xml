@@ -7,12 +7,14 @@
         android:title="Select Device" />
     <item
         android:id="@+id/action_StayScreenOn"
+        android:showAsAction="never"
         android:icon="@drawable/brightness_24x24"
         android:title="Stay on"
         android:checkable="true"
         android:checked="false" />
     <item
         android:id="@+id/action_About"
+        android:showAsAction="never"
         android:icon="@drawable/question_24x24"
         android:title="About..." />
 

@@ -120,10 +120,17 @@
         -->
     </style>
 
+    <style name="ActionBarTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowBackground">@null</item>
+        <item name="android:actionBarTabTextStyle">@style/ActionBarTextStyle</item>
     </style>
 
 

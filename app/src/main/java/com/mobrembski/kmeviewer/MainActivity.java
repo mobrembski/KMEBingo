@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
@@ -37,6 +38,9 @@ public class MainActivity extends FragmentActivity implements Observer,
     private SharedPreferences prefs;
     private String btAddress;
     private ProgressDialog connectProgressDialog;
+    private ActionBar.Tab actualParamTab;
+    private ActionBar.Tab settingsTab;
+    private ActionBar.Tab infoTab;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,6 +150,12 @@ public class MainActivity extends FragmentActivity implements Observer,
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        prepareActionBarTitles();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_BT_ENABLE) {
             if (resultCode != RESULT_OK) {
@@ -186,16 +196,14 @@ public class MainActivity extends FragmentActivity implements Observer,
         KMEViewerTab actualParametersFragment = new ActualParametersTab();
         KMEViewerTab kmeInfoFragment = new KmeInfoTab();
         KMEViewerTab settingsFragment = new KMESettingsTab();
-        ActionBar.Tab actualParamTab = actionBar.newTab();
-        actualParamTab.setText("Readings");
+        actualParamTab = actionBar.newTab();
+        infoTab = actionBar.newTab();
+        settingsTab = actionBar.newTab();
+        prepareActionBarTitles();
         actualParamTab.setTabListener(new TabListener(actualParametersFragment));
         actualParamTab.setIcon(R.drawable.actual_params_24x24);
-        ActionBar.Tab infoTab = actionBar.newTab();
-        infoTab.setText("Info");
         infoTab.setTabListener(new TabListener(kmeInfoFragment));
         infoTab.setIcon(R.drawable.info_24x24);
-        ActionBar.Tab settingsTab = actionBar.newTab();
-        settingsTab.setText("Settings");
         settingsTab.setTabListener(new TabListener(settingsFragment));
         settingsTab.setIcon(R.drawable.settings_24x24);
         actionBar.addTab(actualParamTab);
@@ -266,5 +274,19 @@ public class MainActivity extends FragmentActivity implements Observer,
     public void onConnectionStarting() {
         if(connectProgressDialog.isShowing())
             connectProgressDialog.dismiss();
+    }
+
+    private void prepareActionBarTitles() {
+        int width = getResources().getConfiguration().screenWidthDp;
+        if (width < 360 ) {
+            actualParamTab.setText("");
+            infoTab.setText("");
+            settingsTab.setText("");
+        }
+        else {
+            actualParamTab.setText("Readings");
+            infoTab.setText("Info");
+            settingsTab.setText("Settings");
+        }
     }
 }
