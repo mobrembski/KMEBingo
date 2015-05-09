@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:background="@android:color/black"
-    android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:stretchColumns="0">
+    android:shrinkColumns="0"
+    android:baselineAligned="false"
+    android:stretchColumns="1">
 
     <TableRow
         android:baselineAligned="false">
@@ -17,13 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Ignition Type:" />
 
         <Spinner
             android:id="@+id/IgnitionTypeSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/ignition_type" />
 
@@ -37,13 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="LPG switching point:" />
 
         <Spinner
             android:id="@+id/LPGSwitchingPointSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
     </TableRow>
@@ -56,8 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Switch when RPMs:" />
 
         <RadioButton
@@ -93,8 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Low RPM signal level:" />
 
         <org.jraf.android.backport.switchwidget.Switch
@@ -113,8 +106,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="CutOFF enabled:" />
 
         <org.jraf.android.backport.switchwidget.Switch
@@ -133,14 +124,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Minimal RPMS CutOFF:" />
 
         <Spinner
             android:id="@+id/MinimalCutOFFRPMSSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -154,14 +143,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Lowering from PWA:" />
 
         <Spinner
             android:id="@+id/LoweringPWASpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -174,8 +161,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Hight RPM limit:" />
 
         <org.jraf.android.backport.switchwidget.Switch
@@ -194,14 +179,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Limit:" />
 
         <Spinner
             android:id="@+id/HighRPMLimitSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 

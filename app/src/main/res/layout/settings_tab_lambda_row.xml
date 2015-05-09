@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:background="@android:color/black"
-    android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:stretchColumns="0">
+    android:shrinkColumns="0"
+    android:baselineAligned="false"
+    android:stretchColumns="1">
 
     <TableRow
         android:baselineAligned="false">
@@ -17,13 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Type:" />
 
         <Spinner
             android:id="@+id/LambdaTypeSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -43,7 +42,7 @@
 
         <Spinner
             android:id="@+id/LambdaNeutralPointSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
     </TableRow>
@@ -62,7 +61,7 @@
 
         <Spinner
             android:id="@+id/LambdaDelaySpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -82,7 +81,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationTypeSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_emul_type" />
 
@@ -102,7 +101,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationHStateSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -122,7 +121,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationLStateSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 

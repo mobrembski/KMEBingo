@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:background="@android:color/black"
-    android:measureWithLargestChild="true"
     android:orientation="vertical"
-    android:shrinkColumns="1"
-    android:stretchColumns="0">
+    android:shrinkColumns="0"
+    android:baselineAligned="false"
+    android:stretchColumns="1">
 
     <TableRow
         android:baselineAligned="false">
@@ -18,13 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="TPS type:" />
 
         <Spinner
             android:id="@+id/TpsTypeSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/TPS_type" />
 
@@ -38,13 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="TPS inertness on IDLE:" />
 
         <Spinner
             android:id="@+id/TpsInertnessSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 

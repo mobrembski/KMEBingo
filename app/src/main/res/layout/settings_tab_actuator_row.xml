@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_gravity="center_horizontal"
     android:background="@android:color/black"
     android:orientation="vertical"
-    android:stretchColumns="0">
+    android:shrinkColumns="0"
+    android:baselineAligned="false"
+    android:stretchColumns="1">
 
     <TableRow
         android:baselineAligned="false">
@@ -15,15 +17,12 @@
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Set PWA value" />
 
         <org.jraf.android.backport.switchwidget.Switch
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:id="@+id/SetPWAValueSwitch" />
     </TableRow>
 
@@ -35,13 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Value" />
 
         <Spinner
             android:id="@+id/SetPWAValueSpinner"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:dropDownWidth="match_parent"/>
     </TableRow>
@@ -54,13 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Minimal open on IDLE:" />
 
         <Spinner
             android:id="@+id/MinimalOpenOnIDLESpinner"
-            android:layout_width="0dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -73,13 +68,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Maximum open on IDLE:" />
 
         <Spinner
             android:id="@+id/MaximumOpenOnIDLESpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -92,13 +85,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Minimum open on LOAD:" />
 
         <Spinner
             android:id="@+id/MinimalOpenOnLOADSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -111,13 +102,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:text="Maximum open on LOAD:" />
 
         <Spinner
             android:id="@+id/MaximumOpenOnLOADSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -148,14 +137,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="Desired ATT pos" />
 
         <Spinner
             android:id="@+id/DesiredATTPosSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -168,14 +155,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
             android:text="TPS sense level:" />
 
         <Spinner
             android:id="@+id/TPSSenseLevelSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
 
@@ -194,7 +179,7 @@
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningIdleSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -212,7 +197,7 @@
         <Spinner
             android:id="@+id/SpeedCorrectionClosingIdleSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -230,7 +215,7 @@
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningLoadSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
@@ -248,7 +233,7 @@
         <Spinner
             android:id="@+id/SpeedCorrectionClosingLoadSpinner"
             style="@style/SettingsRowParameterItem"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
     </TableRow>
