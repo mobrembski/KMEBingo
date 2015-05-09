@@ -123,6 +123,7 @@
 
     <style name="ActionBarTextStyle">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textScaleX">0.8</item>
         <item name="android:actionMenuTextColor">@android:color/white</item>
         <item name="android:maxLines">1</item>
     </style>
