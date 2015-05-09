@@ -1,5 +1,6 @@
 package com.mobrembski.kmeviewer.Tabs;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -56,13 +57,16 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
     @Override
     public void onConnectionStopping() {
         stopAskingThread();
-        if (noConnectOverlay != null)
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    noConnectOverlay.bringToFront();
-                }
-            });
+        if (noConnectOverlay != null) {
+            Activity act = getActivity();
+            if (act != null)
+                act.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        noConnectOverlay.bringToFront();
+                    }
+                });
+        }
     }
 
     @Override
