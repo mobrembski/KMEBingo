@@ -16,6 +16,12 @@
         <item name="android:gravity">right</item>
     </style>
 
+    <style name="InfoTabButton" parent="@android:style/Widget.Button">
+        <item name="android:textAppearance">?android:textAppearanceLarge</item>
+        <item name="android:textColor">@color/ButtonText</item>
+        <item name="android:background">@drawable/button_default</item>
+    </style>
+
     <style name="SettingsRowParameterItem">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
         <item name="android:textColor">@android:color/white</item>
