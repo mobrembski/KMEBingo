@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mobrembski.kmeviewer.TPSView
+    <com.mobrembski.kmebingo.TPSView
         android:id="@+id/TPSView"
         android:layout_width="fill_parent"
         android:layout_height="20dp"

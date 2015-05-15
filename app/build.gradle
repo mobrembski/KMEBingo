@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.mobrembski.kmeviewer"
+        applicationId "com.mobrembski.kmebingo"
         minSdkVersion 11
         targetSdkVersion 21
     }

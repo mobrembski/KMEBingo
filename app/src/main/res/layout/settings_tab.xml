@@ -17,31 +17,31 @@
             android:background="@android:color/background_dark"
             android:orientation="vertical">
 
-            <com.mobrembski.kmeviewer.ExpandableRowView
+            <com.mobrembski.kmebingo.ExpandableRowView
                 android:id="@+id/LambdaSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:DescriptionText="Lambda" />
 
-            <com.mobrembski.kmeviewer.ExpandableRowView
+            <com.mobrembski.kmebingo.ExpandableRowView
                 android:id="@+id/ActuatorSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:DescriptionText="Actuator" />
 
-            <com.mobrembski.kmeviewer.ExpandableRowView
+            <com.mobrembski.kmebingo.ExpandableRowView
                 android:id="@+id/TPSSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:DescriptionText="TPS" />
 
-            <com.mobrembski.kmeviewer.ExpandableRowView
+            <com.mobrembski.kmebingo.ExpandableRowView
                 android:id="@+id/RPMsSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 app:DescriptionText="RPMs" />
 
-            <com.mobrembski.kmeviewer.ExpandableRowView
+            <com.mobrembski.kmebingo.ExpandableRowView
                 android:id="@+id/MiscSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

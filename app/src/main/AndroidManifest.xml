@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mobrembski.kmeviewer"
+    package="com.mobrembski.kmebingo"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mobrembski.kmeviewer.MainActivity"
+            android:name="com.mobrembski.kmebingo.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DeviceListActivity"
+            android:name="com.mobrembski.kmebingo.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="SelectDevice"
             android:theme="@android:style/Theme.Holo.Dialog"/>

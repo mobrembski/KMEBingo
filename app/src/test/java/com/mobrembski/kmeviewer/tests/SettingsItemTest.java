@@ -1,7 +1,7 @@
-package com.mobrembski.kmeviewer.tests;
+package com.mobrembski.kmebingo.tests;
 
-import com.mobrembski.kmeviewer.SerialFrames.SettingsItem;
-import com.mobrembski.kmeviewer.SerialFrames.SettingsRow;
+import com.mobrembski.kmebingo.SerialFrames.SettingsItem;
+import com.mobrembski.kmebingo.SerialFrames.SettingsRow;
 
 import org.junit.Assert;
 import org.junit.Before;

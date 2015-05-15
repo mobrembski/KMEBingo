@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mobrembski.kmeviewer.LambdaView
+    <com.mobrembski.kmebingo.LambdaView
         android:id="@+id/LambdaView"
         android:layout_width="fill_parent"
         android:layout_height="20dp"

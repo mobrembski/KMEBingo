@@ -4,22 +4,22 @@
     android:layout_height="match_parent"
     style="@android:style/Theme.Dialog">
 
-    <com.mobrembski.kmeviewer.SensorLevelView
+    <com.mobrembski.kmebingo.SensorLevelView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LpgSensorSensivityDialogSensorLevel4" />
 
-    <com.mobrembski.kmeviewer.SensorLevelView
+    <com.mobrembski.kmebingo.SensorLevelView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LpgSensorSensivityDialogSensorLevel3" />
 
-    <com.mobrembski.kmeviewer.SensorLevelView
+    <com.mobrembski.kmebingo.SensorLevelView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LpgSensorSensivityDialogSensorLevel2" />
 
-    <com.mobrembski.kmeviewer.SensorLevelView
+    <com.mobrembski.kmebingo.SensorLevelView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/LpgSensorSensivityDialogSensorLevel1" />

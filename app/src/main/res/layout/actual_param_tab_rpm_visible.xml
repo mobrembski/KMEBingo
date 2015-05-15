@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mobrembski.kmeviewer.RPMView
+    <com.mobrembski.kmebingo.RPMView
         android:id="@+id/RPMView"
         android:layout_width="fill_parent"
         android:layout_height="40dp"

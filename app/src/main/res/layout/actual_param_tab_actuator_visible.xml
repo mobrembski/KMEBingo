@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mobrembski.kmeviewer.ActuatorView
+    <com.mobrembski.kmebingo.ActuatorView
         android:id="@+id/ActuatorView"
         android:layout_width="fill_parent"
         android:layout_height="60dp"

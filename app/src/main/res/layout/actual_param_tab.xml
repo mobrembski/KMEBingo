@@ -18,14 +18,14 @@
             android:background="@android:color/background_dark"
             android:orientation="vertical">
 
-            <com.mobrembski.kmeviewer.GraphRow
+            <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/RPMChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:DescriptionText="RPM" />
 
-            <com.mobrembski.kmeviewer.GraphRow
+            <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/TPSChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -33,14 +33,14 @@
                 app:DescriptionText="TPS"
                 app:DescriptionAdditionalValueTextSize="4dp" />
 
-            <com.mobrembski.kmeviewer.GraphRow
+            <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/LambdaChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:DescriptionText="Lambda" />
 
-            <com.mobrembski.kmeviewer.GraphRow
+            <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/ActuatorChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 app:DescriptionText="Actuator"
                 app:DescriptionAdditionalValueTextSize="4dp" />
 
-            <com.mobrembski.kmeviewer.GraphRow
+            <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/TempChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
