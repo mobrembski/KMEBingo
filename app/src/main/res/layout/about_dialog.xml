@@ -9,7 +9,7 @@
             android:id="@+id/about_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bingo_s_orig_icon"
+            android:src="@drawable/logo"
             android:layout_gravity="center" />
         <LinearLayout
             android:orientation="vertical"
