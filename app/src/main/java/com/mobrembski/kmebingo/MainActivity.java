@@ -137,7 +137,8 @@ public class MainActivity extends FragmentActivity implements Observer,
 
     @Override
     protected void onResume() {
-        CreateAndStartBtController(btAddress);
+        if (!btAddress.equals("NULL"))
+            CreateAndStartBtController(btAddress);
         super.onResume();
     }
 
@@ -158,9 +159,17 @@ public class MainActivity extends FragmentActivity implements Observer,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_BT_ENABLE) {
-            if (resultCode != RESULT_OK) {
-                Toast.makeText(getApplicationContext(), "You must enable Bluetooth!", Toast.LENGTH_LONG).show();
+            if (resultCode == RESULT_CANCELED) {
+                // FIXME: For some reason we've got RESULT_CANCELLED when user has defined address
+                // and Bluetooth wasn't turned on. Can we get ENABLE_BLUETOOTH result twice?
+                // Need to be checked.
+                //Toast.makeText(getApplicationContext(), "You must enable Bluetooth!",
+                //        Toast.LENGTH_LONG).show();
                 return;
+            }
+            if (btAddress.equals("NULL")) {
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
             }
             return;
         }
@@ -174,7 +183,6 @@ public class MainActivity extends FragmentActivity implements Observer,
         if (device != null) {
             btAddress = device.getAddress();
             prefs.edit().putString("com.mobrembski.kmebingo.Device", btAddress).apply();
-            BluetoothController.getInstance().SetDevice(device);
         }
     }
 
@@ -188,8 +196,6 @@ public class MainActivity extends FragmentActivity implements Observer,
         int selectedTab = 0;
         if (savedInstanceState != null)
             selectedTab = savedInstanceState.getInt("selected-tab");
-        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "00:12:6F:2E:8A:03");
         ActionBar actionBar = getActionBar();
         assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -210,17 +216,21 @@ public class MainActivity extends FragmentActivity implements Observer,
         actionBar.addTab(settingsTab);
         actionBar.addTab(infoTab);
         actionBar.setSelectedNavigationItem(selectedTab);
+        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
+        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
+        if (btAddress.equals("NULL")) {
+            if (btAdapter != null && btAdapter.isEnabled()) {
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+            }
+        }
     }
 
     private void CreateAndStartBtController(String address) {
         // Device doesn't have a Bluetooth at all.
         if (btAdapter == null)
             return;
-        if (!btAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
-            return;
-        }
+        CheckIfBtAdapterIsEnabled();
         connectProgressDialog.show();
         final BluetoothDevice device = btAdapter.getRemoteDevice(address);
         if (BluetoothController.getInstance().IsConnected())
@@ -248,6 +258,18 @@ public class MainActivity extends FragmentActivity implements Observer,
             });
             AlertDialog dial = alertDialogBuilder.create();
             dial.show();
+            return;
+        }
+        CheckIfBtAdapterIsEnabled();
+    }
+
+    private void CheckIfBtAdapterIsEnabled() {
+        if (btAdapter == null)
+            return;
+        if (!btAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
+            return;
         }
     }
 
