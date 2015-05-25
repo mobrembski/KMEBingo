@@ -99,7 +99,7 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
         askingThreadRunning = false;
         if (askingThread != null) {
             try {
-                askingThread.join();
+                askingThread.join(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

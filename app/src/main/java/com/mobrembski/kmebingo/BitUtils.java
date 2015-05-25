@@ -158,6 +158,8 @@ public class BitUtils {
     public static int GetRPMFromRaw(int rawVal) {
         // This is a real magic. Don't ask what does this numbers means.
         // I don't know, i've just get this equation from KME.
+        if (rawVal == 0)
+            return 0;
         return 50 * RPMAccuracy * (
                (15000064 / rawVal + 25 * RPMAccuracy) / (50 * RPMAccuracy));
     }

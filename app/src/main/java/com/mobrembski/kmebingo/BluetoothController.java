@@ -161,7 +161,12 @@ public class BluetoothController extends Observable {
                 outStream.flush();
                 int avail;
                 do {
-                    if (!connected) {
+                    // For some reason, android not always throws exception
+                    // when using inStream on disabled bluetooth adapter.
+                    // I don't understand this. It will be fixed when
+                    // askForFrame will be rewritten as async task.
+                    if (!_bluetooth.isEnabled()) {
+                        Disconnect();
                         return new int[frame.answerSize];
                     }
                     // TODO: remove this sleep. Added just to free some
@@ -183,8 +188,10 @@ public class BluetoothController extends Observable {
                     packetsError++;
                 return values;
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            Disconnect();
+            return null;
         }
         return null;
     }
