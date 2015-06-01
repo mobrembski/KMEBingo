@@ -120,8 +120,10 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
 
     private int getLambdaColor(int rawVal) {
         switch (rawVal) {
+            case 3:
             case 1:
                 return LambdaGreenColor;
+            case 6:
             case 4:
                 return LambdaRedColor;
             default:
@@ -150,7 +152,6 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         LambdaRow.SetValueText(String.valueOf(dtn.Lambda) + " V");
                         LambdaRow.AddPoint(dtn.Lambda);
                         lambdaView.setLambdaValue(dtn.Lambda, LambdaColor);
-                        LambdaRow.SetValueColor(LambdaColor);
                         ActuatorRow.SetValueText(String.valueOf(dtn.Actuator));
                         ActuatorRow.AddPoint(dtn.Actuator);
                         ActuatorRow.SetAdditionalValueText("PWA: "+String.valueOf(dtn.PWA));
