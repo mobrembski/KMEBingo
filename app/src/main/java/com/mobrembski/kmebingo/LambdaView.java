@@ -19,6 +19,7 @@ public class LambdaView extends View {
     private int rectWidth;
     private int startPoint = 10;
     private float oldValue = 0;
+    private float maxValue = 1.0f;
     private int maxPoints;
 
     public LambdaView(Context ctx, AttributeSet set) {
@@ -51,12 +52,16 @@ public class LambdaView extends View {
         border_paint.setColor(rectColor);
     }
 
+    public void setLambdaMax(float max) {
+        maxValue = max;
+    }
+
     public void setLambdaValue(float value, int color) {
         // For performance, we don't invalidate view when value
         // wasn't changed.
         if (oldValue != value || rectColor != color) {
             rectColor = color;
-            float percent = 1.0f - (1.0f - value);
+            float percent = (value / maxValue);
             startPoint = (int) ((float) maxPoints * percent) + rectPadding;
             oldValue = value;
             invalidate();
