@@ -74,6 +74,7 @@ public class MainActivity extends FragmentActivity implements Observer,
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
+                CheckIfBtAdapterExist();
                 Intent serverIntent = new Intent(this, DeviceListActivity.class);
                 startActivityForResult(serverIntent, REQUEST_DISCOVERY);
                 return true;
