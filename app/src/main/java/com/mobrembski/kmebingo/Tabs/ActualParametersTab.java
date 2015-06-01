@@ -48,6 +48,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
     private int LambdaGreenColor;
     private int LambdaYellowColor;
     private int LambdaRedColor;
+    private float TpsMaxValue = 5.0f;
     private KMEDataConfig actualConfig;
 
     public ActualParametersTab() {
@@ -97,6 +98,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         LambdaRow.CreateRenderer(1, -1, 300, 0);
         ActuatorRow.CreateRenderer(255, 300);
         TemperatureRow.CreateRenderer(110, 0, 5000, 0);
+        getActualConfigAndPrepareViews();
         return v;
     }
 
@@ -133,7 +135,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
             final KMEDataActual dtn = new KMEDataActual(frame);
             final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
             final int LambdaColor = getLambdaColor(dtn.LambdaColor);
-            final float TPSPercentage = (dtn.TPS / 5.0f) * 100;
+            final float TPSPercentage = (dtn.TPS / TpsMaxValue) * 100;
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -234,6 +236,14 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
 
     @Override
     public void onConnectionStarting() {
+        getActualConfigAndPrepareViews();
+        super.onConnectionStarting();
+        TimeOnBenzinStart.setToNow();
+    }
+
+    private void getActualConfigAndPrepareViews() {
+        if (!BluetoothController.getInstance().IsConnected())
+            return;
         actualSettings = new KMEDataSettings(BluetoothController.getInstance()
                 .askForFrame(new KMEDataSettings()));
         actualConfig = new KMEDataConfig(BluetoothController.getInstance()
@@ -245,12 +255,17 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                     @Override
                     public void run() {
                         // 5 Volts TPS
-                        if (actualSettings.getTPSType() < 2)
+                        if (actualSettings.getTPSType() < 2) {
+                            TpsMaxValue = 5.0f;
                             TPSRow.CreateRenderer(5, 300);
-                        else
+                        }
+                        else {
+                            TpsMaxValue = 12.0f;
                             TPSRow.CreateRenderer(12, 300);
+                        }
                         // 0-1 Volts lambda
-                        if (actualSettings.getLambdaType() == 0 || actualSettings.getLambdaType() == 5) {
+                        if (actualSettings.getLambdaType() == 0 ||
+                                actualSettings.getLambdaType() == 5) {
                             lambdaView.setLambdaMax(1.0f);
                             LambdaRow.CreateRenderer(1, 300);
                         }
@@ -261,7 +276,5 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                     }
                 });
         }
-        super.onConnectionStarting();
-        TimeOnBenzinStart.setToNow();
     }
 }
