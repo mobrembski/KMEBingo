@@ -75,9 +75,7 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
         CutOFFTV = (TextView) myView.findViewById(R.id.CutOFFValue);
         LayoutInflater ownInflater = (LayoutInflater) getActivity().
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup parent = ActuatorRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.actual_param_tab_actuator_hidden, parent);
-        parent = ActuatorRow.getInjectVisibleView();
+        ViewGroup parent = ActuatorRow.getInjectVisibleView();
         ownInflater.inflate(R.layout.actual_param_tab_actuator_visible, parent);
         actuatorView = (ActuatorView) myView.findViewById(R.id.ActuatorView);
         parent = TemperatureRow.getInjectHiddenView();
@@ -158,8 +156,6 @@ public class ActualParametersTab extends KMEViewerTab implements ControllerEvent
                         actuatorView.setDataConfigFrame(actualConfig);
                         actuatorView.setPWAValue(dtn.PWA);
                         actuatorView.setActuatorSteps(dtn.Actuator);
-                        TextView tv = (TextView) myView.findViewById(R.id.ActualParamPWAValue);
-                        tv.setText(String.valueOf(dtn.PWA));
                         TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
                         TemperatureRow.SetAdditionalValueText("ON: " +
                                 String.valueOf(BitUtils.GetTemperature(
