@@ -27,4 +27,5 @@
     <color name="ActuatorRowBorder">#0000ff</color>
     <color name="ActuatorRowMarker">#ff212121</color>
     <color name="ActuatorRowActual">#0000ff</color>
+    <color name="ChartLabelColors">#ff212121</color>
 </resources>

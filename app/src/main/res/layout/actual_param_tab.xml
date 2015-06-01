@@ -23,7 +23,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:DescriptionText="RPM" />
+                app:DescriptionText="RPM"
+                app:XTitle="Samples"
+                app:YTitle="RPMs" />
 
             <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/TPSChartRow"
@@ -31,14 +33,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:DescriptionText="TPS"
-                app:DescriptionAdditionalValueTextSize="4dp" />
+                app:DescriptionAdditionalValueTextSize="4dp"
+                app:XTitle="Samples"
+                app:YTitle="Voltage" />
 
             <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/LambdaChartRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                app:DescriptionText="Lambda" />
+                app:DescriptionText="Lambda"
+                app:DescriptionAdditionalValueTextSize="4dp"
+                app:XTitle="Samples"
+                app:YTitle="Voltage" />
 
             <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/ActuatorChartRow"
@@ -46,7 +53,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:DescriptionText="Actuator"
-                app:DescriptionAdditionalValueTextSize="4dp" />
+                app:DescriptionAdditionalValueTextSize="4dp"
+                app:XTitle="Samples"
+                app:YTitle="Steps" />
 
             <com.mobrembski.kmebingo.GraphRow
                 android:id="@+id/TempChartRow"
@@ -54,7 +63,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
                 app:DescriptionText="Temperature"
-                app:DescriptionAdditionalValueTextSize="4dp" />
+                app:DescriptionAdditionalValueTextSize="4dp"
+                app:XTitle="Samples"
+                app:YTitle="Temperature" />
 
             <TableLayout
                 android:layout_width="fill_parent"

@@ -3,6 +3,7 @@ package com.mobrembski.kmebingo;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ public class GraphRow extends LinearLayout {
     private int chartPos = 0;
     private boolean isAnimating = false;
     private boolean graphEnabled = false;
+    private String XTitle, YTitle;
+    private XYMultipleSeriesRenderer mRenderer;
 
     public GraphRow(Context context, AttributeSet set) {
         super(context, set);
@@ -62,6 +65,12 @@ public class GraphRow extends LinearLayout {
                     break;
                 case R.styleable.GraphRow_DescriptionAdditionalValueTextSize:
                     DescriptionAdditionalValue.setTextSize(attributesArray.getDimension(attr, 3));
+                    break;
+                case R.styleable.GraphRow_XTitle:
+                    XTitle = attributesArray.getString(attr);
+                    break;
+                case R.styleable.GraphRow_YTitle:
+                    YTitle = attributesArray.getString(attr);
                     break;
             }
         }
@@ -146,7 +155,7 @@ public class GraphRow extends LinearLayout {
         renderer.setLineWidth(2);
         renderer.setColor(Color.RED);
         renderer.setDisplayBoundingPoints(false);
-        XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+        mRenderer = new XYMultipleSeriesRenderer();
         mRenderer.addSeriesRenderer(renderer);
         mRenderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
         mRenderer.setPanEnabled(false, false);
@@ -157,6 +166,12 @@ public class GraphRow extends LinearLayout {
         mRenderer.setPanEnabled(false, false);
         mRenderer.setXAxisMax(XMax);
         mRenderer.setXAxisMin(XMin);
+        mRenderer.setYLabelsAlign(Paint.Align.RIGHT);
+        mRenderer.setXTitle(XTitle);
+        mRenderer.setYTitle(YTitle);
+        mRenderer.setLabelsColor(getResources().getColor(R.color.ChartLabelColors));
+        mRenderer.setYLabelsColor(0, getResources().getColor(R.color.ChartLabelColors));
+        mRenderer.setXLabelsColor(getResources().getColor(R.color.ChartLabelColors));
         mRenderer.setYAxisMax(YMax);
         mRenderer.setShowLabels(true);
         mRenderer.setShowLegend(false);
@@ -186,6 +201,14 @@ public class GraphRow extends LinearLayout {
 
     public void SetValueColor(int color) {
         DescriptionValue.setTextColor(color);
+    }
+
+    public void SetXTitle(String val) {
+        mRenderer.setXTitle(val);
+    }
+
+    public void SetYTitle(String val) {
+        mRenderer.setYTitle(val);
     }
 
     public void SetAdditionalValueText(String value) {

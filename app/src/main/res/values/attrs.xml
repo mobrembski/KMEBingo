@@ -6,6 +6,8 @@
         <attr name="DescriptionTextSize" format="dimension"/>
         <attr name="DescriptionValueTextSize" format="dimension"/>
         <attr name="DescriptionAdditionalValueTextSize" format="dimension"/>
+        <attr name="XTitle" format="string"/>
+        <attr name="YTitle" format="string"/>
     </declare-styleable>
     <declare-styleable name="LambdaView">
         <attr name="LambdaViewBorderWidth" format="dimension"/>
