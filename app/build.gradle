@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         applicationId "com.mobrembski.kmebingo"
@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:support-v4:25.2.0'
     compile 'org.jraf:android-switch-backport:1.4.0'
     compile group: 'org.achartengine', name: 'achartengine', version: '1.2.0'
     testCompile 'junit:junit:4.12'
