@@ -1,5 +1,7 @@
 package com.mobrembski.kmebingo.SerialFrames;
 
+import org.greenrobot.eventbus.EventBus;
+
 @SuppressWarnings("UnusedDeclaration")
 public class KMEDataSettings extends KMEFrame {
     // region Variables declaration
@@ -83,6 +85,11 @@ public class KMEDataSettings extends KMEFrame {
 
     public KMEDataSettings(int[] array) {
         this();
+        fillWithData(array);
+    }
+
+    @Override
+    public void fillWithData(int[] array) {
         if (array == null || array.length == 0)
             return;
 
@@ -121,6 +128,11 @@ public class KMEDataSettings extends KMEFrame {
         }
 
         // TODO: Figure out how Neutral Point is coded
+    }
+
+    @Override
+    public void sendEventWithResponse() {
+        EventBus.getDefault().post(this);
     }
 
     public LevelSensorType getLevelSensor() {

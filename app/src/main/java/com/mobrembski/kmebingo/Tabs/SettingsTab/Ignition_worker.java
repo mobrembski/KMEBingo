@@ -10,20 +10,18 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.BluetoothController;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Ignition_worker implements AdapterView.OnItemSelectedListener,
-        RefreshViewsInterface, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedListener,
+        CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private final KMESettingsTab parent;
     private final Spinner IgnitionTypeSpinner;
     private final Spinner LPGSwitchingPointSpinner;
@@ -99,49 +97,41 @@ class Ignition_worker implements AdapterView.OnItemSelectedListener,
             actualDC.IgnitionType.SetValue(position + 1);
             int raw = actualDC.IgnitionType.GenerateRawByte();
             Log.d("Ignition_worker", "IgnitionTypeSpinner: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x18, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x18, raw), 2));
         }
         if (parent == LoweringToPWASpinner) {
             int raw = (position * 2) + 2;
             Log.d("Ignition_worker", "LoweringToPWASpinner:"+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x1B, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1B, raw), 2));
         }
         if (parent == LPGSwitchingPointSpinner) {
             Log.d("Ignition_worker", "LPGSwitchingPointSpinner");
             int selectedRPMS = Integer.parseInt(rpmAdapter.getItem(position));
             int rawRpm[] = BitUtils.GetRPMToRaw(selectedRPMS);
             Log.d("Ignition_worker", "LPGSwitchingPointSpinner raw LSB: "+rawRpm[1]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x16, rawRpm[1]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x16, rawRpm[1]), 2));
             Log.d("Ignition_worker", "LPGSwitchingPointSpinner raw MSB: "+rawRpm[0]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x17, rawRpm[0]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x17, rawRpm[0]), 2));
         }
         if (parent == LoweringToRPMSSpinner) {
             Log.d("Ignition_worker", "LoweringToRPMSSpinner");
             int selectedRPMS = Integer.parseInt(rpmAdapter.getItem(position));
             int rawRpm[] = BitUtils.GetRPMToRaw(selectedRPMS);
             Log.d("Ignition_worker", "LoweringToRPMSSpinner raw LSB: "+rawRpm[1]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x19, rawRpm[1]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x19, rawRpm[1]), 2));
             Log.d("Ignition_worker", "LoweringToRPMSSpinner raw MSB: "+rawRpm[0]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x1A, rawRpm[0]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1A, rawRpm[0]), 2));
         }
         if (parent == HighRPMLimitSpinner) {
             Log.d("Ignition_worker", "HighRPMLimitSpinner");
             int selectedRPMS = Integer.parseInt(rpmAdapter.getItem(position));
             int rawRpm[] = BitUtils.GetRPMToRaw(selectedRPMS);
             Log.d("Ignition_worker", "HighRPMLimitSpinner raw LSB: "+rawRpm[1]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x1C, rawRpm[1]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1C, rawRpm[1]), 2));
             Log.d("Ignition_worker", "HighRPMLimitSpinner raw MSB: "+rawRpm[0]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x1D, rawRpm[0]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1D, rawRpm[0]), 2));
         }
-        this.parent.refreshSettings();
+        this.parent.sendRequestsToDevice();
     }
 
     @Override
@@ -150,24 +140,33 @@ class Ignition_worker implements AdapterView.OnItemSelectedListener,
     }
 
     @Override
-    public void refreshValue(KMEDataSettings ds, KMEDataConfig dc, KMEDataInfo di) {
+    public void refreshViewsWhichDependsOnSettings(final KMEDataSettings ds) {
         actualDS = ds;
+        parent.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (ds.getTurnOnAtIncreasingRPM()) {
+                    FallingRadioButton.setChecked(false);
+                    RisingRadioButton.setChecked(true);
+                }
+                else {
+                    FallingRadioButton.setChecked(true);
+                    RisingRadioButton.setChecked(false);
+                }
+                CutOFFEnabledSwitch.setChecked(ds.getCutOffEnabled());
+                LoweringToPWASpinner.setEnabled(ds.getCutOffEnabled());
+                LoweringToRPMSSpinner.setEnabled(ds.getCutOffEnabled());
+                HighRPMLimitSwitch.setChecked(ds.getCutOffHighRPMEnabled());
+                HighRPMLimitSpinner.setEnabled(ds.getCutOffHighRPMEnabled());
+                LowRPMSignalSwitch.setChecked(ds.getLowRPMSignalLevel());
+                LowRPMSignalSwitch.setEnabled(true);
+            }
+        });
+    }
+
+    @Override
+    public void refreshViewsWhichDependsOnConfig(KMEDataConfig dc) {
         actualDC = dc;
-        if (ds.getTurnOnAtIncreasingRPM()) {
-            FallingRadioButton.setChecked(false);
-            RisingRadioButton.setChecked(true);
-        }
-        else {
-            FallingRadioButton.setChecked(true);
-            RisingRadioButton.setChecked(false);
-        }
-        CutOFFEnabledSwitch.setChecked(ds.getCutOffEnabled());
-        LoweringToPWASpinner.setEnabled(ds.getCutOffEnabled());
-        LoweringToRPMSSpinner.setEnabled(ds.getCutOffEnabled());
-        HighRPMLimitSwitch.setChecked(ds.getCutOffHighRPMEnabled());
-        HighRPMLimitSpinner.setEnabled(ds.getCutOffHighRPMEnabled());
-        LowRPMSignalSwitch.setChecked(ds.getLowRPMSignalLevel());
-        LowRPMSignalSwitch.setEnabled(true);
         setSpinnerRPMValue(HighRPMLimitSpinner,
                 dc.HighRPMLimit2.GetValue(), dc.HighRPMLimit1.GetValue());
         setSpinnerRPMValue(LPGSwitchingPointSpinner,
@@ -188,13 +187,13 @@ class Ignition_worker implements AdapterView.OnItemSelectedListener,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (actualDS == null) return;
         if (buttonView == LowRPMSignalSwitch) {
             LowRPMSignalSwitch.setChecked(isChecked);
             actualDS.setLowRPMSignalLevel(isChecked);
             int raw = actualDS.getLowRPMSingalLevelRaw();
             Log.d("Ignition_worker", "LowRPMSignalSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0A, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
         }
         if (buttonView == CutOFFEnabledSwitch) {
             LoweringToRPMSSpinner.setEnabled(isChecked);
@@ -202,17 +201,16 @@ class Ignition_worker implements AdapterView.OnItemSelectedListener,
             actualDS.setCutOffEnabled(isChecked);
             int raw = actualDS.getCutOffEnabledRaw();
             Log.d("Ignition_worker", "CutOFFEnabledSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         if (buttonView == HighRPMLimitSwitch) {
             HighRPMLimitSpinner.setEnabled(isChecked);
             actualDS.setCutOffHighRPMEnabled(isChecked);
             int raw = actualDS.getCutOffHighRPMEnabledRaw();
             Log.d("Ignition_worker", "HighRPMLimitSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
+        this.parent.sendRequestsToDevice();
     }
 
     @Override
@@ -234,9 +232,8 @@ class Ignition_worker implements AdapterView.OnItemSelectedListener,
             actualDS.setTurnOnAtIncreasingRPM(turnOnIncreasingRPM);
             int raw = actualDS.getTurnOnAtIncreasingRPMRaw();
             Log.d("Ignition_worker", "TurnOnIncreasingRPM: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
-        this.parent.refreshSettings();
+        parent.sendRequestsToDevice();
     }
 }

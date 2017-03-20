@@ -8,20 +8,17 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.BluetoothController;
 import com.mobrembski.kmebingo.R;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Misc_worker implements AdapterView.OnItemSelectedListener,
-        RefreshViewsInterface, CompoundButton.OnCheckedChangeListener {
+class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListener,
+        CompoundButton.OnCheckedChangeListener {
     private final KMESettingsTab parent;
     private final Switch TemperatureSensorEnabledSwitch;
     private final Spinner SwitchOnTempSpinner;
@@ -60,10 +57,9 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
 
         if (parent == SwitchOnTempSpinner) {
             // TODO: verify if its correct because its not :(
-            int tt = BitUtils.GetTemperatureRaw(position);
-            Log.d("Misc_worker", "Temperature set: " + tt);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x10, tt), 2));
+            int raw = BitUtils.GetTemperatureRaw(position);
+            Log.d("Misc_worker", "Temperature set: " + raw);
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x10, raw), 2));
         }
         if (parent == EconomySpinner) {
             switch (position) {
@@ -79,8 +75,7 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
             }
             int raw = actualDS.getEconomyModeRaw();
             Log.d("Misc_worker", "EconomySpinner: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0A, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
         }
         if (parent == SensorTypeSpinner) {
             switch (position) {
@@ -96,24 +91,21 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
             }
             int raw = actualDS.getLevelSensorRaw();
             Log.d("Misc_worker", "SensorType: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         if (parent == ValveOpenSpinner) {
             actualDS.setStartOnGasOpenTime(position);
             int raw = actualDS.getStartOnGasOpenTimeRaw();
             Log.d("Misc_worker", "ValveOpenSpinner: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x26, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x26, raw), 2));
         }
         if (parent == GasBenzinTimeSpinner) {
             actualDS.setGasBenzineTime(position);
             int raw = actualDS.getGasBenzineTimeRaw();
             Log.d("Misc_worker", "GasBenzinTimeSpinner: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0F, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0F, raw), 2));
         }
-        this.parent.refreshSettings();
+        this.parent.sendRequestsToDevice();
     }
 
     @Override
@@ -122,13 +114,14 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
     }
 
     @Override
-    public void refreshValue(KMEDataSettings ds, KMEDataConfig dc, KMEDataInfo di) {
+    public void refreshViewsWhichDependsOnSettings(KMEDataSettings ds) {
         actualDS = ds;
         TemperatureSensorEnabledSwitch.setOnCheckedChangeListener(null);
         TemperatureSensorEnabledSwitch.setChecked(ds.getTemperatureSensorEnabled());
         TemperatureSensorEnabledSwitch.setOnCheckedChangeListener(this);
         Utils.setSpinnerSelectionWithoutCallingListener(SwitchOnTempSpinner,
                 BitUtils.GetTemperature(ds.getLPGOnTemperature() - 1));
+        SwitchOnTempSpinner.setEnabled(ds.getTemperatureSensorEnabled());
         switch (ds.getEconomyMode())
         {
             case Normal:
@@ -144,6 +137,7 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
         StartOnGasSwitch.setOnCheckedChangeListener(null);
         StartOnGasSwitch.setChecked(ds.getStartOnLPG());
         StartOnGasSwitch.setOnCheckedChangeListener(this);
+        ValveOpenSpinner.setEnabled(ds.getStartOnLPG());
         switch (ds.getLevelSensor())
         {
             case Ohm:
@@ -164,22 +158,22 @@ class Misc_worker implements AdapterView.OnItemSelectedListener,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (actualDS == null) return;
         if (buttonView == TemperatureSensorEnabledSwitch) {
             SwitchOnTempSpinner.setEnabled(isChecked);
             actualDS.setTemperatureSensorEnabled(isChecked);
             int raw = actualDS.getTemperatureSensorEnabledRaw();
             Log.d("Misc_worker", "TemperatureSensorEnabledSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         if (buttonView == StartOnGasSwitch) {
             ValveOpenSpinner.setEnabled(isChecked);
             actualDS.setStartOnLPG(isChecked);
             int raw = actualDS.getStartOnLPGRaw();
             Log.d("Misc_worker", "StartOnGasSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0A, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
         }
+        this.parent.sendRequestsToDevice();
     }
 
     private ArrayAdapter<String> createAdapterForTemp() {

@@ -2,6 +2,8 @@ package com.mobrembski.kmebingo.SerialFrames;
 
 import com.mobrembski.kmebingo.BitUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 @SuppressWarnings("WeakerAccess, UnusedDeclaration")
 public class KMEDataIdent extends KMEFrame {
     public enum BingoType {
@@ -20,9 +22,8 @@ public class KMEDataIdent extends KMEFrame {
         super.answerSize = 3;
     }
 
-    public KMEDataIdent(int[] array) {
-        super.askFrame = new byte[]{0x65, 0x01, 0x01, 0x67};
-        super.answerSize = 3;
+    @Override
+    public void fillWithData(int[] array) {
         if (array == null || array.length == 0)
             return;
 
@@ -37,5 +38,16 @@ public class KMEDataIdent extends KMEFrame {
         VersionString = String.format("%d.%02d",
                 VersionMajor,
                 VersionMinor);
+    }
+
+    @Override
+    public void sendEventWithResponse() {
+        EventBus.getDefault().post(this);
+    }
+
+    public KMEDataIdent(int[] array) {
+        super.askFrame = new byte[]{0x65, 0x01, 0x01, 0x67};
+        super.answerSize = 3;
+        fillWithData(array);
     }
 }

@@ -1,5 +1,7 @@
 package com.mobrembski.kmebingo.SerialFrames;
 
+import org.greenrobot.eventbus.EventBus;
+
 @SuppressWarnings("UnusedDeclaration")
 public class KMEDataConfig extends KMEFrame {
     // region Variables declaration
@@ -45,14 +47,24 @@ public class KMEDataConfig extends KMEFrame {
         MinimalCutoffRPMS2.SetValue(0xFF);
     }
 
-    public KMEDataConfig(int[] array) {
-        this();
+    @Override
+    public void fillWithData(int[] array) {
         if (array == null || array.length == 0)
             return;
 
         for (int i = 1; i < answerSize; i++)
             rows[i - 1].SetFromRawByte(array[i]);
 
+    }
+
+    @Override
+    public void sendEventWithResponse() {
+        EventBus.getDefault().post(this);
+    }
+
+    public KMEDataConfig(int[] array) {
+        this();
+        fillWithData(array);
     }
 
 }

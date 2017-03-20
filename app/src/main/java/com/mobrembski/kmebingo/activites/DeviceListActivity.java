@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mobrembski.kmebingo;
+package com.mobrembski.kmebingo.activites;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -32,6 +32,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mobrembski.kmebingo.R;
 
 import java.util.Set;
 

@@ -8,26 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.mobrembski.kmebingo.BluetoothController;
-import com.mobrembski.kmebingo.ControllerEvent;
 import com.mobrembski.kmebingo.ExpandableRowView;
-import com.mobrembski.kmebingo.FactoryResetDialog;
 import com.mobrembski.kmebingo.R;
+import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.Tabs.KMEViewerTab;
+import com.mobrembski.kmebingo.activites.FactoryResetDialog;
+import com.mobrembski.kmebingo.activites.MainActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
-    private final List<RefreshViewsInterface> views = new ArrayList<>();
+public class KMESettingsTab extends KMEViewerTab {
+    private final List<IRefreshSettingViews> views = new ArrayList<>();
     View usedView;
 
     public KMESettingsTab() {
+        super();
         this.layoutId = R.layout.settings_tab;
-        super.setAskFrame(null);
     }
 
     @Override
@@ -41,7 +44,7 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         factoryResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FactoryResetDialog dialog = new FactoryResetDialog(getActivity());
+                FactoryResetDialog dialog = new FactoryResetDialog(getActivity(), btManager);
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
@@ -76,26 +79,52 @@ public class KMESettingsTab extends KMEViewerTab implements ControllerEvent {
         views.add(new Ignition_worker(this));
         views.add(new Misc_worker(this));
 
-        refreshSettings();
         return v;
     }
 
-    public void packetReceived(final int[] frame) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        this.btManager = mainActivity.btManager;
+        for(IRefreshSettingViews view : views) {
+            view.setBluetoothManager(btManager);
+        }
+        sendRequestsToDevice();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final KMEDataInfo info) {
+        for(IRefreshSettingViews bw : views) {
+            bw.refreshViewsWhichDependsOnInfo(info);
+        }
 
     }
 
-    public void refreshSettings() {
-        BluetoothController controller = BluetoothController.getInstance();
-        KMEDataSettings actualSettings = new KMEDataSettings();
-        KMEDataConfig actualConfig = new KMEDataConfig();
-        KMEDataInfo actualInfo = new KMEDataInfo();
-        if (controller.IsConnected()) {
-            actualSettings = new KMEDataSettings(controller.askForFrame(new KMEDataSettings()));
-            actualConfig = new KMEDataConfig(controller.askForFrame(new KMEDataConfig()));
-            actualInfo = new KMEDataInfo(controller.askForFrame(new KMEDataInfo()));
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final KMEDataConfig config) {
+        for(IRefreshSettingViews bw : views) {
+            bw.refreshViewsWhichDependsOnConfig(config);
         }
+    }
 
-        for (RefreshViewsInterface view : views)
-            view.refreshValue(actualSettings, actualConfig, actualInfo);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final KMEDataSettings settings) {
+        for(IRefreshSettingViews bw : views) {
+            bw.refreshViewsWhichDependsOnSettings(settings);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final KMEDataActual actual) {
+        for(IRefreshSettingViews bw : views) {
+            bw.refreshViewsWhichDependsOnActual(actual);
+        }
+    }
+
+    public void sendRequestsToDevice() {
+        btManager.postNewRequest(new KMEDataActual(), 1);
+        btManager.postNewRequest(new KMEDataSettings(), 1);
+        btManager.postNewRequest(new KMEDataConfig(), 1);
     }
 }

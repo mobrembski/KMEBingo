@@ -7,19 +7,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.BluetoothController;
 import com.mobrembski.kmebingo.R;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Lambda_worker implements AdapterView.OnItemSelectedListener,
-        RefreshViewsInterface
-{
+class Lambda_worker extends Base_worker implements AdapterView.OnItemSelectedListener {
     private static final int LambdaRange1DefaultNeutralPoint = 22;
     private static final int LambdaRange2DefaultNeutralPoint = 60;
     private static final int LambdaRange3DefaultNeutralPoint = 127;
@@ -61,31 +56,26 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (actualDS == null) return;
         if (parent == LambdaTypeSpinner) {
             Log.d("Lambda_worker", "LambdaTypeSpinner: " + position);
             actualDS.setLambdaType(position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x07, actualDS.getLambdaTypeRaw()), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x07, actualDS.getLambdaTypeRaw()), 2));
             if (position == 0)
-                BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x08, LambdaRange1DefaultNeutralPoint), 2));
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x08, LambdaRange1DefaultNeutralPoint), 2));
             if (position == 5)
-                BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x08, LambdaRange2DefaultNeutralPoint), 2));
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x08, LambdaRange2DefaultNeutralPoint), 2));
             if (position > 0 && position != 5)
-                BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x08, LambdaRange3DefaultNeutralPoint), 2));
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x08, LambdaRange3DefaultNeutralPoint), 2));
         }
         if (parent == LambdaNeutralPointSpinner) {
             int rawVal = getNeutralPointSelectionToRaw(position);
             Log.d("Lambda_worker", "LambdaNeutralPointSpinner: " + position + " raw: " + rawVal);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x08, rawVal), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x08, rawVal), 2));
         }
         if (parent == LambdaDelaySpinner) {
             Log.d("Lambda_worker", "LambdaDelaySpinner: " + (position + 1));
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x09, position + 1), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x09, position + 1), 2));
         }
         if (parent == LambdaEmulationTypeSpinner) {
             switch (position) {
@@ -104,21 +94,18 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
             }
             int raw = actualDS.getLambdaEmulationTypeRaw();
             Log.d("Lambda_worker", "LambdaEmulationTypeSpinner: " + raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0A, raw), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
         }
 
         if (parent == LambdaEmulationHStateSpinner) {
             Log.d("Lambda_worker", "LambdaEmulationHStateSpinner: " + (position+1));
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0B, position + 1), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0B, position + 1), 2));
         }
         if (parent == LambdaEmulationLStateSpinner) {
             Log.d("Lambda_worker", "LambdaEmulationLStateSpinner: " + (position+1));
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x0C, position + 1), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0C, position + 1), 2));
         }
-        this.parent.refreshSettings();
+        this.parent.sendRequestsToDevice();
     }
 
     @Override
@@ -179,7 +166,8 @@ class Lambda_worker implements AdapterView.OnItemSelectedListener,
         return spinnerPosition + LambdaRange3Offset;
     }
 
-    public void refreshValue(KMEDataSettings ds, KMEDataConfig dc, KMEDataInfo di) {
+    @Override
+    public void refreshViewsWhichDependsOnSettings(KMEDataSettings ds) {
         actualDS = ds;
         int lambdaType = ds.getLambdaType();
         Utils.setSpinnerSelectionWithoutCallingListener(LambdaTypeSpinner, lambdaType);

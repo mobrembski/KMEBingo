@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mobrembski.kmebingo.MainActivity"
+            android:name="com.mobrembski.kmebingo.activites.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mobrembski.kmebingo.DeviceListActivity"
+            android:name="com.mobrembski.kmebingo.activites.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="SelectDevice"
             android:theme="@android:style/Theme.Holo.Dialog"/>

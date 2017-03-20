@@ -2,6 +2,8 @@ package com.mobrembski.kmebingo.SerialFrames;
 
 import com.mobrembski.kmebingo.BitUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.mobrembski.kmebingo.BitUtils.GetRPMFromRaw;
 import static com.mobrembski.kmebingo.BitUtils.GetVoltage;
 
@@ -26,9 +28,8 @@ public class KMEDataActual extends KMEFrame {
         super.answerSize = 10;
     }
 
-    public KMEDataActual(int[] array) {
-        super.askFrame = new byte[]{0x65, 0x02, 0x02, 0x69};
-        super.answerSize = 10;
+    @Override
+    public void fillWithData(int[] array) {
         if (array == null || array.length == 0)
             return;
 
@@ -49,5 +50,16 @@ public class KMEDataActual extends KMEFrame {
         TemperatureOK = BitUtils.BitIsSet(array[8], 128);
 
         ActualTemp = BitUtils.GetTemperature(array[9]);
+    }
+
+    @Override
+    public void sendEventWithResponse() {
+        EventBus.getDefault().post(this);
+    }
+
+    public KMEDataActual(int[] array) {
+        super.askFrame = new byte[]{0x65, 0x02, 0x02, 0x69};
+        super.answerSize = 10;
+        fillWithData(array);
     }
 }

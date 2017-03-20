@@ -2,6 +2,8 @@ package com.mobrembski.kmebingo.SerialFrames;
 
 import com.mobrembski.kmebingo.BitUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 @SuppressWarnings("UnusedDeclaration")
 public class KMEDataInfo extends KMEFrame {
     public int SensorLevel1;
@@ -30,8 +32,8 @@ public class KMEDataInfo extends KMEFrame {
                 ActuatorSpeedLoadOpeningCorrection, ActuatorSpeedLoadClosingCorrection});
     }
 
-    public KMEDataInfo(int[] array) {
-        this();
+    @Override
+    public void fillWithData(int[] array) {
         if (array == null || array.length == 0)
             return;
 
@@ -55,5 +57,15 @@ public class KMEDataInfo extends KMEFrame {
         for (int i = 13; i <= 19; i++)
             sb.append((char) array[i]);
         RegistrationPlate = sb.toString();
+    }
+
+    @Override
+    public void sendEventWithResponse() {
+        EventBus.getDefault().post(this);
+    }
+
+    public KMEDataInfo(int[] array) {
+        this();
+        fillWithData(array);
     }
 }

@@ -1,6 +1,6 @@
 package com.mobrembski.kmebingo.SerialFrames;
 
-public class KMEFrame {
+public abstract class KMEFrame {
     public byte[] askFrame;
     public int answerSize;
 
@@ -17,4 +17,8 @@ public class KMEFrame {
         askFrame = customCommandBytes;
         answerSize = expectedAnswerSize;
     }
+
+    public abstract void fillWithData(int[] responseArray);
+
+    public abstract void sendEventWithResponse();
 }

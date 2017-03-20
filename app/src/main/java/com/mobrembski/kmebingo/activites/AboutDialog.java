@@ -1,4 +1,4 @@
-package com.mobrembski.kmebingo;
+package com.mobrembski.kmebingo.activites;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mobrembski.kmebingo.R;
 
 /*
 * This class is made only for compatibility.

@@ -8,13 +8,11 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.BluetoothController;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
-import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
 import org.jraf.android.backport.switchwidget.Switch;
 
@@ -23,8 +21,8 @@ import java.util.List;
 
 import static com.mobrembski.kmebingo.BitUtils.GetVoltage;
 
-class Actuator_worker implements AdapterView.OnItemSelectedListener,
-        RefreshViewsInterface, CompoundButton.OnCheckedChangeListener
+class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedListener,
+        CompoundButton.OnCheckedChangeListener
 {
     private final KMESettingsTab parent;
     private final Spinner PWAValueSpinner;
@@ -36,7 +34,7 @@ class Actuator_worker implements AdapterView.OnItemSelectedListener,
     private final Spinner DesiredATTPosSpinner;
     private final Spinner TPSSenseSpinner;
     private final Switch SetATTPosSwitch;
-    private KMEDataSettings actualDS;
+    private KMEDataSettings actualDS = new KMEDataSettings();
 
     public Actuator_worker(KMESettingsTab parent) {
         this.parent = parent;
@@ -71,40 +69,33 @@ class Actuator_worker implements AdapterView.OnItemSelectedListener,
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == PWAValueSpinner) {
             Log.d("Actuator_worker", "PWAValueSpinner: " + position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x13, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x13, position), 2));
         }
         if (parent == MinimalOpenIdleSpinner) {
             Log.d("Actuator_worker", "MinimalOpenIdleSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x21, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x21, position), 2));
         }
         if (parent == MaximumOpenIdleSpinner) {
             Log.d("Actuator_worker", "MaximumOpenIdleSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x20, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x20, position), 2));
         }
         if (parent == MinimalOpenLoadSpinner) {
             Log.d("Actuator_worker", "MinimalOpenLoadSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x12, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x12, position), 2));
         }
         if (parent == MaximumOpenLoadSpinner) {
             Log.d("Actuator_worker", "MaximumOpenLoadSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x11, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x11, position), 2));
         }
         if (parent == TPSSenseSpinner) {
             Log.d("Actuator_worker", "TPSSenseSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x14, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x14, position), 2));
         }
         if (parent == DesiredATTPosSpinner) {
             Log.d("Actuator_worker", "DesiredATTPosSpinner: "+position);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x15, position), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x15, position), 2));
         }
-        this.parent.refreshSettings();
+        this.parent.sendRequestsToDevice();
     }
 
     @Override
@@ -113,18 +104,16 @@ class Actuator_worker implements AdapterView.OnItemSelectedListener,
     }
 
     @Override
-    public void refreshValue(KMEDataSettings ds, KMEDataConfig dc, KMEDataInfo di) {
-        Log.d("Actuator_worker", "refresh");
-        actualDS = ds;
-        PWAEnabledSwitch.setOnCheckedChangeListener(null);
-        PWAEnabledSwitch.setChecked(ds.getPWAEnabled());
-        PWAEnabledSwitch.setOnCheckedChangeListener(this);
-        PWAValueSpinner.setEnabled(ds.getPWAEnabled());
-        Log.d("Actuator_worker", String.valueOf(ds.getATTEnabled()));
+    public void refreshViewsWhichDependsOnActual(KMEDataActual da) {
+        Utils.setSpinnerSelectionWithoutCallingListener(PWAValueSpinner, da.PWA);
+    }
 
-        int PWAValue = new KMEDataActual(
-                BluetoothController.getInstance().askForFrame(new KMEDataActual())).PWA;
-        Utils.setSpinnerSelectionWithoutCallingListener(PWAValueSpinner, PWAValue);
+    @Override
+    public void refreshViewsWhichDependsOnConfig(KMEDataConfig dc) {
+        Utils.setSpinnerSelectionWithoutCallingListener(DesiredATTPosSpinner,
+                dc.ATTEnrichFuelMixture.GetValue());
+        Utils.setSpinnerSelectionWithoutCallingListener(TPSSenseSpinner,
+                dc.ATTTPSSenseLevel.GetValue());
 
         Utils.setSpinnerSelectionWithoutCallingListener(MinimalOpenIdleSpinner,
                 dc.ActuatorMinOpenOnIdle.GetValue());
@@ -134,27 +123,38 @@ class Actuator_worker implements AdapterView.OnItemSelectedListener,
                 dc.ActuatorMinOpenOnLoad.GetValue());
         Utils.setSpinnerSelectionWithoutCallingListener(MaximumOpenLoadSpinner,
                 dc.ActuatorMaxOpenOnLoad.GetValue());
+    }
 
-        SetATTPosSwitch.setOnCheckedChangeListener(null);
-        SetATTPosSwitch.setChecked(ds.getATTEnabled());
-        SetATTPosSwitch.setOnCheckedChangeListener(this);
-        DesiredATTPosSpinner.setEnabled(ds.getATTEnabled());
-        TPSSenseSpinner.setEnabled(ds.getATTEnabled());
-        Utils.setSpinnerSelectionWithoutCallingListener(DesiredATTPosSpinner,
-                dc.ATTEnrichFuelMixture.GetValue());
-        Utils.setSpinnerSelectionWithoutCallingListener(TPSSenseSpinner,
-                dc.ATTTPSSenseLevel.GetValue());
+    @Override
+    public void refreshViewsWhichDependsOnSettings(final KMEDataSettings ds) {
+        actualDS = ds;
+        parent.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                PWAEnabledSwitch.setOnCheckedChangeListener(null);
+                PWAEnabledSwitch.setChecked(ds.getPWAEnabled());
+                PWAEnabledSwitch.setOnCheckedChangeListener(Actuator_worker.this);
+                PWAValueSpinner.setEnabled(ds.getPWAEnabled());
+                SetATTPosSwitch.setOnCheckedChangeListener(null);
+                SetATTPosSwitch.setChecked(ds.getATTEnabled());
+                SetATTPosSwitch.setOnCheckedChangeListener(Actuator_worker.this);
+                DesiredATTPosSpinner.setEnabled(ds.getATTEnabled());
+                TPSSenseSpinner.setEnabled(ds.getATTEnabled());
+                Log.d("Actuator_worker", String.valueOf(ds.getATTEnabled()));
+            }
+        });
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (actualDS == null) return;
         if (buttonView == PWAEnabledSwitch) {
             PWAValueSpinner.setEnabled(isChecked);
             actualDS.setPWAEnabled(!isChecked);
             int raw = actualDS.getPWAEnabledRaw();
             Log.d("Actuator_worker", "PWAEnabledSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            if (btManager != null)
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         if (buttonView == SetATTPosSwitch) {
             TPSSenseSpinner.setEnabled(isChecked);
@@ -162,10 +162,10 @@ class Actuator_worker implements AdapterView.OnItemSelectedListener,
             actualDS.setATTEnabled(isChecked);
             int raw = actualDS.getATTEnabledRaw();
             Log.d("Actuator_worker", "SetATTPosSwitch: "+raw);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x06, raw), 2));
+            if (btManager != null)
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
-        this.parent.refreshSettings();
+        parent.sendRequestsToDevice();
     }
 
     private ArrayAdapter<String> createTPSenseAdapter() {

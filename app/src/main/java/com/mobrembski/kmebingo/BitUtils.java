@@ -193,6 +193,16 @@ public class BitUtils {
         return ret;
     }
 
+    public static int getCRC(byte[] frameByte) {
+        int sum = 0;
+        for (int j = 0; j < frameByte.length; j++) {
+            if (j < frameByte.length - 1)
+                sum += (frameByte[j] & 0xff);
+        }
+        sum = sum & 0xFF;
+        return sum;
+    }
+
     public static byte[] packFrame(char id, char val) {
         byte[] frameByte = new byte[4];
         frameByte[0] = 0x65;
@@ -201,7 +211,7 @@ public class BitUtils {
         // This zero here is just for simplyfing CRC
         // generation algorithm
         frameByte[3] = 0;
-        frameByte[3] = (byte) BluetoothController.getCRC(frameByte);
+        frameByte[3] = (byte) getCRC(frameByte);
         return frameByte;
     }
 

@@ -1,6 +1,5 @@
 package com.mobrembski.kmebingo.Tabs;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -19,28 +18,26 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.BluetoothController;
-import com.mobrembski.kmebingo.ControllerEvent;
-import com.mobrembski.kmebingo.LPGSensorSensivityChangeDialog;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataIdent;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
+import com.mobrembski.kmebingo.activites.LPGSensorSensivityChangeDialog;
+import com.mobrembski.kmebingo.activites.MainActivity;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Calendar;
 
-public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
-    private KMEDataInfo dtn;
-    private KMEDataIdent ident;
+public class KMEInfoTab extends KMEViewerTab {
     private Button registrationChangeBtn;
     private Button installationDateChangeBtn;
     private Button changeRunningTimeBtn;
     private Button changeSensorLevelLevelsBtn;
+    private KMEDataInfo currentDataInfo;
 
-    public KmeInfoTab() {
+    public KMEInfoTab() {
         this.layoutId = R.layout.info_tab;
-        this.askFrame = new KMEDataInfo();
-        super.setAskFrame(askFrame);
     }
 
     @Override
@@ -73,72 +70,76 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         changeSensorLevelLevelsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LPGSensorSensivityChangeDialog dialog = new LPGSensorSensivityChangeDialog(getActivity());
+                LPGSensorSensivityChangeDialog dialog =
+                        new LPGSensorSensivityChangeDialog(getActivity(), btManager);
                 dialog.show();
             }
         });
-        if (BluetoothController.getInstance().IsConnected())
-            ident = new KMEDataIdent(BluetoothController.getInstance()
-                    .askForFrame(new KMEDataIdent()));
         return v;
     }
 
-    public void packetReceived(final int[] frame) {
-        Activity main = getActivity();
-        if (main != null && frame != null) {
-            dtn = new KMEDataInfo(frame);
-            main.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    TextView tv = (TextView) myView.findViewById(R.id.ControllerTypeValue);
-                    if (ident.ControllerType == KMEDataIdent.BingoType.BingoM)
-                        tv.setText("Bingo M");
-                    else
-                        tv.setText("Bingo S");
-                    tv = (TextView) myView.findViewById(R.id.VersionValue);
-                    tv.setText(ident.VersionString);
-                    tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
-                    tv.setText(String.valueOf(dtn.hoursOnGas + "h " + dtn.minutesOnGas + "min"));
-                    tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
-                    tv.setText(dtn.RegistrationPlate);
-                    tv = (TextView) myView.findViewById(R.id.DateOfInstallationValue);
-                    tv.setText(dtn.DayOfInstallation + "-" + dtn.MonthOfInstallation + "-" +
-                            dtn.YearOfInstallation);
-                    tv = (TextView) myView.findViewById(R.id.TankLevelValue);
-                    switch (dtn.LevelIndicatorOn) {
-                        case 4:
-                            tv.setText("100%");
-                            break;
-                        case 3:
-                            tv.setText("75%");
-                            break;
-                        case 2:
-                            tv.setText("50%");
-                            break;
-                        case 1:
-                            tv.setText("25%");
-                            break;
-                        case 0:
-                            tv.setText("LOW LEVEL");
-                            break;
-                    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        this.btManager = mainActivity.btManager;
+        sendRequestsToDevice();
+    }
+
+    private void sendRequestsToDevice() {
+        btManager.postNewRequest(new KMEDataInfo(), 1);
+        btManager.postNewRequest(new KMEDataIdent(), 1);
+    }
+
+    @Subscribe
+    public void onEvent(final KMEDataIdent ident) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView tv = (TextView) myView.findViewById(R.id.ControllerTypeValue);
+                if (ident.ControllerType == KMEDataIdent.BingoType.BingoM)
+                    tv.setText("Bingo M");
+                else
+                    tv.setText("Bingo S");
+                tv = (TextView) myView.findViewById(R.id.VersionValue);
+                tv.setText(ident.VersionString);
+            }
+        });
+    }
+
+    @Subscribe
+    public void onEvent(final KMEDataInfo info) {
+        this.currentDataInfo = info;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView tv = (TextView) myView.findViewById(R.id.TimeOnGasValue);
+                tv.setText(String.valueOf(info.hoursOnGas + "h " + info.minutesOnGas + "min"));
+                tv = (TextView) myView.findViewById(R.id.RegistrationPlateValue);
+                tv.setText(info.RegistrationPlate);
+                tv = (TextView) myView.findViewById(R.id.DateOfInstallationValue);
+                tv.setText(info.DayOfInstallation + "-" + info.MonthOfInstallation + "-" +
+                        info.YearOfInstallation);
+                tv = (TextView) myView.findViewById(R.id.TankLevelValue);
+                switch (info.LevelIndicatorOn) {
+                    case 4:
+                        tv.setText("100%");
+                        break;
+                    case 3:
+                        tv.setText("75%");
+                        break;
+                    case 2:
+                        tv.setText("50%");
+                        break;
+                    case 1:
+                        tv.setText("25%");
+                        break;
+                    case 0:
+                        tv.setText("LOW LEVEL");
+                        break;
                 }
-            });
-        }
-    }
-
-    @Override
-    public void onConnectionStarting() {
-        // We don't have to update ident. It's just hardcoded
-        // into controller, so let's ask for ident only after connecting.
-        ident = new KMEDataIdent(BluetoothController.getInstance()
-                .askForFrame(new KMEDataIdent()));
-        super.onConnectionStarting();
-    }
-
-    @Override
-    public void onConnectionStopping() {
-        super.onConnectionStopping();
+            }
+        });
     }
 
     private void changeRunningCounterBtnClick(View v) {
@@ -146,12 +147,12 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         final NumberPicker hoursPicker = (NumberPicker) npView.findViewById(R.id.RunningHoursPicker);
         hoursPicker.setMaxValue(65535);
         hoursPicker.setMinValue(0);
-        hoursPicker.setValue(dtn.hoursOnGas);
+        hoursPicker.setValue(currentDataInfo.hoursOnGas);
         final NumberPicker minutesPicker = (NumberPicker) npView.findViewById(
                 R.id.RunningMinutesPicker);
         minutesPicker.setMaxValue(60);
         minutesPicker.setMinValue(0);
-        minutesPicker.setValue(dtn.minutesOnGas);
+        minutesPicker.setValue(currentDataInfo.minutesOnGas);
         new AlertDialog.Builder(v.getContext())
                 .setView(npView)
                 .setTitle("Change running time")
@@ -163,21 +164,15 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                                 minutesPicker.getValue());
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
     private void registrationChangeBtnClick(View v) {
         final EditText inputText = new EditText(v.getContext());
-        inputText.setText(this.dtn.RegistrationPlate);
+        inputText.setText(this.currentDataInfo.RegistrationPlate);
         inputText.setGravity(Gravity.CENTER);
         inputText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(7)});
-        onConnectionStopping();
         new AlertDialog.Builder(v.getContext())
                 .setTitle("Change registration")
                 .setMessage("Enter registration number")
@@ -186,16 +181,10 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String newRegNumber = inputText.getText().toString();
-                        //changeRegistrationTask will handle starting again asking thread
                         new changeRegistrationTask().execute(newRegNumber);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        onConnectionStarting();
-                    }
-                })
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
@@ -204,7 +193,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        onConnectionStopping();
         DatePickerDialog dpd = new DatePickerDialog(v.getContext(),
                 new DatePickerDialog.OnDateSetListener() {
 
@@ -214,12 +202,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
                         new changeInstallationDateTask().execute(year, month, day);
                     }
                 }, mYear, mMonth, mDay);
-        dpd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                onConnectionStarting();
-            }
-        });
         dpd.setTitle("Change installation date");
         dpd.show();
     }
@@ -231,7 +213,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            onConnectionStopping();
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(7);
@@ -244,8 +225,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         protected Void doInBackground(String... params) {
             char tab[] = params[0].toCharArray();
             for (int i = 0; i < tab.length; i++) {
-                BluetoothController.getInstance().askForFrame(new KMEFrame(
-                        BitUtils.packFrame(0x2B + i, tab[i]), 2));
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x2B + i, tab[i]), 2));
                 publishProgress(i + 1);
             }
             return null;
@@ -255,7 +235,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            onConnectionStarting();
+            sendRequestsToDevice();
         }
 
         @Override
@@ -270,7 +250,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            onConnectionStopping();
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(3);
@@ -282,24 +261,12 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         @Override
         protected Void doInBackground(Integer... params) {
             char[] tab = BitUtils.GetRawRunningCounter(params[0], params[1]);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x27, tab[1]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x27, tab[1]), 2));
             publishProgress(1);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x28, tab[2]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x28, tab[2]), 2));
             publishProgress(2);
-            BluetoothController.getInstance().askForFrame(new KMEFrame(
-                    BitUtils.packFrame(0x32, tab[0]), 2));
-            publishProgress(2);
-            try {
-                Thread.sleep(100);
-                publishProgress(2);
-                Thread.sleep(100);
-                publishProgress(3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x32, tab[0]), 2));
+            publishProgress(3);
             return null;
         }
 
@@ -307,7 +274,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            onConnectionStarting();
+            sendRequestsToDevice();
         }
 
         @Override
@@ -322,7 +289,6 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            onConnectionStopping();
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(2);
@@ -334,10 +300,8 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         @Override
         protected Void doInBackground(Integer... params) {
             char tab[] = BitUtils.GetRawDate(params[0], params[1], params[2]);
-            KMEFrame DateFrame1 = new KMEFrame(BitUtils.packFrame(0x29, tab[0]), 2);
-            KMEFrame DateFrame2 = new KMEFrame(BitUtils.packFrame(0x2A, tab[1]), 2);
-            BluetoothController.getInstance().askForFrame(DateFrame1);
-            BluetoothController.getInstance().askForFrame(DateFrame2);
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x29, tab[0]), 2));
+            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x2A, tab[1]), 2));
             return null;
         }
 
@@ -345,7 +309,7 @@ public class KmeInfoTab extends KMEViewerTab implements ControllerEvent {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            onConnectionStarting();
+            sendRequestsToDevice();
         }
 
         @Override

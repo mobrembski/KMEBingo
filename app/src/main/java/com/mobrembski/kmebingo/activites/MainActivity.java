@@ -1,4 +1,4 @@
-package com.mobrembski.kmebingo;
+package com.mobrembski.kmebingo.activites;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -12,26 +12,29 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.mobrembski.kmebingo.R;
+import com.mobrembski.kmebingo.TabListener;
 import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
+import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
 import com.mobrembski.kmebingo.Tabs.KMEViewerTab;
-import com.mobrembski.kmebingo.Tabs.KmeInfoTab;
 import com.mobrembski.kmebingo.Tabs.SettingsTab.KMESettingsTab;
+import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.SerialConnectionStatusEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Method;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends FragmentActivity implements Observer,
-        ControllerExceptionEvent, ControllerEvent {
+public class MainActivity extends FragmentActivity {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private BluetoothAdapter btAdapter;
@@ -41,6 +44,97 @@ public class MainActivity extends FragmentActivity implements Observer,
     private ActionBar.Tab actualParamTab;
     private ActionBar.Tab settingsTab;
     private ActionBar.Tab infoTab;
+    // TODO Fix this dep
+    public BluetoothConnectionManager btManager;
+    ScheduledExecutorService packetsInfoSchedule;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        CheckIfBtAdapterExist();
+        connectProgressDialog = new ProgressDialog(this);
+        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        connectProgressDialog.setMessage("Connecting...");
+        int selectedTab = 0;
+        if (savedInstanceState != null)
+            selectedTab = savedInstanceState.getInt("selected-tab");
+        ActionBar actionBar = getActionBar();
+        assert actionBar != null;
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        KMEViewerTab actualParametersFragment = new ActualParametersTab();
+        KMEViewerTab kmeInfoFragment = new KMEInfoTab();
+        KMEViewerTab settingsFragment = new KMESettingsTab();
+        actualParamTab = actionBar.newTab();
+        infoTab = actionBar.newTab();
+        settingsTab = actionBar.newTab();
+        prepareActionBarTitles();
+        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
+        actualParamTab.setIcon(R.drawable.actual_params_24x24);
+        infoTab.setTabListener(new TabListener(kmeInfoFragment));
+        infoTab.setIcon(R.drawable.info_24x24);
+        settingsTab.setTabListener(new TabListener(settingsFragment));
+        settingsTab.setIcon(R.drawable.settings_24x24);
+        actionBar.addTab(actualParamTab);
+        actionBar.addTab(settingsTab);
+        actionBar.addTab(infoTab);
+        actionBar.setSelectedNavigationItem(selectedTab);
+        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
+        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
+        if (btAddress.equals("NULL")) {
+            if (btAdapter != null && btAdapter.isEnabled()) {
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (btManager != null) btManager.stopConnections();
+        EventBus.getDefault().unregister(this);
+        packetsInfoSchedule.shutdownNow();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        EventBus.getDefault().register(this);
+        btManager = new BluetoothConnectionManager();
+        btManager.startConnecting();
+        packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
+        packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
+                        if (packets != null)
+                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
+                        packets = (TextView) findViewById(R.id.errorsCountLabel);
+                        if (packets != null)
+                            packets.setText(String.valueOf(btManager.getErrorsCount()));
+                        setConnectionStateText(btManager.getConnectionStatus());
+                    }
+                });
+            }
+        }, 0, 250, TimeUnit.MILLISECONDS);
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ActionBar ab = getActionBar();
+        assert ab != null;
+        outState.putInt("selected-tab", ab.getSelectedNavigationIndex());
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        prepareActionBarTitles();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,69 +186,28 @@ public class MainActivity extends FragmentActivity implements Observer,
         }
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-        Time now = new Time();
-        now.setToNow();
-        final long diff = TimeUnit.MILLISECONDS.toSeconds(now.toMillis(true) - BluetoothController.getInstance().StartTime.toMillis(true));
+    @Subscribe
+    public void onEvent(final SerialConnectionStatusEvent config) {
+        setConnectionStateText(config.currentStatus);
+    }
+
+    private void setConnectionStateText(final SerialConnectionStatusEvent.SerialConnectionStatus status) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView errors = (TextView) findViewById(R.id.errorsCountLabel);
-                TextView packets = (TextView) findViewById(R.id.packetCountLabel);
                 TextView connected = (TextView) findViewById(R.id.connectedLabel);
-                if (errors != null)
-                    errors.setText(String.valueOf(BluetoothController.getInstance().GetErrorsCount()));
-                if (packets != null)
-                    packets.setText(String.valueOf(BluetoothController.getInstance().GetRecvPacketsCount()));
-                if (connected != null) {
-                    if (!BluetoothController.getInstance().IsConnected())
-                        connected.setText("Disconnected");
-                    else
-                        connected.setText(DateUtils.formatElapsedTime(diff));
+                if (connected == null) return;
+                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
+                    connected.setText("Connected");
+                }
+                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
+                    connected.setText("Disconnected");
+                }
+                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
+                    connected.setText("Connecting...");
                 }
             }
         });
-    }
-
-    // TODO: fragments doesn't know about finishing app.
-    @Override
-    protected void onDestroy() {
-        BluetoothController.getInstance().Disconnect();
-        BluetoothController.getInstance().deleteObserver(this);
-        // TabListener OnTabUnselected isn't called after pressing back key.
-        // This is a override to remove observer and thus remove Tab object instance.
-        BluetoothController.getInstance().RemoveAllListeners();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        BluetoothController.getInstance().Disconnect();
-        BluetoothController.getInstance().deleteObserver(this);
-        BluetoothController.getInstance().RemoveOnConnectionListener(this);
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        if (!btAddress.equals("NULL"))
-            CreateAndStartBtController(btAddress);
-        super.onResume();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        ActionBar ab = getActionBar();
-        assert ab != null;
-        outState.putInt("selected-tab", ab.getSelectedNavigationIndex());
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        prepareActionBarTitles();
     }
 
     @Override
@@ -187,61 +240,6 @@ public class MainActivity extends FragmentActivity implements Observer,
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        CheckIfBtAdapterExist();
-        connectProgressDialog = new ProgressDialog(this);
-        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        connectProgressDialog.setMessage("Connecting...");
-        int selectedTab = 0;
-        if (savedInstanceState != null)
-            selectedTab = savedInstanceState.getInt("selected-tab");
-        ActionBar actionBar = getActionBar();
-        assert actionBar != null;
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        KMEViewerTab actualParametersFragment = new ActualParametersTab();
-        KMEViewerTab kmeInfoFragment = new KmeInfoTab();
-        KMEViewerTab settingsFragment = new KMESettingsTab();
-        actualParamTab = actionBar.newTab();
-        infoTab = actionBar.newTab();
-        settingsTab = actionBar.newTab();
-        prepareActionBarTitles();
-        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
-        actualParamTab.setIcon(R.drawable.actual_params_24x24);
-        infoTab.setTabListener(new TabListener(kmeInfoFragment));
-        infoTab.setIcon(R.drawable.info_24x24);
-        settingsTab.setTabListener(new TabListener(settingsFragment));
-        settingsTab.setIcon(R.drawable.settings_24x24);
-        actionBar.addTab(actualParamTab);
-        actionBar.addTab(settingsTab);
-        actionBar.addTab(infoTab);
-        actionBar.setSelectedNavigationItem(selectedTab);
-        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
-        if (btAddress.equals("NULL")) {
-            if (btAdapter != null && btAdapter.isEnabled()) {
-                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-            }
-        }
-    }
-
-    private void CreateAndStartBtController(String address) {
-        // Device doesn't have a Bluetooth at all.
-        if (btAdapter == null)
-            return;
-        CheckIfBtAdapterIsEnabled();
-        connectProgressDialog.show();
-        final BluetoothDevice device = btAdapter.getRemoteDevice(address);
-        if (BluetoothController.getInstance().IsConnected())
-            BluetoothController.getInstance().Disconnect();
-        BluetoothController.getInstance().SetDevice(device);
-        BluetoothController.getInstance().Connect(this);
-        BluetoothController.getInstance().addObserver(this);
-        BluetoothController.getInstance().AddOnConnectionListener(this);
-    }
-
     private void CheckIfBtAdapterExist() {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
@@ -272,31 +270,6 @@ public class MainActivity extends FragmentActivity implements Observer,
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
             return;
         }
-    }
-
-    @Override
-    public void onConnectionException(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(connectProgressDialog.isShowing())
-                    connectProgressDialog.dismiss();
-                Toast.makeText(getApplicationContext(),
-                        "Cannot connect to device!\nReason:" + message, Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-
-    @Override
-    public void onConnectionStopping() {
-
-    }
-
-    @Override
-    public void onConnectionStarting() {
-        if(connectProgressDialog.isShowing())
-            connectProgressDialog.dismiss();
     }
 
     private void prepareActionBarTitles() {

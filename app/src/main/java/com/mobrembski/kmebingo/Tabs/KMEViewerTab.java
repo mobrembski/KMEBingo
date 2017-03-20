@@ -1,41 +1,22 @@
 package com.mobrembski.kmebingo.Tabs;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.mobrembski.kmebingo.BluetoothController;
-import com.mobrembski.kmebingo.ControllerEvent;
-import com.mobrembski.kmebingo.R;
-import com.mobrembski.kmebingo.SerialFrames.KMEFrame;
+import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 
-public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
-    protected final int askingDelay = 100;
+import org.greenrobot.eventbus.EventBus;
+
+public abstract class KMEViewerTab extends Fragment {
     protected int layoutId;
     protected View myView = null;
-    protected Thread askingThread = null;
-    protected boolean askingThreadRunning = false;
-    protected KMEFrame askFrame = null;
     private View noConnectOverlay;
-
-    private final Runnable askingRunnable = new Runnable() {
-        @Override
-        public void run() {
-            while (askingThreadRunning) {
-                packetReceived(BluetoothController.getInstance().askForFrame(askFrame));
-                try {
-                    Thread.sleep(askingDelay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    };
+    protected BluetoothConnectionManager btManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,72 +27,42 @@ public abstract class KMEViewerTab extends Fragment implements ControllerEvent {
 
         View rootView = inflater.inflate(layoutId, container, false);
         this.myView = rootView;
-        noConnectOverlay = inflater.inflate(R.layout.noconnect_overlay, (ViewGroup) myView.getParent());
         fl.addView(rootView);
-        fl.addView(noConnectOverlay);
-        if(BluetoothController.getInstance().IsConnected())
-            rootView.bringToFront();
+//        noConnectOverlay = inflater.inflate(R.layout.noconnect_overlay, (ViewGroup) myView.getParent());
+//
+//        fl.addView(noConnectOverlay);
+//
+//        MainActivity act = (MainActivity) getActivity();
+//        this.btManager = act.btManager;
+//        // TODO fix this strange bug
+//        boolean isSocketConnected = !btManager.isConnected();
+//        if(isSocketConnected) {
+//            noConnectOverlay.bringToFront();
+//        }
         return fl;
     }
 
-    @Override
-    public void onConnectionStopping() {
-        stopAskingThread();
-        if (noConnectOverlay != null) {
-            Activity act = getActivity();
-            if (act != null)
-                act.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        noConnectOverlay.bringToFront();
-                    }
-                });
-        }
-    }
-
-    @Override
-    public void onConnectionStarting() {
-        if (myView != null)
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    myView.bringToFront();
-                }
-            });
-        createAskingThread();
-    }
-
     public void onTabSelected() {
-        createAskingThread();
+
     }
 
     public void onTabUnselected() {
-        stopAskingThread();
+
     }
 
-    protected abstract void packetReceived(int[] ints);
-
-    protected void setAskFrame(KMEFrame askFrame) {
-        this.askFrame = askFrame;
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
     }
 
-    private void stopAskingThread() {
-        askingThreadRunning = false;
-        if (askingThread != null) {
-            try {
-                askingThread.join(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            EventBus.getDefault().unregister(this);
+        } catch (Exception e) {
+            Log.e("KMEViewerTab", "Exception during unregistering event", e);
         }
-        askingThread = null;
-    }
-
-    private void createAskingThread() {
-        if (askFrame == null)
-            return;
-        askingThread = new Thread(askingRunnable);
-        askingThreadRunning = true;
-        askingThread.start();
     }
 }
