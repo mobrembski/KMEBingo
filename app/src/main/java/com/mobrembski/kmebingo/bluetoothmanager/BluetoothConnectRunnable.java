@@ -19,16 +19,18 @@ public class BluetoothConnectRunnable implements Runnable  {
     private BluetoothAdapter _bluetooth;
     private BluetoothSocket socket = null;
     private BluetoothDevice device;
+    private String deviceAddress;
     private IConnectionStarted connectionStartedListener;
     // bug? isConnected from socket always returns false somehow...
     private boolean isConnected = false;
     private SerialConnectionStatusEvent.SerialConnectionStatus currentSerialLineStatus;
 
-    BluetoothConnectRunnable(IConnectionStarted connectionStartedListener) {
+    BluetoothConnectRunnable(IConnectionStarted connectionStartedListener, String deviceAddress) {
         this._bluetooth = BluetoothAdapter.getDefaultAdapter();
         this.connectionStartedListener = connectionStartedListener;
         this.currentSerialLineStatus =
                 SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED;
+        this.deviceAddress = deviceAddress;
     }
 
     @Override
@@ -39,8 +41,8 @@ public class BluetoothConnectRunnable implements Runnable  {
 
         saveStatusAndEmitEvent(
                 SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING);
-        Log.d("DebugBT", "Trying to get device");
-        device = _bluetooth.getRemoteDevice("EC:55:F9:EF:84:41");
+        Log.d("DebugBT", "Trying to get device. Address is: " + deviceAddress);
+        device = _bluetooth.getRemoteDevice(deviceAddress);
         _bluetooth.cancelDiscovery();
         if (device == null) return;
         try {

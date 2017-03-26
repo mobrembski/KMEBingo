@@ -99,35 +99,36 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
-        btManager = new BluetoothConnectionManager();
-        btManager.startConnecting();
-        packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
-        packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
-                        packets = (TextView) findViewById(R.id.errorsCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getErrorsCount()));
-                        setConnectionStateText(btManager.getConnectionStatus());
-                    }
-                });
-            }
-        }, 0, 250, TimeUnit.MILLISECONDS);
+        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
+        if (!btAddress.equals("NULL")) {
+
+            btManager = new BluetoothConnectionManager(btAddress);
+            btManager.startConnecting();
+            packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
+            packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView packets = (TextView) findViewById(R.id.packetCountLabel);
+                            if (packets != null)
+                                packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
+                            packets = (TextView) findViewById(R.id.errorsCountLabel);
+                            if (packets != null)
+                                packets.setText(String.valueOf(btManager.getErrorsCount()));
+                            setConnectionStateText(btManager.getConnectionStatus());
+                        }
+                    });
+                }
+            }, 0, 250, TimeUnit.MILLISECONDS);
+        }
         super.onResume();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        ActionBar ab = getActionBar();
-        assert ab != null;
-        outState.putInt("selected-tab", ab.getSelectedNavigationIndex());
     }
 
     @Override
@@ -237,6 +238,8 @@ public class MainActivity extends FragmentActivity {
         if (device != null) {
             btAddress = device.getAddress();
             prefs.edit().putString("com.mobrembski.kmebingo.Device", btAddress).apply();
+            if (btManager != null) btManager.stopConnections();
+            packetsInfoSchedule.shutdownNow();
         }
     }
 

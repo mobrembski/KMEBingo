@@ -37,11 +37,11 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     int transmittedPackets = 0;
     int errorsCount = 0;
 
-    public BluetoothConnectionManager() {
+    public BluetoothConnectionManager(String deviceAddress) {
         commandQueue = new LinkedBlockingQueue<>();
         jobsExecutor = Executors.newSingleThreadExecutor();
         connectionExecutor = Executors.newSingleThreadScheduledExecutor();
-        connectRunnable = new BluetoothConnectRunnable(this);
+        connectRunnable = new BluetoothConnectRunnable(this, deviceAddress);
     }
 
     @Override
@@ -117,10 +117,8 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
                 try {
                     if (!connectRunnable.isConnected()) continue;
                     if (getOutputStream() == null || getInputStream() == null) continue;
-                    int sizeOfQueue = commandQueue.size();
                     final BluetoothCommandJob job = commandQueue.take();
                     pauseJobsThread.lock();
-                    String jobName = job.JobName;
                     commandQueue.add(job);
                     Future<Void> jobInProgress = jobsExecutor.submit(job);
                     try {
