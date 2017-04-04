@@ -100,9 +100,11 @@ public class BluetoothConnectRunnable implements Runnable  {
 
     public void closeSocket() {
         try {
-            socket.getInputStream().close();
-            socket.getOutputStream().close();
-            socket.close();
+            if (socket != null) {
+                socket.getInputStream().close();
+                socket.getOutputStream().close();
+                socket.close();
+            }
             isConnected = false;
             Log.d("DebugBT", "closing bluetoothSocket due to exception");
             saveStatusAndEmitEvent(
