@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 
 import com.mobrembski.kmebingo.BitUtils;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
+import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
+import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 
@@ -19,7 +21,7 @@ public class FactoryResetDialog extends Dialog {
     private OnResetFinishedInterface onResetFinished;
     private BluetoothConnectionManager btManager;
 
-    public FactoryResetDialog(Activity parent, BluetoothConnectionManager btManager) {
+    public FactoryResetDialog(Activity parent, final BluetoothConnectionManager btManager) {
         super(parent);
         // TODO: Why this is needed? Need to verify.
         setOwnerActivity(parent);
@@ -29,6 +31,9 @@ public class FactoryResetDialog extends Dialog {
             @Override
             public void emitOnDismiss() {
                 parentDialog.emitOnDismiss();
+                btManager.postNewRequest(new KMEDataActual(), 1);
+                btManager.postNewRequest(new KMEDataSettings(), 1);
+                btManager.postNewRequest(new KMEDataConfig(), 1);
             }
         };
         this.btManager = btManager;
