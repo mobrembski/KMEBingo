@@ -21,13 +21,13 @@ class Lambda_worker extends Base_worker implements AdapterView.OnItemSelectedLis
     private static final int LambdaRange1Offset = 20;
     private static final int LambdaRange2Offset = 50;
     private static final int LambdaRange3Offset = 100;
-    private final Spinner LambdaNeutralPointSpinner;
-    private final Spinner LambdaTypeSpinner;
-    private final Spinner LambdaDelaySpinner;
-    private final Spinner LambdaEmulationTypeSpinner;
-    private final Spinner LambdaEmulationHStateSpinner;
-    private final Spinner LambdaEmulationLStateSpinner;
-    private final KMESettingsTab parent;
+    private  Spinner LambdaNeutralPointSpinner;
+    private  Spinner LambdaTypeSpinner;
+    private  Spinner LambdaDelaySpinner;
+    private  Spinner LambdaEmulationTypeSpinner;
+    private  Spinner LambdaEmulationHStateSpinner;
+    private  Spinner LambdaEmulationLStateSpinner;
+    private  KMESettingsTab parent;
     private KMEDataSettings actualDS;
 
     public Lambda_worker(KMESettingsTab parent) {

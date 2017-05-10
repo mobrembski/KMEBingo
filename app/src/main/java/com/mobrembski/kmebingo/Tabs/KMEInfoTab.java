@@ -86,7 +86,16 @@ public class KMEInfoTab extends KMEViewerTab {
         sendRequestsToDevice();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            sendRequestsToDevice();
+        }
+    }
+
     private void sendRequestsToDevice() {
+        if(btManager == null) return;
         btManager.postNewRequest(new KMEDataInfo(), 1);
         btManager.postNewRequest(new KMEDataIdent(), 1);
     }

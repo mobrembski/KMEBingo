@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:id="@+id/expand"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+
+        android:minHeight="48dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:id="@+id/GraphRowDescription"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="ejka" />
+
+        <TextView
+            android:id="@+id/GraphRowValue"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/GraphRowUnitText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"/>
+
+        <TextView
+            android:id="@+id/GraphRowAdditionalText"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"/>
+
+        <ImageView
+            android:id="@+id/GraphRowArrowImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/injectVisibleLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</LinearLayout>

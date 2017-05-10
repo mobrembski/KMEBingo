@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/background_dark">
+    android:layout_height="fill_parent">
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -13,6 +12,10 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -129,28 +132,24 @@
 
             <Button
                 android:id="@+id/ChangeRunningCounterBtn"
-                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change running time" />
 
             <Button
                 android:id="@+id/ChangeRegPlateBtn"
-                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change registration" />
 
             <Button
                 android:id="@+id/ChangeInstallDateBtn"
-                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change installation date" />
 
             <Button
                 android:id="@+id/ChangeSensorLevelBtn"
-                style="@style/InfoTabButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Change tank level sensor levels" />

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rpms_row_table_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@android:color/black"
     android:orientation="vertical"
     android:shrinkColumns="0"
     android:baselineAligned="false"
-    android:stretchColumns="1">
+    android:stretchColumns="1"
+    android:paddingTop="16dp">
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -22,6 +23,7 @@
 
         <Spinner
             android:id="@+id/IgnitionTypeSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/ignition_type" />
@@ -29,7 +31,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -40,13 +42,14 @@
 
         <Spinner
             android:id="@+id/LPGSwitchingPointSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -68,7 +71,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <RadioButton
             style="@style/SettingsRowParameterItem"
@@ -81,7 +84,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -90,16 +93,16 @@
             android:layout_gravity="center_vertical"
             android:text="Low RPM signal level:" />
 
-        <org.jraf.android.backport.switchwidget.Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:id="@+id/LowRPMSingalLevelSwitch" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -108,16 +111,16 @@
             android:layout_gravity="center_vertical"
             android:text="CutOFF enabled:" />
 
-        <org.jraf.android.backport.switchwidget.Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:id="@+id/CutOFFEnabledSwitch" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -128,15 +131,15 @@
 
         <Spinner
             android:id="@+id/MinimalCutOFFRPMSSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -147,14 +150,14 @@
 
         <Spinner
             android:id="@+id/LoweringPWASpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -163,16 +166,16 @@
             android:layout_gravity="center_vertical"
             android:text="Hight RPM limit:" />
 
-        <org.jraf.android.backport.switchwidget.Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:id="@+id/HighRPMLimitSwitch" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -183,7 +186,7 @@
 
         <Spinner
             android:id="@+id/HighRPMLimitSpinner"
-            style="@style/SettingsRowParameterItem"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />

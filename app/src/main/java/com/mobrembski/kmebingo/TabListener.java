@@ -15,14 +15,14 @@ public class TabListener implements ActionBar.TabListener {
 
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        ft.replace(android.R.id.content, fragment);
+        //ft.replace(android.R.id.content, fragment);
         fragment.onTabSelected();
     }
 
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
         fragment.onTabUnselected();
-        ft.remove(fragment);
+//        ft.remove(fragment);
     }
 
     // Nothing special here. Fragments already did the job.

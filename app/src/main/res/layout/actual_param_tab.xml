@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/background_dark"
+    xmlns:example="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -15,57 +15,141 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_dark"
             android:orientation="vertical">
 
-            <com.mobrembski.kmebingo.GraphRow
-                android:id="@+id/RPMChartRow"
+            <com.mobrembski.kmebingo.ExpandableRowView
+                android:id="@+id/RpmRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                app:DescriptionText="RPM"
-                app:XTitle="Samples"
-                app:YTitle="RPMs" />
+                android:orientation="vertical"
+                example:expandableText="RPM"
+                example:animationDuration="150"
+                example:unitText="1/min"
+                example:content="@+id/GraphViewForRPM"
+                example:contentVisible="@+id/rpmView">
 
-            <com.mobrembski.kmebingo.GraphRow
-                android:id="@+id/TPSChartRow"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                app:DescriptionText="TPS"
-                app:DescriptionAdditionalValueTextSize="4dp"
-                app:XTitle="Samples"
-                app:YTitle="Voltage" />
+                <com.mobrembski.kmebingo.RPMView
+                    android:id="@+id/rpmView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    app:RPMViewBorderWidth="3dp"
+                    app:RPMViewMarkerTextPadding="10dp"
+                    app:RPMViewMarkerTextSize="8dp"
+                    app:RPMViewRectPadding="1dp" />
+                <com.mobrembski.kmebingo.GraphView
+                    android:id="@+id/GraphViewForRPM"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
 
-            <com.mobrembski.kmebingo.GraphRow
-                android:id="@+id/LambdaChartRow"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                app:DescriptionText="Lambda"
-                app:DescriptionAdditionalValueTextSize="4dp"
-                app:XTitle="Samples"
-                app:YTitle="Voltage" />
+            </com.mobrembski.kmebingo.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.GraphRow
-                android:id="@+id/ActuatorChartRow"
+            <com.mobrembski.kmebingo.ExpandableRowView
+                android:id="@+id/TpsRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                app:DescriptionText="Actuator"
-                app:DescriptionAdditionalValueTextSize="4dp"
-                app:XTitle="Samples"
-                app:YTitle="Steps" />
+                android:orientation="vertical"
+                example:expandableText="TPS"
+                example:animationDuration="150"
+                example:unitText="V"
+                example:content="@+id/GraphViewForTPS"
+                example:contentVisible="@+id/TPSView">
 
-            <com.mobrembski.kmebingo.GraphRow
-                android:id="@+id/TempChartRow"
+                <com.mobrembski.kmebingo.TPSView
+                    android:id="@+id/TPSView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    app:TPSViewBorderWidth="3dp"
+                    app:TPSViewRectPadding="2dp" />
+
+                <com.mobrembski.kmebingo.GraphView
+                    android:id="@+id/GraphViewForTPS"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
+
+            <com.mobrembski.kmebingo.ExpandableRowView
+                android:id="@+id/LambdaRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                app:DescriptionText="Temperature"
-                app:DescriptionAdditionalValueTextSize="4dp"
-                app:XTitle="Samples"
-                app:YTitle="Temperature" />
+                android:orientation="vertical"
+                example:expandableText="Lambda"
+                example:animationDuration="150"
+                example:unitText="V"
+                example:content="@+id/GraphViewForLambda"
+                example:contentVisible="@+id/lambdaView">
+
+                <com.mobrembski.kmebingo.LambdaView
+                    android:id="@+id/lambdaView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    app:LambdaViewBorderWidth="3dp"
+                    app:LambdaViewRectPadding="3dp"
+                    app:LambdaViewRectSize="3dp" />
+                <com.mobrembski.kmebingo.GraphView
+                    android:id="@+id/GraphViewForLambda"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
+
+            <com.mobrembski.kmebingo.ExpandableRowView
+                android:id="@+id/ActuatorRowView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                example:expandableText="Actuator"
+                example:animationDuration="150"
+                example:content="@+id/GraphViewForActuator"
+                example:contentVisible="@+id/ActuatorView">
+
+                <com.mobrembski.kmebingo.ActuatorView
+                    android:id="@+id/ActuatorView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    app:ActuatorViewBarBottomPadding="3dp"
+                    app:ActuatorViewBorderWidth="3dp"
+                    app:ActuatorViewRectPadding="1dp" />
+
+                <com.mobrembski.kmebingo.GraphView
+                    android:id="@+id/GraphViewForActuator"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
+
+            <com.mobrembski.kmebingo.ExpandableRowView
+                android:id="@+id/TemperatureRowView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                example:expandableText="Temperature"
+                example:animationDuration="150"
+                example:unitText="°C"
+                example:content="@+id/GraphViewForTemperature">
+
+                <com.mobrembski.kmebingo.GraphView
+                    android:id="@+id/GraphViewForTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
 
             <TableLayout
                 android:layout_width="fill_parent"

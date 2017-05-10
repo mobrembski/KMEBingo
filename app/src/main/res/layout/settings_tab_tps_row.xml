@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tps_row_table_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@android:color/black"
     android:orientation="vertical"
     android:shrinkColumns="0"
     android:baselineAligned="false"
-    android:stretchColumns="1">
+    android:stretchColumns="1"
+    android:paddingTop="16dp">
 
     <TableRow
         android:baselineAligned="false">
@@ -22,6 +23,7 @@
 
         <Spinner
             android:id="@+id/TpsTypeSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/TPS_type" />
@@ -40,6 +42,7 @@
 
         <Spinner
             android:id="@+id/TpsInertnessSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />

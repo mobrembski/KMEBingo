@@ -1,5 +1,6 @@
 package com.mobrembski.kmebingo.Tabs.SettingsTab;
 
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +15,6 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
-import org.jraf.android.backport.switchwidget.Switch;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,19 +25,20 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
 {
     private final KMESettingsTab parent;
     private final Spinner PWAValueSpinner;
-    private final Switch PWAEnabledSwitch;
+    private final SwitchCompat PWAEnabledSwitch;
     private final Spinner MinimalOpenIdleSpinner;
     private final Spinner MaximumOpenIdleSpinner;
     private final Spinner MinimalOpenLoadSpinner;
     private final Spinner MaximumOpenLoadSpinner;
     private final Spinner DesiredATTPosSpinner;
     private final Spinner TPSSenseSpinner;
-    private final Switch SetATTPosSwitch;
+    private final SwitchCompat SetATTPosSwitch;
+    private int SelectedListenerFired = 0;
     private KMEDataSettings actualDS = new KMEDataSettings();
 
     public Actuator_worker(KMESettingsTab parent) {
         this.parent = parent;
-        PWAEnabledSwitch = (Switch) parent.usedView.findViewById(R.id.SetPWAValueSwitch);
+        PWAEnabledSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.SetPWAValueSwitch);
         PWAEnabledSwitch.setOnCheckedChangeListener(this);
         PWAValueSpinner = (Spinner) parent.usedView.findViewById(R.id.SetPWAValueSpinner);
         PWAValueSpinner.setOnItemSelectedListener(this);
@@ -55,7 +55,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
         MaximumOpenLoadSpinner.setOnItemSelectedListener(this);
         MinimalOpenLoadSpinner.setAdapter(Utils.createActuatorStepsArrayAdapter("-", parent.usedView));
         MaximumOpenLoadSpinner.setAdapter(Utils.createActuatorStepsArrayAdapter("+", parent.usedView));
-        SetATTPosSwitch = (Switch) parent.usedView.findViewById(R.id.SetATTPosSwitch);
+        SetATTPosSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.SetATTPosSwitch);
         SetATTPosSwitch.setOnCheckedChangeListener(this);
         TPSSenseSpinner = (Spinner) parent.usedView.findViewById(R.id.TPSSenseLevelSpinner);
         TPSSenseSpinner.setOnItemSelectedListener(this);
@@ -67,6 +67,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (SelectedListenerFired++ < 1 || btManager == null) return;
         if (parent == PWAValueSpinner) {
             Log.d("Actuator_worker", "PWAValueSpinner: " + position);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x13, position), 2));

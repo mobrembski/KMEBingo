@@ -1,5 +1,6 @@
 package com.mobrembski.kmebingo.Tabs.SettingsTab;
 
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,18 +13,16 @@ import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
-import org.jraf.android.backport.switchwidget.Switch;
-
 import java.util.ArrayList;
 import java.util.List;
 
 class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListener,
         CompoundButton.OnCheckedChangeListener {
     private final KMESettingsTab parent;
-    private final Switch TemperatureSensorEnabledSwitch;
+    private final SwitchCompat TemperatureSensorEnabledSwitch;
     private final Spinner SwitchOnTempSpinner;
     private final Spinner EconomySpinner;
-    private final Switch StartOnGasSwitch;
+    private final SwitchCompat StartOnGasSwitch;
     private final Spinner ValveOpenSpinner;
     private final Spinner SensorTypeSpinner;
     private final Spinner GasBenzinTimeSpinner;
@@ -31,14 +30,14 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
 
     public Misc_worker(KMESettingsTab parent) {
         this.parent = parent;
-        TemperatureSensorEnabledSwitch = (Switch) parent.usedView.findViewById(R.id.TemperatureSensorEnabledSwitch);
+        TemperatureSensorEnabledSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.TemperatureSensorEnabledSwitch);
         TemperatureSensorEnabledSwitch.setOnCheckedChangeListener(this);
         SwitchOnTempSpinner = (Spinner) parent.usedView.findViewById(R.id.SwitchOnTempSpinner);
         SwitchOnTempSpinner.setAdapter(createAdapterForTemp());
         SwitchOnTempSpinner.setOnItemSelectedListener(this);
         EconomySpinner = (Spinner) parent.usedView.findViewById(R.id.EconomyTypeSpinner);
         EconomySpinner.setOnItemSelectedListener(this);
-        StartOnGasSwitch = (Switch) parent.usedView.findViewById(R.id.StartOnGasSwitch);
+        StartOnGasSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.StartOnGasSwitch);
         StartOnGasSwitch.setOnCheckedChangeListener(this);
         ValveOpenSpinner = (Spinner) parent.usedView.findViewById(R.id.StartOnLPGOpenTimeSpinner);
         ValveOpenSpinner.setAdapter(createAdapterForValveOpen());
@@ -52,8 +51,7 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (actualDS == null)
-            return;
+        if (actualDS == null) return;
 
         if (parent == SwitchOnTempSpinner) {
             // TODO: verify if its correct because its not :(

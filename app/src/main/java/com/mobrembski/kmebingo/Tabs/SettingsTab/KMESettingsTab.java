@@ -3,12 +3,12 @@ package com.mobrembski.kmebingo.Tabs.SettingsTab;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.mobrembski.kmebingo.ExpandableRowView;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
@@ -54,22 +54,6 @@ public class KMESettingsTab extends KMEViewerTab {
                 dialog.show();
             }
         });
-        ExpandableRowView lambdaRow = (ExpandableRowView) myView.findViewById(R.id.LambdaSettingsRow);
-        ExpandableRowView actuatorRow = (ExpandableRowView) myView.findViewById(R.id.ActuatorSettingsRow);
-        ExpandableRowView tpsRow = (ExpandableRowView) myView.findViewById(R.id.TPSSettingsRow);
-        ExpandableRowView rpmsRow = (ExpandableRowView) myView.findViewById(R.id.RPMsSettingsRow);
-        ExpandableRowView miscRow = (ExpandableRowView) myView.findViewById(R.id.MiscSettingsRow);
-
-        ViewGroup parent = lambdaRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.settings_tab_lambda_row, parent);
-        parent = actuatorRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.settings_tab_actuator_row, parent);
-        parent = tpsRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.settings_tab_tps_row, parent);
-        parent = rpmsRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.settings_tab_rpms_row, parent);
-        parent = miscRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.settings_tab_misc_row, parent);
 
         views.add(new Lambda_worker(this));
         views.add(new Actuator_worker(this));
@@ -91,6 +75,17 @@ public class KMESettingsTab extends KMEViewerTab {
             view.setBluetoothManager(btManager);
         }
         sendRequestsToDevice();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.d("DebugTab", "KMESettingsTab visible");
+            sendRequestsToDevice();
+        } else {
+            Log.d("DebugTab", "KMESettingsTab not visible");
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -123,6 +118,7 @@ public class KMESettingsTab extends KMEViewerTab {
     }
 
     public void sendRequestsToDevice() {
+        if (btManager == null) return;
         btManager.postNewRequest(new KMEDataActual(), 1);
         btManager.postNewRequest(new KMEDataSettings(), 1);
         btManager.postNewRequest(new KMEDataConfig(), 1);

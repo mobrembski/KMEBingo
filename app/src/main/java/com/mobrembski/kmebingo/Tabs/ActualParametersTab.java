@@ -1,10 +1,7 @@
 package com.mobrembski.kmebingo.Tabs;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +10,8 @@ import android.widget.TextView;
 
 import com.mobrembski.kmebingo.ActuatorView;
 import com.mobrembski.kmebingo.BitUtils;
-import com.mobrembski.kmebingo.GraphRow;
+import com.mobrembski.kmebingo.ExpandableRowView;
+import com.mobrembski.kmebingo.GraphView;
 import com.mobrembski.kmebingo.LambdaView;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.RPMView;
@@ -26,23 +24,12 @@ import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.concurrent.TimeUnit;
-
 public class ActualParametersTab extends KMEViewerTab {
-    private final Time TimeOnBenzinStart = new Time();
-    private final Time TimeOnBenzinEnd = new Time();
-    private GraphRow TPSRow;
-    private GraphRow LambdaRow;
-    private GraphRow ActuatorRow;
-    private GraphRow TemperatureRow;
-    private GraphRow RPMRow;
     private TextView IgnitionTV;
     private TextView FuelTypeTV;
     private TextView TempTV;
     private TextView RPMStatusTV;
     private TextView CutOFFTV;
-    private TextView TimeSpendOnBenzin;
-    private boolean TimeOnBenzinChecked = false;
     private TPSView TpsView;
     private LambdaView lambdaView;
     private RPMView rpmView;
@@ -54,6 +41,16 @@ public class ActualParametersTab extends KMEViewerTab {
     private float TpsMaxValue = 5.0f;
     private KMEDataConfig actualConfig;
     private BluetoothConnectionManager btManager;
+    private GraphView TemperatureGraphView;
+    private ExpandableRowView RpmRowView;
+    private ExpandableRowView TpsRowView;
+    private ExpandableRowView LambdaRowView;
+    private ExpandableRowView ActuatorRowView;
+    private ExpandableRowView TemperatureRowView;
+    private GraphView ActuatorGraphView;
+    private GraphView LambdaGraphView;
+    private GraphView RpmGraphView;
+    private GraphView TpsGraphView;
 
     public ActualParametersTab() {
         this.layoutId = R.layout.actual_param_tab;
@@ -63,43 +60,47 @@ public class ActualParametersTab extends KMEViewerTab {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+        setupViews();
+        setupRenderers();
+        InitializeViewsWithZero();
+        return v;
+    }
+
+    private void setupViews()
+    {
         LambdaGreenColor = getResources().getColor(R.color.LambdaGreen);
         LambdaYellowColor = getResources().getColor(R.color.LambdaYellow);
         LambdaRedColor = getResources().getColor(R.color.LambdaRed);
-        RPMRow = (GraphRow) myView.findViewById(R.id.RPMChartRow);
-        TPSRow = (GraphRow) myView.findViewById(R.id.TPSChartRow);
-        LambdaRow = (GraphRow) myView.findViewById(R.id.LambdaChartRow);
-        ActuatorRow = (GraphRow) myView.findViewById(R.id.ActuatorChartRow);
-        TemperatureRow = (GraphRow) myView.findViewById(R.id.TempChartRow);
         IgnitionTV = (TextView) myView.findViewById(R.id.IgnitionStatusValue);
         FuelTypeTV = (TextView) myView.findViewById(R.id.FuelTypeStatusValue);
         TempTV = (TextView) myView.findViewById(R.id.TempStatusValue);
         RPMStatusTV = (TextView) myView.findViewById(R.id.RPMStatusValue);
         CutOFFTV = (TextView) myView.findViewById(R.id.CutOFFValue);
-        LayoutInflater ownInflater = (LayoutInflater) getActivity().
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup parent = ActuatorRow.getInjectVisibleView();
-        ownInflater.inflate(R.layout.actual_param_tab_actuator_visible, parent);
-        actuatorView = (ActuatorView) myView.findViewById(R.id.ActuatorView);
-        parent = TemperatureRow.getInjectHiddenView();
-        ownInflater.inflate(R.layout.actual_param_tab_temp_hidden, parent);
-        TimeSpendOnBenzin = (TextView) myView.findViewById(R.id.ActualParamSpendOnBenzinValue);
-        // TODO: Make this values depends from Settings.
-        ViewGroup TPSVisible = TPSRow.getInjectVisibleView();
-        ownInflater.inflate(R.layout.actual_param_tab_tps_visible, TPSVisible);
+        rpmView = (RPMView)myView.findViewById(R.id.rpmView);
         TpsView = (TPSView) myView.findViewById(R.id.TPSView);
-        ViewGroup LambdaVisible = LambdaRow.getInjectVisibleView();
-        ownInflater.inflate(R.layout.actual_param_tab_lambda_visible, LambdaVisible);
-        lambdaView = (LambdaView) myView.findViewById(R.id.LambdaView);
-        ViewGroup RPMVisible = RPMRow.getInjectVisibleView();
-        ownInflater.inflate(R.layout.actual_param_tab_rpm_visible, RPMVisible);
-        rpmView = (RPMView) myView.findViewById(R.id.RPMView);
-        RPMRow.CreateRenderer(7000, 0, 300, 0);
-        TPSRow.CreateRenderer(5, 300);
-        LambdaRow.CreateRenderer(1, -1, 300, 0);
-        ActuatorRow.CreateRenderer(255, 300);
-        TemperatureRow.CreateRenderer(110, 0, 5000, 0);
-        return v;
+        lambdaView = (LambdaView)myView.findViewById(R.id.lambdaView);
+        actuatorView = (ActuatorView)myView.findViewById(R.id.ActuatorView);
+        TemperatureGraphView = (GraphView)myView.findViewById(R.id.GraphViewForTemperature);
+        RpmRowView = (ExpandableRowView)myView.findViewById(R.id.RpmRowView);
+        TpsRowView = (ExpandableRowView)myView.findViewById(R.id.TpsRowView);
+        LambdaRowView = (ExpandableRowView)myView.findViewById(R.id.LambdaRowView);
+        ActuatorRowView = (ExpandableRowView)myView.findViewById(R.id.ActuatorRowView);
+        RpmGraphView = (GraphView)myView.findViewById(R.id.GraphViewForRPM);
+        TpsGraphView = (GraphView)myView.findViewById(R.id.GraphViewForTPS);
+        LambdaGraphView = (GraphView)myView.findViewById(R.id.GraphViewForLambda);
+        ActuatorGraphView = (GraphView)myView.findViewById(R.id.GraphViewForActuator);
+        TemperatureRowView = (ExpandableRowView)myView.findViewById(R.id.TemperatureRowView);
+    }
+
+    private void setupRenderers() {
+        RpmGraphView.CreateRenderer(7000, 0, 300, 0);
+        ActuatorGraphView.CreateRenderer(255, 300);
+        TemperatureGraphView.CreateRenderer(110, 0, 300, 0);
+    }
+
+    private void InitializeViewsWithZero() {
+        packetReceived(new KMEDataSettings());
+        packetReceived(new KMEDataActual());
     }
 
     @Override
@@ -108,6 +109,14 @@ public class ActualParametersTab extends KMEViewerTab {
         MainActivity mainActivity = (MainActivity) getActivity();
         this.btManager = mainActivity.btManager;
         sendInitialRequestsToDevice();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            sendInitialRequestsToDevice();
+        }
     }
 
     @Subscribe
@@ -136,6 +145,7 @@ public class ActualParametersTab extends KMEViewerTab {
     }
 
     private void sendInitialRequestsToDevice() {
+        if (btManager == null) return;
         btManager.postNewRequest(new KMEDataSettings(), 1);
         btManager.postNewRequest(new KMEDataConfig(), 1);
         btManager.postNewRequest(new KMEDataActual(), 1);
@@ -173,99 +183,114 @@ public class ActualParametersTab extends KMEViewerTab {
     public void packetReceived(final KMEDataActual dtn) {
         Activity main = getActivity();
         if (main != null && dtn != null) {
-            final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
-            final int LambdaColor = getLambdaColor(dtn.LambdaColor);
-            final float TPSPercentage = (dtn.TPS / TpsMaxValue) * 100;
             main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        RPMRow.SetValueText(String.valueOf(dtn.RPM));
-                        RPMRow.AddPoint(dtn.RPM);
-                        rpmView.setRpmValue(dtn.RPM);
-                        TPSRow.SetValueText(String.valueOf(dtn.TPS) + " V");
-                        TPSRow.AddPoint(dtn.TPS);
-                        TPSRow.SetAdditionalValueText(String.format("%.1f%%", TPSPercentage));
-                        TpsView.setRectFilled(TPSFillColor);
-                        LambdaRow.SetValueText(String.valueOf(dtn.Lambda) + " V");
-                        LambdaRow.AddPoint(dtn.Lambda);
-                        lambdaView.setLambdaValue(dtn.Lambda, LambdaColor);
-                        ActuatorRow.SetValueText(String.valueOf(dtn.Actuator));
-                        ActuatorRow.AddPoint(dtn.Actuator);
-                        ActuatorRow.SetAdditionalValueText("PWA: "+String.valueOf(dtn.PWA));
-                        actuatorView.setDataConfigFrame(actualConfig);
-                        actuatorView.setPWAValue(dtn.PWA);
-                        actuatorView.setActuatorSteps(dtn.Actuator);
-                        TemperatureRow.SetValueText(String.valueOf(dtn.ActualTemp) + " °C");
-                        TemperatureRow.SetAdditionalValueText("ON: " +
-                                String.valueOf(BitUtils.GetTemperature(
-                                        actualSettings.getLPGOnTemperature())) + " °C");
-                        TemperatureRow.AddPoint(dtn.ActualTemp);
+                        UpdateViewsDependOnRPM();
+                        UpdateViewsDependOnTPS();
+                        UpdateViewsDependOnLambda();
+                        UpdateViewsDependOnActuator();
+                        UpdateViewsDependOnTemperature();
                         if (dtn.Ignition) {
-                            IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                            IgnitionTV.setText("Ignition ON");
-                            if (dtn.WorkingOnGas) {
-                                FuelTypeTV.setText("On LPG");
-                                FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                            } else {
-                                FuelTypeTV.setText("On Benzin");
-                                FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                            }
-                            if (dtn.CutOffActivated) {
-                                CutOFFTV.setText("Cut-OFF Active!");
-                                CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                            } else {
-                                CutOFFTV.setText("Cut-OFF Disabled");
-                                CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                            }
-                            if (dtn.RPMTooHigh) {
-                                CutOFFTV.setText("RPM too High");
-                                CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                            }
-                            if (dtn.TemperatureOK) {
-                                TempTV.setText("Temperature OK");
-                                TempTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                            } else {
-                                TempTV.setText("Temperature LOW");
-                                TempTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                            }
-                            if (dtn.RPOK) {
-                                RPMStatusTV.setText("RPM OK");
-                                RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                            } else {
-                                RPMStatusTV.setText("RPM Too LOW");
-                                RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                            }
+                            UpdateViewsForIgnitionTurnedOn();
                         } else {
-                            IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                            IgnitionTV.setText("Ignition OFF");
-                            RPMStatusTV.setText("RPM Too LOW");
-                            RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                            TempTV.setText("Temp Too Low");
-                            TempTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                            CutOFFTV.setText("Cut-OFF Disabled");
-                            CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                            FuelTypeTV.setText("On Benzin");
-                            FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                        }
-                        if (!TimeOnBenzinChecked && dtn.WorkingOnGas) {
-                            TimeOnBenzinEnd.setToNow();
-                            TimeOnBenzinChecked = true;
-                        }
-                        if (TemperatureRow.GetHiddenVisibility()) {
-                            if (!TimeOnBenzinChecked)
-                                TimeOnBenzinEnd.setToNow();
-                            long diff = TimeUnit.MILLISECONDS.toSeconds(
-                                    TimeOnBenzinEnd.toMillis(true) - TimeOnBenzinStart.toMillis(true));
-                            if (diff < 0)
-                                diff = 0;
-                            TimeSpendOnBenzin.setText(DateUtils.formatElapsedTime(diff));
+                            UpdateViewsForIgnitionTurnedOff();
                         }
                     } catch (NullPointerException ex) {
                         // TODO: This is a hack. After rotating screen, elements are NULL.
                         // Beside null-checking of everything, now it just quits this frame.
                         // However i think there must be better solution.
                     }
+                }
+
+                private void UpdateViewsForIgnitionTurnedOff() {
+                    IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
+                    IgnitionTV.setText("Ignition OFF");
+                    RPMStatusTV.setText("RPM Too LOW");
+                    RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
+                    TempTV.setText("Temp Too Low");
+                    TempTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
+                    CutOFFTV.setText("Cut-OFF Disabled");
+                    CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
+                    FuelTypeTV.setText("On Benzin");
+                    FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
+                }
+
+                private void UpdateViewsForIgnitionTurnedOn() {
+                    IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
+                    IgnitionTV.setText("Ignition ON");
+                    if (dtn.WorkingOnGas) {
+                        FuelTypeTV.setText("On LPG");
+                        FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
+                    } else {
+                        FuelTypeTV.setText("On Benzin");
+                        FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
+                    }
+                    if (dtn.CutOffActivated) {
+                        CutOFFTV.setText("Cut-OFF Active!");
+                        CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
+                    } else {
+                        CutOFFTV.setText("Cut-OFF Disabled");
+                        CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
+                    }
+                    if (dtn.RPMTooHigh) {
+                        CutOFFTV.setText("RPM too High");
+                        CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
+                    }
+                    if (dtn.TemperatureOK) {
+                        TempTV.setText("Temperature OK");
+                        TempTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
+                    } else {
+                        TempTV.setText("Temperature LOW");
+                        TempTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
+                    }
+                    if (dtn.RPOK) {
+                        RPMStatusTV.setText("RPM OK");
+                        RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
+                    } else {
+                        RPMStatusTV.setText("RPM Too LOW");
+                        RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
+                    }
+                }
+
+                private void UpdateViewsDependOnTemperature() {
+                    TemperatureRowView.setAdditionalText("ON: " +
+                            String.valueOf(BitUtils.GetTemperature(
+                                   actualSettings.getLPGOnTemperature())) + " °C");
+                    TemperatureRowView.setValueText(String.valueOf(dtn.ActualTemp));
+                    TemperatureGraphView.AddPoint(dtn.ActualTemp);
+                }
+
+                private void UpdateViewsDependOnActuator() {
+                    ActuatorRowView.setAdditionalText("PWA: "+String.valueOf(dtn.PWA));
+                    ActuatorRowView.setValueText(String.valueOf(dtn.Actuator));
+                    ActuatorGraphView.AddPoint(dtn.Actuator);
+                    actuatorView.setDataConfigFrame(actualConfig);
+                    actuatorView.setPWAValue(dtn.PWA);
+                    actuatorView.setActuatorSteps(dtn.Actuator);
+                }
+
+                private void UpdateViewsDependOnLambda() {
+                    final int LambdaColor = getLambdaColor(dtn.LambdaColor);
+                    LambdaRowView.setValueText(String.valueOf(dtn.Lambda));
+                    lambdaView.setLambdaValue(dtn.Lambda, LambdaColor);
+                    LambdaGraphView.AddPoint(dtn.Lambda);
+                }
+
+                private void UpdateViewsDependOnTPS() {
+                    final float TPSPercentage = (dtn.TPS / TpsMaxValue) * 100;
+                    final int TPSFillColor = getTpsFillColor(dtn.TPSColor);
+                    TpsRowView.setAdditionalText(String.format("%.1f%%", TPSPercentage));
+                    TpsRowView.setValueText(String.valueOf(dtn.TPS));
+                    TpsView.setRectFilled(TPSFillColor);
+                    TpsGraphView.AddPoint(dtn.TPS);
+                }
+
+                private void UpdateViewsDependOnRPM() {
+                    RpmRowView.setValueText(String.valueOf(dtn.RPM));
+                    rpmView.setRpmValue(dtn.RPM);
+                    RpmGraphView.AddPoint(dtn.RPM);
                 }
             });
         }
@@ -276,27 +301,35 @@ public class ActualParametersTab extends KMEViewerTab {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // 5 Volts TPS
-                if (actualSettings.getTPSType() < 2) {
-                    TpsMaxValue = 5.0f;
-                    TPSRow.CreateRenderer(5, 300);
-                }
-                else {
-                    TpsMaxValue = 12.0f;
-                    TPSRow.CreateRenderer(12, 300);
-                }
-                // 0-1 Volts lambda
-                if (actualSettings.getLambdaType() == 0 ||
-                        actualSettings.getLambdaType() == 5) {
-                    lambdaView.setLambdaMax(1.0f);
-                    LambdaRow.CreateRenderer(1, 300);
-                }
-                else {
-                    lambdaView.setLambdaMax(5.0f);
-                    LambdaRow.CreateRenderer(5, 300);
-                }
+                CreateTPSGraphDependOnType(actualSettings);
+                CreateLambdGraphDependOnType(actualSettings);
             }
         });
-
     }
+
+    private void CreateTPSGraphDependOnType(final KMEDataSettings kmeDataSettings) {
+        // 5 Volts TPS
+        if (kmeDataSettings.getTPSType() < 2) {
+            TpsMaxValue = 5.0f;
+            TpsGraphView.CreateRenderer(5, 300);
+        }
+        else {
+            TpsMaxValue = 12.0f;
+            TpsGraphView.CreateRenderer(12, 300);
+        }
+    }
+
+    private void CreateLambdGraphDependOnType(final KMEDataSettings kmeDataSettings) {
+        // 0-1 Volts lambda
+        if (kmeDataSettings.getLambdaType() == 0 ||
+                kmeDataSettings.getLambdaType() == 5) {
+            lambdaView.setLambdaMax(1.0f);
+            LambdaGraphView.CreateRenderer(1, 300);
+        }
+        else {
+            lambdaView.setLambdaMax(5.0f);
+            LambdaGraphView.CreateRenderer(5, 300);
+        }
+    }
+
 }

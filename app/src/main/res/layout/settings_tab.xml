@@ -1,60 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollView1"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/black">
+<ScrollView android:layout_height="match_parent" android:layout_width="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/background_dark">
-
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:example="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+        
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/background_dark"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
             <com.mobrembski.kmebingo.ExpandableRowView
-                android:id="@+id/LambdaSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                app:DescriptionText="Lambda" />
+                android:orientation="vertical"
+                example:expandableText="Lambda"
+                example:animationDuration="100"
+                example:content="@+id/lambda_row_table_layout">
+                    <include layout="@layout/settings_tab_lambda_row"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
+
 
             <com.mobrembski.kmebingo.ExpandableRowView
-                android:id="@+id/ActuatorSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                app:DescriptionText="Actuator" />
+                android:orientation="vertical"
+                example:expandableText="Actuator"
+                example:animationDuration="150"
+                example:content="@+id/actuator_row_table_layout">
+                <include layout="@layout/settings_tab_actuator_row"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
+
 
             <com.mobrembski.kmebingo.ExpandableRowView
-                android:id="@+id/TPSSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                app:DescriptionText="TPS" />
+                android:orientation="vertical"
+                example:expandableText="TPS"
+                example:animationDuration="150"
+                example:content="@+id/tps_row_table_layout">
+                <include layout="@layout/settings_tab_tps_row"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
 
             <com.mobrembski.kmebingo.ExpandableRowView
-                android:id="@+id/RPMsSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                app:DescriptionText="RPMs" />
+                android:orientation="vertical"
+                example:expandableText="RPMS"
+                example:animationDuration="150"
+                example:content="@+id/rpms_row_table_layout">
+                <include layout="@layout/settings_tab_rpms_row"/>
+
+            </com.mobrembski.kmebingo.ExpandableRowView>
 
             <com.mobrembski.kmebingo.ExpandableRowView
-                android:id="@+id/MiscSettingsRow"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                app:DescriptionText="Misc" />
+                android:orientation="vertical"
+                example:expandableText="Misc"
+                example:animationDuration="150"
+                example:content="@+id/misc_row_table_layout">
+                <include layout="@layout/settings_tab_misc_row"/>
 
-            <Button
-                android:id="@+id/factoryResetBtn"
-                style="@style/InfoTabButton"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Factory reset" />
-
+            </com.mobrembski.kmebingo.ExpandableRowView>
         </LinearLayout>
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/factoryResetBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset to factory default"/>
+    </LinearLayout>
 </ScrollView>

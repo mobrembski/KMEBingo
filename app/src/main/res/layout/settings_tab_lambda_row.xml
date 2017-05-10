@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lambda_row_table_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@android:color/black"
     android:orientation="vertical"
     android:shrinkColumns="0"
     android:baselineAligned="false"
-    android:stretchColumns="1">
+    android:stretchColumns="1"
+    android:paddingTop="16dp">
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -24,12 +25,13 @@
             android:id="@+id/LambdaTypeSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -42,13 +44,14 @@
 
         <Spinner
             android:id="@+id/LambdaNeutralPointSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -61,6 +64,7 @@
 
         <Spinner
             android:id="@+id/LambdaDelaySpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
@@ -68,7 +72,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -81,6 +85,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationTypeSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_emul_type" />
@@ -88,7 +93,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -101,6 +106,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationHStateSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />
@@ -108,7 +114,7 @@
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -121,6 +127,7 @@
 
         <Spinner
             android:id="@+id/LambdaEmulationLStateSpinner"
+            android:layout_gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/lambda_type" />

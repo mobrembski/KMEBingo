@@ -15,12 +15,12 @@
 
     <style name="InfoRowParameterName">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
     </style>
 
     <style name="InfoRowParameterValue">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
         <item name="android:gravity">right</item>
     </style>
 
@@ -32,14 +32,14 @@
 
     <style name="SettingsRowParameterItem">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
         <item name="android:paddingLeft">@dimen/SettingsRowParameterItem</item>
         <item name="android:paddingRight">@dimen/SettingsRowParameterItem</item>
     </style>
 
     <style name="SettingsRowParameterSubItem">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-        <item name="android:textColor">@android:color/white</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
         <item name="android:paddingLeft">@dimen/SettingsRowParameterItem</item>
         <item name="android:paddingRight">@dimen/SettingsRowParameterItem</item>
     </style>
@@ -133,6 +133,26 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:windowBackground">@null</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTextStyle</item>
+    </style>
+
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+
+    </style>
+
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/LambdaRed</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="SettingsTableRow">
+        <item name="android:baselineAligned">false</item>
+        <item name="android:minHeight">32dp</item>
     </style>
 
 

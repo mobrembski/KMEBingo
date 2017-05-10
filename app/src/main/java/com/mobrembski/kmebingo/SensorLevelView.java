@@ -66,6 +66,6 @@ public class SensorLevelView extends LinearLayout {
     }
 
     public interface OnSeekbarValueChanged {
-        public void callback(View v);
+        void callback(View v);
     }
 }

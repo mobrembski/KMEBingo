@@ -13,7 +13,7 @@
     <color name="ValueDisabled">#ff444444</color>
     <color name="RPMBorder">#ff0000</color>
     <color name="RPMRect">#0000ff</color>
-    <color name="RPMMarkerLow">#ffffff</color>
+    <color name="RPMMarkerLow">#ff696969</color>
     <color name="RPMMarkerHigh">#ff0000</color>
     <color name="ButtonText">#ffffff</color>
     <color name="ButtonBackground">#ff696969</color>
@@ -28,4 +28,9 @@
     <color name="ActuatorRowMarker">#ff212121</color>
     <color name="ActuatorRowActual">#0000ff</color>
     <color name="ChartLabelColors">#ff212121</color>
+    <color name="colorPrimary">#125688</color>
+    <color name="colorPrimaryDark">#125688</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
 </resources>

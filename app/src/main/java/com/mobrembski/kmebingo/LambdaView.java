@@ -70,6 +70,11 @@ public class LambdaView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if(heightMeasureSpec == 0){
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(70, MeasureSpec.AT_MOST);
+        }
+
+        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), getDefaultSize(this.getSuggestedMinimumHeight(), heightMeasureSpec));
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         viewWidth = MeasureSpec.getSize(widthMeasureSpec);
         viewHeight = MeasureSpec.getSize(heightMeasureSpec);

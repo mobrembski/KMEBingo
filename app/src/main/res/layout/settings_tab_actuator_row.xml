@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actuator_row_table_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@android:color/black"
     android:orientation="vertical"
     android:shrinkColumns="0"
     android:baselineAligned="false"
     android:stretchColumns="1">
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="Set PWA value" />
 
-        <org.jraf.android.backport.switchwidget.Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:id="@+id/SetPWAValueSwitch" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -40,11 +41,12 @@
             android:id="@+id/SetPWAValueSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:dropDownWidth="match_parent"/>
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -57,11 +59,12 @@
             android:id="@+id/MinimalOpenOnIDLESpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -74,11 +77,12 @@
             android:id="@+id/MaximumOpenOnIDLESpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -91,11 +95,12 @@
             android:id="@+id/MinimalOpenOnLOADSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -108,12 +113,13 @@
             android:id="@+id/MaximumOpenOnLOADSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -122,15 +128,15 @@
             android:layout_gravity="center_vertical"
             android:text="Jump ATT to position" />
 
-        <org.jraf.android.backport.switchwidget.Switch
+        <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:id="@+id/SetATTPosSwitch"/>
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -141,14 +147,14 @@
 
         <Spinner
             android:id="@+id/DesiredATTPosSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -159,15 +165,15 @@
 
         <Spinner
             android:id="@+id/TPSSenseLevelSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
 
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -178,14 +184,14 @@
 
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningIdleSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -196,14 +202,14 @@
 
         <Spinner
             android:id="@+id/SpeedCorrectionClosingIdleSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false" >
+        style="@style/SettingsTableRow" >
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -214,14 +220,14 @@
 
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningLoadSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 
     <TableRow
-        android:baselineAligned="false">
+        style="@style/SettingsTableRow">
 
         <TextView
             style="@style/SettingsRowParameterItem"
@@ -232,9 +238,9 @@
 
         <Spinner
             android:id="@+id/SpeedCorrectionClosingLoadSpinner"
-            style="@style/SettingsRowParameterItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/lambda_type" />
     </TableRow>
 

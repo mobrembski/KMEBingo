@@ -11,17 +11,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
 
 import com.mobrembski.kmebingo.R;
-import com.mobrembski.kmebingo.TabListener;
 import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
 import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
-import com.mobrembski.kmebingo.Tabs.KMEViewerTab;
 import com.mobrembski.kmebingo.Tabs.SettingsTab.KMESettingsTab;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 import com.mobrembski.kmebingo.bluetoothmanager.SerialConnectionStatusEvent;
@@ -30,11 +34,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private BluetoothAdapter btAdapter;
@@ -47,44 +53,104 @@ public class MainActivity extends FragmentActivity {
     // TODO Fix this dep
     public BluetoothConnectionManager btManager;
     ScheduledExecutorService packetsInfoSchedule;
+    private Toolbar toolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CheckIfBtAdapterExist();
-        connectProgressDialog = new ProgressDialog(this);
-        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        connectProgressDialog.setMessage("Connecting...");
-        int selectedTab = 0;
-        if (savedInstanceState != null)
-            selectedTab = savedInstanceState.getInt("selected-tab");
-        ActionBar actionBar = getActionBar();
-        assert actionBar != null;
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        KMEViewerTab actualParametersFragment = new ActualParametersTab();
-        KMEViewerTab kmeInfoFragment = new KMEInfoTab();
-        KMEViewerTab settingsFragment = new KMESettingsTab();
-        actualParamTab = actionBar.newTab();
-        infoTab = actionBar.newTab();
-        settingsTab = actionBar.newTab();
-        prepareActionBarTitles();
-        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
-        actualParamTab.setIcon(R.drawable.actual_params_24x24);
-        infoTab.setTabListener(new TabListener(kmeInfoFragment));
-        infoTab.setIcon(R.drawable.info_24x24);
-        settingsTab.setTabListener(new TabListener(settingsFragment));
-        settingsTab.setIcon(R.drawable.settings_24x24);
-        actionBar.addTab(actualParamTab);
-        actionBar.addTab(settingsTab);
-        actionBar.addTab(infoTab);
-        actionBar.setSelectedNavigationItem(selectedTab);
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
         prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
-        if (btAddress.equals("NULL")) {
-            if (btAdapter != null && btAdapter.isEnabled()) {
-                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-            }
+//        connectProgressDialog = new ProgressDialog(this);
+//        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        connectProgressDialog.setMessage("Connecting...");
+//        int selectedTab = 0;
+//        if (savedInstanceState != null)
+//            selectedTab = savedInstanceState.getInt("selected-tab");
+//        ActionBar actionBar = getActionBar();
+//        assert actionBar != null;
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+//        KMEViewerTab actualParametersFragment = new ActualParametersTab();
+//        KMEViewerTab kmeInfoFragment = new KMEInfoTab();
+//        KMEViewerTab settingsFragment = new KMESettingsTab();
+//        actualParamTab = actionBar.newTab();
+//        infoTab = actionBar.newTab();
+//        settingsTab = actionBar.newTab();
+//        prepareActionBarTitles();
+//        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
+//        actualParamTab.setIcon(R.drawable.actual_params_24x24);
+//        infoTab.setTabListener(new TabListener(kmeInfoFragment));
+//        infoTab.setIcon(R.drawable.info_24x24);
+//        settingsTab.setTabListener(new TabListener(settingsFragment));
+//        settingsTab.setIcon(R.drawable.settings_24x24);
+//        actionBar.addTab(actualParamTab);
+//        actionBar.addTab(settingsTab);
+//        actionBar.addTab(infoTab);
+//        actionBar.setSelectedNavigationItem(selectedTab);
+//        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
+//        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
+//        if (btAddress.equals("NULL")) {
+//            if (btAdapter != null && btAdapter.isEnabled()) {
+//                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+//                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+//            }
+//        }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ActualParametersTab(), "");
+        adapter.addFragment(new KMESettingsTab(), "");
+        adapter.addFragment(new KMEInfoTab(), "");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(R.drawable.actual_params_24x24);
+        tabLayout.getTabAt(1).setIcon(R.drawable.settings_24x24);
+        tabLayout.getTabAt(2).setIcon(R.drawable.info_24x24);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
 
@@ -101,28 +167,33 @@ public class MainActivity extends FragmentActivity {
         EventBus.getDefault().register(this);
         btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
         if (!btAddress.equals("NULL")) {
-
             btManager = new BluetoothConnectionManager(btAddress);
             btManager.startConnecting();
-            packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
-            packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TextView packets = (TextView) findViewById(R.id.packetCountLabel);
-                            if (packets != null)
-                                packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
-                            packets = (TextView) findViewById(R.id.errorsCountLabel);
-                            if (packets != null)
-                                packets.setText(String.valueOf(btManager.getErrorsCount()));
-                            setConnectionStateText(btManager.getConnectionStatus());
-                        }
-                    });
-                }
-            }, 0, 250, TimeUnit.MILLISECONDS);
+        } else {
+            if (btAdapter != null && btAdapter.isEnabled()) {
+                Intent serverIntent = new Intent(this, DeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+            }
         }
+        packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
+        packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (btManager == null) return;
+                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
+                        if (packets != null)
+                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
+                        packets = (TextView) findViewById(R.id.errorsCountLabel);
+                        if (packets != null)
+                            packets.setText(String.valueOf(btManager.getErrorsCount()));
+                        setConnectionStateText(btManager.getConnectionStatus());
+                    }
+                });
+            }
+        }, 0, 250, TimeUnit.MILLISECONDS);
         super.onResume();
     }
 
@@ -277,7 +348,7 @@ public class MainActivity extends FragmentActivity {
 
     private void prepareActionBarTitles() {
         int width = getResources().getConfiguration().screenWidthDp;
-        if (width < 360 ) {
+        /*if (width < 360 ) {
             actualParamTab.setText("");
             infoTab.setText("");
             settingsTab.setText("");
@@ -286,6 +357,6 @@ public class MainActivity extends FragmentActivity {
             actualParamTab.setText("Readings");
             infoTab.setText("Info");
             settingsTab.setText("Settings");
-        }
+        }*/
     }
 }

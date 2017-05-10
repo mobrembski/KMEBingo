@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="GraphRow">
-        <attr name="DescriptionText" format="string"/>
-        <attr name="DescriptionColor" format="color"/>
-        <attr name="DescriptionTextSize" format="dimension"/>
-        <attr name="DescriptionValueTextSize" format="dimension"/>
-        <attr name="DescriptionAdditionalValueTextSize" format="dimension"/>
-        <attr name="XTitle" format="string"/>
-        <attr name="YTitle" format="string"/>
-    </declare-styleable>
     <declare-styleable name="LambdaView">
         <attr name="LambdaViewBorderWidth" format="dimension"/>
         <attr name="LambdaViewRectPadding" format="dimension"/>
@@ -28,5 +19,19 @@
         <attr name="ActuatorViewBarBottomPadding" format="dimension" />
         <attr name="ActuatorViewBorderWidth" format="dimension" />
         <attr name="ActuatorViewRectPadding" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="ExpandablePanel">
+        <attr name="handle" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="contentVisible" format="reference" />
+        <attr name="collapsedHeight" format="dimension"/>
+        <attr name="animationDuration" format="integer"/>
+        <attr name="expandableText" format="string"/>
+        <attr name="unitText" format="string"/>
+        <attr name="auto" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="GraphRow">
+        <attr name="XTitle" format="string"/>
+        <attr name="YTitle" format="string"/>
     </declare-styleable>
 </resources>

@@ -1,6 +1,5 @@
 package com.mobrembski.kmebingo.Tabs;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 
 import org.greenrobot.eventbus.EventBus;
 
-public abstract class KMEViewerTab extends Fragment {
+public abstract class KMEViewerTab extends android.support.v4.app.Fragment {
     protected int layoutId;
     protected View myView = null;
     private View noConnectOverlay;
@@ -51,18 +50,16 @@ public abstract class KMEViewerTab extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            EventBus.getDefault().unregister(this);
-        } catch (Exception e) {
-            Log.e("KMEViewerTab", "Exception during unregistering event", e);
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            EventBus.getDefault().register(this);
+        } else {
+            super.onPause();
+            try {
+                EventBus.getDefault().unregister(this);
+            } catch (Exception e) {
+                Log.e("KMEViewerTab", "Exception during unregistering event", e);
+            }
         }
     }
 }

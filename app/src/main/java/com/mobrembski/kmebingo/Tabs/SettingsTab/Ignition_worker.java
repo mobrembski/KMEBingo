@@ -1,6 +1,7 @@
 package com.mobrembski.kmebingo.Tabs.SettingsTab;
 
 
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,8 +16,6 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 
-import org.jraf.android.backport.switchwidget.Switch;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +26,11 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
     private final Spinner LPGSwitchingPointSpinner;
     private final RadioButton FallingRadioButton;
     private final RadioButton RisingRadioButton;
-    private final Switch LowRPMSignalSwitch;
-    private final Switch CutOFFEnabledSwitch;
+    private final SwitchCompat LowRPMSignalSwitch;
+    private final SwitchCompat CutOFFEnabledSwitch;
     private final Spinner LoweringToRPMSSpinner;
     private final Spinner LoweringToPWASpinner;
-    private final Switch HighRPMLimitSwitch;
+    private final SwitchCompat HighRPMLimitSwitch;
     private final Spinner HighRPMLimitSpinner;
     private final ArrayAdapter<String> rpmAdapter;
     private final ArrayAdapter<String> pwaAdapter;
@@ -51,9 +50,9 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
         RisingRadioButton = (RadioButton) parent.usedView.findViewById(R.id.RisingRPMSRadio);
         FallingRadioButton.setOnClickListener(this);
         RisingRadioButton.setOnClickListener(this);
-        LowRPMSignalSwitch = (Switch) parent.usedView.findViewById(R.id.LowRPMSingalLevelSwitch);
+        LowRPMSignalSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.LowRPMSingalLevelSwitch);
         LowRPMSignalSwitch.setOnCheckedChangeListener(this);
-        CutOFFEnabledSwitch = (Switch) parent.usedView.findViewById(R.id.CutOFFEnabledSwitch);
+        CutOFFEnabledSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.CutOFFEnabledSwitch);
         CutOFFEnabledSwitch.setOnCheckedChangeListener(this);
         LoweringToRPMSSpinner = (Spinner) parent.usedView.findViewById(R.id.MinimalCutOFFRPMSSpinner);
         LoweringToRPMSSpinner.setAdapter(rpmAdapter);
@@ -61,7 +60,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
         LoweringToPWASpinner = (Spinner) parent.usedView.findViewById(R.id.LoweringPWASpinner);
         LoweringToPWASpinner.setAdapter(createPWALoweringAdapter());
         LoweringToPWASpinner.setOnItemSelectedListener(this);
-        HighRPMLimitSwitch = (Switch) parent.usedView.findViewById(R.id.HighRPMLimitSwitch);
+        HighRPMLimitSwitch = (SwitchCompat) parent.usedView.findViewById(R.id.HighRPMLimitSwitch);
         HighRPMLimitSwitch.setOnCheckedChangeListener(this);
         HighRPMLimitSpinner = (Spinner) parent.usedView.findViewById(R.id.HighRPMLimitSpinner);
         HighRPMLimitSpinner.setOnItemSelectedListener(this);
@@ -92,6 +91,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (actualDC == null) return;
         Log.d("Ignition_worker", "onItemSelected" + view + parent);
         if (parent == IgnitionTypeSpinner) {
             actualDC.IgnitionType.SetValue(position + 1);
