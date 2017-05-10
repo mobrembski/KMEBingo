@@ -9,11 +9,13 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content"
 
+        android:paddingStart="@dimen/screen_item_padding_leftright"
+        android:paddingEnd="@dimen/screen_item_padding_leftright"
+        android:paddingLeft="@dimen/screen_item_padding_leftright"
+        android:paddingRight="@dimen/screen_item_padding_leftright"
         android:minHeight="48dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingTop="@dimen/screen_item_padding_topdown"
+        android:paddingBottom="@dimen/screen_item_padding_topdown">
 
         <TextView
             android:id="@+id/GraphRowDescription"
