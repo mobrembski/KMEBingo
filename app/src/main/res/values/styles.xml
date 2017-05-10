@@ -98,7 +98,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="AboutTheme" parent="android:Theme.Holo.Dialog.MinWidth">
+    <style name="AboutTheme" parent="android:Theme.Holo.Light.Dialog.MinWidth">
         <item name="android:windowAnimationStyle">@style/AboutDialogAnimation</item>
     </style>
 
