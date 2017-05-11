@@ -24,7 +24,6 @@
                 android:orientation="vertical"
                 example:expandableText="RPM"
                 example:animationDuration="150"
-                example:unitText="1/min"
                 example:content="@+id/GraphViewForRPM"
                 example:contentVisible="@+id/rpmView">
 
