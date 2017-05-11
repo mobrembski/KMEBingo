@@ -1,8 +1,6 @@
 package com.mobrembski.kmebingo.activites;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -53,10 +51,6 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private BluetoothAdapter btAdapter;
     private SharedPreferences prefs;
     private String btAddress;
-    private ProgressDialog connectProgressDialog;
-    private ActionBar.Tab actualParamTab;
-    private ActionBar.Tab settingsTab;
-    private ActionBar.Tab infoTab;
     // TODO Fix this dep
     public BluetoothConnectionManager btManager;
     ScheduledExecutorService packetsInfoSchedule;
@@ -64,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
-    private boolean textSwitcherSetupComplete = false;
     private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
+    private TextSwitcher connStatusText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +77,10 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+
+        connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
         prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
+        setupConnectionStatusTextSwitcher();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -130,13 +127,6 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     }
 
     @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        closeBtManager();
-        super.onPause();
-    }
-
-    @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
         btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
@@ -149,7 +139,15 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        EventBus.getDefault().unregister(this);
+        closeBtManager();
+        super.onPause();
+    }
+
     private void openSelectDeviceDialog() {
+        if (!CheckIfBtAdapterExist()) return;
         DeviceListDialog deviceListDialog = new DeviceListDialog(this);
         deviceListDialog.setTitle("SelectDevice");
         deviceListDialog.setOnDeviceSelectedCallback(this);
@@ -224,15 +222,15 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     @Override
     public boolean onMenuOpened(int featureId, Menu menu)
     {
-        if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
-            if(menu.getClass().getSimpleName().equals("MenuBuilder")){
-                try{
+        if (featureId == Window.FEATURE_ACTION_BAR && menu != null) {
+            if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+                try {
                     Method m = menu.getClass().getDeclaredMethod(
                             "setOptionalIconsVisible", Boolean.TYPE);
                     m.setAccessible(true);
                     m.invoke(menu, true);
                 }
-                catch(Exception e){
+                catch(Exception e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -244,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
-                CheckIfBtAdapterExist();
                 openSelectDeviceDialog();
                 return true;
             case R.id.action_StayScreenOn:
@@ -272,51 +269,46 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
-                if (connected == null) return;
-                setupConnectionStatusTextSwitcher();
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
-                    connected.setText("Connected");
+                    connStatusText.setText("Connected");
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
-                    connected.setText("Disconnected");
+                    connStatusText.setText("Disconnected");
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
-                    connected.setText("Connecting...");
+                    connStatusText.setText("Connecting...");
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
-                    connected.setText("BT disabled!");
+                    connStatusText.setText("BT disabled!");
                 }
             }
         });
     }
 
     private void setupConnectionStatusTextSwitcher() {
-        if (textSwitcherSetupComplete) return;
         TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
         connected.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
                 AppCompatTextView connectionStatusText = new AppCompatTextView(MainActivity.this);
                 connectionStatusText.setGravity(Gravity.CENTER);
-                connectionStatusText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);
+                connectionStatusText.setTextAppearance(
+                        getApplicationContext(), android.R.style.TextAppearance_Large);
                 connectionStatusText.setTextColor(
                         getResources().getColor(android.R.color.holo_green_dark));
                 return connectionStatusText;
             }
         });
-        Animation in = AnimationUtils.loadAnimation(this,android.R.anim.slide_in_left);
+        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
         connected.setInAnimation(in);
-        Animation out = AnimationUtils.loadAnimation(this,android.R.anim.slide_out_right);
+        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
         connected.setOutAnimation(out);
-        textSwitcherSetupComplete = true;
     }
 
-    private void CheckIfBtAdapterExist() {
+    private boolean CheckIfBtAdapterExist() {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( this);
             alertDialogBuilder.setTitle("No BT Adapter");
             alertDialogBuilder.setMessage("We're sorry, but no bluetooth adapter has been found.\n" +
                     "However, if your device support USB OTG, you can try connecting" +
@@ -329,19 +321,20 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
             });
             AlertDialog dial = alertDialogBuilder.create();
             dial.show();
-            return;
+            return false;
         }
-        CheckIfBtAdapterIsEnabled();
+        return CheckIfBtAdapterIsEnabled();
     }
 
-    private void CheckIfBtAdapterIsEnabled() {
+    private boolean CheckIfBtAdapterIsEnabled() {
         if (btAdapter == null)
-            return;
+            return false;
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
-            return;
+            return true;
         }
+        return true;
     }
 
     @Override

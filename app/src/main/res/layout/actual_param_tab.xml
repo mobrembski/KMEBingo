@@ -201,17 +201,4 @@
                 android:text="Cut-OFF Disabled" />
         </LinearLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/relLayoutFooter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <include
-            layout="@layout/footer"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
-    </RelativeLayout>
 </RelativeLayout>
