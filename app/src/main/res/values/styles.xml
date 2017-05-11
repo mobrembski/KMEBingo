@@ -155,5 +155,10 @@
         <item name="android:minHeight">32dp</item>
     </style>
 
+    <style name="DefaultDisplayItem">
+        <item name="android:layout_marginLeft">@dimen/screen_item_padding_small</item>
+        <item name="android:layout_marginRight">@dimen/screen_item_padding_small</item>
+    </style>
+
 
 </resources>

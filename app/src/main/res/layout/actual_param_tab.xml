@@ -29,18 +29,16 @@
                 example:contentVisible="@+id/rpmView">
 
                 <com.mobrembski.kmebingo.RPMView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/rpmView"
                     android:layout_width="fill_parent"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     app:RPMViewBorderWidth="3dp"
                     app:RPMViewMarkerTextPadding="10dp"
                     app:RPMViewMarkerTextSize="8dp"
                     app:RPMViewRectPadding="1dp" />
                 <com.mobrembski.kmebingo.GraphView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForRPM"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
@@ -59,17 +57,15 @@
                 example:contentVisible="@+id/TPSView">
 
                 <com.mobrembski.kmebingo.TPSView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/TPSView"
                     android:layout_width="fill_parent"
                     android:layout_height="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     app:TPSViewBorderWidth="3dp"
                     app:TPSViewRectPadding="2dp" />
 
                 <com.mobrembski.kmebingo.GraphView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTPS"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
@@ -88,17 +84,15 @@
                 example:contentVisible="@+id/lambdaView">
 
                 <com.mobrembski.kmebingo.LambdaView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/lambdaView"
                     android:layout_width="fill_parent"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     app:LambdaViewBorderWidth="3dp"
                     app:LambdaViewRectPadding="3dp"
                     app:LambdaViewRectSize="3dp" />
                 <com.mobrembski.kmebingo.GraphView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForLambda"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
@@ -116,18 +110,16 @@
                 example:contentVisible="@+id/ActuatorView">
 
                 <com.mobrembski.kmebingo.ActuatorView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/ActuatorView"
                     android:layout_width="fill_parent"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
                     app:ActuatorViewBarBottomPadding="3dp"
                     app:ActuatorViewBorderWidth="3dp"
                     app:ActuatorViewRectPadding="1dp" />
 
                 <com.mobrembski.kmebingo.GraphView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForActuator"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
@@ -145,6 +137,7 @@
                 example:content="@+id/GraphViewForTemperature">
 
                 <com.mobrembski.kmebingo.GraphView
+                    style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTemperature"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
