@@ -17,11 +17,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
+    private boolean textSwitcherSetupComplete = false;
+    private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,11 +267,14 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     }
 
     private void setConnectionStateText(final SerialConnectionStatusEvent.SerialConnectionStatus status) {
+        if(currentConnectionStatus == status) return;
+        currentConnectionStatus = status;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView connected = (TextView) findViewById(R.id.connectedLabel);
+                TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
                 if (connected == null) return;
+                setupConnectionStatusTextSwitcher();
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
                     connected.setText("Connected");
                 }
@@ -277,6 +289,27 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 }
             }
         });
+    }
+
+    private void setupConnectionStatusTextSwitcher() {
+        if (textSwitcherSetupComplete) return;
+        TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
+        connected.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                AppCompatTextView connectionStatusText = new AppCompatTextView(MainActivity.this);
+                connectionStatusText.setGravity(Gravity.CENTER);
+                connectionStatusText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);
+                connectionStatusText.setTextColor(
+                        getResources().getColor(android.R.color.holo_green_dark));
+                return connectionStatusText;
+            }
+        });
+        Animation in = AnimationUtils.loadAnimation(this,android.R.anim.slide_in_left);
+        connected.setInAnimation(in);
+        Animation out = AnimationUtils.loadAnimation(this,android.R.anim.slide_out_right);
+        connected.setOutAnimation(out);
+        textSwitcherSetupComplete = true;
     }
 
     private void CheckIfBtAdapterExist() {

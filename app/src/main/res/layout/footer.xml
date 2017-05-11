@@ -30,11 +30,8 @@
         android:text="0"
         android:textColor="#669900" />
 
-    <TextView
+    <TextSwitcher
         android:id="@+id/connectedLabel"
         style="@style/FooterStyleSmall"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="Disconnected"
-        android:textColor="#669900" />
+        android:layout_width="match_parent"/>
 </LinearLayout>
