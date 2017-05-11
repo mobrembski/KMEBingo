@@ -36,7 +36,11 @@ public class BluetoothConnectRunnable implements Runnable  {
     @Override
     public void run() {
         if (_bluetooth == null) return;
-        if (!_bluetooth.isEnabled()) return;
+        if (!_bluetooth.isEnabled()) {
+            saveStatusAndEmitEvent(
+                    SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF);
+            return;
+        }
         if (isConnected) return;
 
         saveStatusAndEmitEvent(

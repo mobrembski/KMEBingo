@@ -16,16 +16,17 @@
 
 package com.mobrembski.kmebingo.activites;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,7 +44,13 @@ import java.util.Set;
  * by the user, the MAC address of the device is sent back to the parent
  * Activity in the result Intent.
  */
-public class DeviceListActivity extends Activity {
+public class DeviceListDialog extends Dialog implements DialogInterface.OnDismissListener {
+
+    public interface onDeviceSelectedInterface {
+        void onDeviceSelected(BluetoothDevice device);
+    }
+
+    private onDeviceSelectedInterface mCallbackInteface;
 
     /**
      * Return Intent extra
@@ -68,8 +75,9 @@ public class DeviceListActivity extends Activity {
             intent.putExtra(EXTRA_DEVICE_ADDRESS, device);
 
             // Set result and finish this Activity
-            setResult(Activity.RESULT_OK, intent);
-            finish();
+            if (mCallbackInteface != null)
+                mCallbackInteface.onDeviceSelected(device);
+            dismiss();
         }
     };
     /**
@@ -91,7 +99,6 @@ public class DeviceListActivity extends Activity {
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                setProgressBarIndeterminateVisibility(false);
                 setTitle("Select device");
                 if (mNewDevicesArrayAdapter.getCount() == 0) {
                     mNewDevicesArrayAdapter.add("No devices found");
@@ -108,16 +115,21 @@ public class DeviceListActivity extends Activity {
      */
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
+
+    public DeviceListDialog(@NonNull Context context) {
+        super(context, R.style.AboutTheme);
+    }
+
+    public void setOnDeviceSelectedCallback(onDeviceSelectedInterface callback) {
+        mCallbackInteface = callback;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Setup the window
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.activity_device_list);
-
-        // Set result CANCELED in case the user backs out
-        setResult(Activity.RESULT_CANCELED);
+        setContentView(R.layout.dialog_device_list);
 
         // Initialize the button to perform device discovery
         Button scanButton = (Button) findViewById(R.id.button_scan);
@@ -131,8 +143,8 @@ public class DeviceListActivity extends Activity {
         // Initialize array adapters. One for already paired devices and
         // one for newly discovered devices
         ArrayAdapter<String> pairedDevicesArrayAdapter =
-                new ArrayAdapter<>(this, R.layout.device_name);
-        mNewDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
+                new ArrayAdapter<>(getContext(), R.layout.device_name);
+        mNewDevicesArrayAdapter = new ArrayAdapter<>(getContext(), R.layout.device_name);
 
         // Find and set up the ListView for paired devices
         ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
@@ -146,19 +158,20 @@ public class DeviceListActivity extends Activity {
 
         // Register for broadcasts when a device is discovered
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        this.registerReceiver(mReceiver, filter);
+        getContext().registerReceiver(mReceiver, filter);
 
         // Register for broadcasts when discovery has finished
         filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        this.registerReceiver(mReceiver, filter);
+        getContext().registerReceiver(mReceiver, filter);
 
         // Get the local Bluetooth adapter
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBtAdapter == null) {
-            Toast.makeText(getApplicationContext(), "No BT device found!", Toast.LENGTH_LONG).show();
-            setResult(Activity.RESULT_CANCELED);
-            finish();
+            Toast.makeText(getContext(), "No BT device found!", Toast.LENGTH_LONG).show();
+            //setResult(Activity.RESULT_CANCELED);
+            //finish();
+            dismiss();
             return;
         }
 
@@ -174,11 +187,14 @@ public class DeviceListActivity extends Activity {
         } else {
             pairedDevicesArrayAdapter.add("None paired");
         }
+
+        this.setOnDismissListener(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+
+    //@Override
+    private void onDismiss() {
+        //super.onDestroy();
 
         // Make sure we're not doing discovery anymore
         if (mBtAdapter != null) {
@@ -186,7 +202,7 @@ public class DeviceListActivity extends Activity {
         }
 
         // Unregister broadcast listeners
-        this.unregisterReceiver(mReceiver);
+        getContext().unregisterReceiver(mReceiver);
     }
 
     /**
@@ -195,7 +211,7 @@ public class DeviceListActivity extends Activity {
     private void doDiscovery() {
 
         // Indicate scanning in the title
-        setProgressBarIndeterminateVisibility(true);
+        //setProgressBarIndeterminateVisibility(true);
         setTitle("Scanning...");
 
         // Turn on sub-title for new devices
@@ -210,4 +226,8 @@ public class DeviceListActivity extends Activity {
         mBtAdapter.startDiscovery();
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        onDismiss();
+    }
 }

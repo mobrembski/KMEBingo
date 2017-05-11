@@ -22,11 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.mobrembski.kmebingo.activites.DeviceListActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="SelectDevice"
-            android:theme="@android:style/Theme.Holo.Dialog"/>
     </application>
 
 </manifest>

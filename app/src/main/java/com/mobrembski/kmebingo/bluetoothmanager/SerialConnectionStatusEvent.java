@@ -4,7 +4,8 @@ public class SerialConnectionStatusEvent {
     public enum SerialConnectionStatus {
         DISCONNECTED,
         CONNECTING,
-        CONNECTED
+        CONNECTED,
+        ADAPTER_OFF
     }
 
     public SerialConnectionStatus currentStatus;

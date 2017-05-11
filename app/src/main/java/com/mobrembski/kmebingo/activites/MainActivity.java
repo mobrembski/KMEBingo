@@ -40,7 +40,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DeviceListDialog.onDeviceSelectedInterface {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private BluetoothAdapter btAdapter;
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CheckIfBtAdapterExist();
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,48 +75,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-//        connectProgressDialog = new ProgressDialog(this);
-//        connectProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        connectProgressDialog.setMessage("Connecting...");
-//        int selectedTab = 0;
-//        if (savedInstanceState != null)
-//            selectedTab = savedInstanceState.getInt("selected-tab");
-//        ActionBar actionBar = getActionBar();
-//        assert actionBar != null;
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//        KMEViewerTab actualParametersFragment = new ActualParametersTab();
-//        KMEViewerTab kmeInfoFragment = new KMEInfoTab();
-//        KMEViewerTab settingsFragment = new KMESettingsTab();
-//        actualParamTab = actionBar.newTab();
-//        infoTab = actionBar.newTab();
-//        settingsTab = actionBar.newTab();
-//        prepareActionBarTitles();
-//        actualParamTab.setTabListener(new TabListener(actualParametersFragment));
-//        actualParamTab.setIcon(R.drawable.actual_params_24x24);
-//        infoTab.setTabListener(new TabListener(kmeInfoFragment));
-//        infoTab.setIcon(R.drawable.info_24x24);
-//        settingsTab.setTabListener(new TabListener(settingsFragment));
-//        settingsTab.setIcon(R.drawable.settings_24x24);
-//        actionBar.addTab(actualParamTab);
-//        actionBar.addTab(settingsTab);
-//        actionBar.addTab(infoTab);
-//        actionBar.setSelectedNavigationItem(selectedTab);
-//        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-//        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
-//        if (btAddress.equals("NULL")) {
-//            if (btAdapter != null && btAdapter.isEnabled()) {
-//                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-//                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-//            }
-//        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ActualParametersTab(), "");
-        adapter.addFragment(new KMESettingsTab(), "");
-        adapter.addFragment(new KMEInfoTab(), "");
-        viewPager.setAdapter(adapter);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new ActualParametersTab(), "");
+        viewPagerAdapter.addFragment(new KMESettingsTab(), "");
+        viewPagerAdapter.addFragment(new KMEInfoTab(), "");
+        viewPager.setAdapter(viewPagerAdapter);
     }
 
     private void setupTabIcons() {
@@ -156,9 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if (btManager != null) btManager.stopConnections();
         EventBus.getDefault().unregister(this);
-        packetsInfoSchedule.shutdownNow();
+        closeBtManager();
         super.onPause();
     }
 
@@ -167,14 +132,45 @@ public class MainActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
         if (!btAddress.equals("NULL")) {
-            btManager = new BluetoothConnectionManager(btAddress);
-            btManager.startConnecting();
+            openBtManager(btAddress);
         } else {
-            if (btAdapter != null && btAdapter.isEnabled()) {
-                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-            }
+            openSelectDeviceDialog();
         }
+        initializePacketInfoSchedule();
+        super.onResume();
+    }
+
+    private void openSelectDeviceDialog() {
+        DeviceListDialog deviceListDialog = new DeviceListDialog(this);
+        deviceListDialog.setTitle("SelectDevice");
+        deviceListDialog.setOnDeviceSelectedCallback(this);
+        deviceListDialog.show();
+    }
+
+    @Override
+    public void onDeviceSelected(BluetoothDevice device) {
+        if (device != null) {
+            btAddress = device.getAddress();
+            prefs.edit().putString("com.mobrembski.kmebingo.Device", btAddress).apply();
+            openBtManager(btAddress);
+            initializePacketInfoSchedule();
+            viewPagerAdapter.getItem(viewPager.getCurrentItem()).onResume();
+        }
+    }
+
+    private void closeBtManager() {
+        if (btManager != null) btManager.stopConnections();
+        if (packetsInfoSchedule != null) packetsInfoSchedule.shutdownNow();
+    }
+
+    private void openBtManager(String btAddress) {
+        closeBtManager();
+        CheckIfBtAdapterExist();
+        btManager = new BluetoothConnectionManager(btAddress);
+        btManager.startConnecting();
+    }
+
+    private void initializePacketInfoSchedule() {
         packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
         packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
             @Override
@@ -194,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }, 0, 250, TimeUnit.MILLISECONDS);
-        super.onResume();
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -205,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        prepareActionBarTitles();
     }
 
     @Override
@@ -241,8 +236,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_DeviceSelect:
                 CheckIfBtAdapterExist();
-                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
+                openSelectDeviceDialog();
                 return true;
             case R.id.action_StayScreenOn:
                 item.setChecked(!item.isChecked());
@@ -278,40 +272,11 @@ public class MainActivity extends AppCompatActivity {
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
                     connected.setText("Connecting...");
                 }
+                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
+                    connected.setText("BT disabled!");
+                }
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_BT_ENABLE) {
-            if (resultCode == RESULT_CANCELED) {
-                // FIXME: For some reason we've got RESULT_CANCELLED when user has defined address
-                // and Bluetooth wasn't turned on. Can we get ENABLE_BLUETOOTH result twice?
-                // Need to be checked.
-                //Toast.makeText(getApplicationContext(), "You must enable Bluetooth!",
-                //        Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (btAddress.equals("NULL")) {
-                Intent serverIntent = new Intent(this, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_DISCOVERY);
-            }
-            return;
-        }
-        if (requestCode != REQUEST_DISCOVERY) {
-            return;
-        }
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        final BluetoothDevice device = data.getParcelableExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-        if (device != null) {
-            btAddress = device.getAddress();
-            prefs.edit().putString("com.mobrembski.kmebingo.Device", btAddress).apply();
-            if (btManager != null) btManager.stopConnections();
-            packetsInfoSchedule.shutdownNow();
-        }
     }
 
     private void CheckIfBtAdapterExist() {
@@ -346,17 +311,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void prepareActionBarTitles() {
-        int width = getResources().getConfiguration().screenWidthDp;
-        /*if (width < 360 ) {
-            actualParamTab.setText("");
-            infoTab.setText("");
-            settingsTab.setText("");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_BT_ENABLE) {
+            if (resultCode == RESULT_CANCELED) {
+                // FIXME: For some reason we've got RESULT_CANCELLED when user has defined address
+                // and Bluetooth wasn't turned on. Can we get ENABLE_BLUETOOTH result twice?
+                // Need to be checked.
+                return;
+            }
+            openBtManager(btAddress);
+            return;
         }
-        else {
-            actualParamTab.setText("Readings");
-            infoTab.setText("Info");
-            settingsTab.setText("Settings");
-        }*/
     }
 }
