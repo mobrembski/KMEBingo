@@ -116,10 +116,19 @@ public class ActuatorView extends View {
 
     }
 
+    private void setupViewForNoDataState() {
+        actualConfig = new KMEDataConfig();
+        actualConfig.ActuatorMinOpenOnLoad.SetValue(20);
+        actualConfig.ActuatorMaxOpenOnLoad.SetValue(40);
+        actualConfig.ActuatorMinOpenOnIdle.SetValue(25);
+        actualConfig.ActuatorMaxOpenOnIdle.SetValue(30);
+        PWAval = 27;
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         if (actualConfig == null)
-            return;
+            setupViewForNoDataState();
         super.dispatchDraw(canvas);
         float steps = actuatorSteps * stepsPerPixel;
         int idlemin = ((int) stepsPerPixel * PWAval) - ((int) stepsPerPixel * actualConfig.ActuatorMinOpenOnIdle.GetValue());
