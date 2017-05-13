@@ -1,20 +1,22 @@
 package com.mobrembski.kmebingo.activites;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
+import android.util.TypedValue;
 
 import com.mobrembski.kmebingo.BitUtils;
+import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 
-public class FactoryResetDialog extends Dialog {
+public class FactoryResetDialog extends AppCompatDialog {
 
     private Activity myView;
     private OnDismissListener listener;
@@ -41,16 +43,18 @@ public class FactoryResetDialog extends Dialog {
 
     @Override
     public void show() {
-        new AlertDialog.Builder(myView)
-                .setTitle("Reset configuration")
-                .setMessage("Are you sure want to reset configuration?\nThis cannot be undone! ")
-                .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.dialog_style, typedValue, true);
+        new AlertDialog.Builder(myView, typedValue.resourceId)
+                .setTitle(R.string.configuration_reset)
+                .setMessage(R.string.sure_to_reset)
+                .setPositiveButton(R.string.reset_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tryToResetConfiguration();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         emitOnDismiss();
@@ -78,9 +82,9 @@ public class FactoryResetDialog extends Dialog {
         KMEDataActual actual = btManager.runRequestNow(new KMEDataActual());
         if (actual.Ignition) {
             new AlertDialog.Builder(myView)
-                    .setTitle("Error")
-                    .setMessage("Cannot reset when Ignition is turned on!")
-                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.error)
+                    .setMessage(R.string.cannot_reset_on_ignition)
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -140,8 +144,8 @@ public class FactoryResetDialog extends Dialog {
             waitDialog = new ProgressDialog(myView);
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(framesToSend.length);
-            waitDialog.setMessage("Resetting configuration...\nPlease wait");
-            waitDialog.setTitle("Factory reset...");
+            waitDialog.setMessage(getContext().getString(R.string.resetting_please_wait));
+            waitDialog.setTitle(R.string.factory_reset);
             waitDialog.show();
         }
 

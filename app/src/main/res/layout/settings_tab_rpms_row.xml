@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Ignition Type:" />
+            android:text="@string/ignition_type" />
 
         <Spinner
             android:id="@+id/IgnitionTypeSpinner"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="LPG switching point:" />
+            android:text="@string/lpg_switching_point" />
 
         <Spinner
             android:id="@+id/LPGSwitchingPointSpinner"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Switch when RPMs:" />
+            android:text="@string/switch_when_rpms" />
 
         <RadioButton
             style="@style/SettingsRowParameterItem"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_column="1"
-            android:text="Falling"
+            android:text="@string/falling"
             android:id="@+id/FallingRPMSRadio"/>
 
 
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_column="1"
-            android:text="Rising"
+            android:text="@string/rising"
             android:id="@+id/RisingRPMSRadio"/>
     </TableRow>
 
@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Low RPM signal level:" />
+            android:text="@string/low_rpm_signal_level" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="CutOFF enabled:" />
+            android:text="@string/cutoff_enabled" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Minimal RPMS CutOFF:" />
+            android:text="@string/minimal_rpms_cutoff" />
 
         <Spinner
             android:id="@+id/MinimalCutOFFRPMSSpinner"
@@ -146,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Lowering from PWA:" />
+            android:text="@string/lowering_from_pwa" />
 
         <Spinner
             android:id="@+id/LoweringPWASpinner"
@@ -164,7 +164,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Hight RPM limit:" />
+            android:text="@string/hight_rpm_limit" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -182,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Limit:" />
+            android:text="@string/limit" />
 
         <Spinner
             android:id="@+id/HighRPMLimitSpinner"

@@ -1,10 +1,10 @@
 package com.mobrembski.kmebingo.activites;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,7 +18,7 @@ import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class LPGSensorSensivityChangeDialog extends Dialog {
+public class LPGSensorSensivityChangeDialog extends AppCompatDialog {
     private SensorLevelView level1;
     private SensorLevelView level2;
     private SensorLevelView level3;
@@ -40,8 +40,8 @@ public class LPGSensorSensivityChangeDialog extends Dialog {
             };
     private BluetoothConnectionManager btManager;
 
-    public LPGSensorSensivityChangeDialog(Activity parentActivity, BluetoothConnectionManager btManager) {
-        super(parentActivity, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
+    public LPGSensorSensivityChangeDialog(Activity parentActivity, BluetoothConnectionManager btManager, int themeId) {
+        super(parentActivity, themeId);
         // TODO: Why this is needed? Need to verify.
         setOwnerActivity(parentActivity);
         this.btManager = btManager;
@@ -51,7 +51,7 @@ public class LPGSensorSensivityChangeDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lpgsensor_sensivity_dialog);
-        setTitle("Change levels");
+        setTitle(R.string.change_levels);
         Button okBtn = (Button) findViewById(R.id.LpgSensorSensivityDialogOkBtn);
         Button resetBtn = (Button) findViewById(R.id.LpgSensorSensivityDialogResetBtn);
         level1 = (SensorLevelView) findViewById(R.id.LpgSensorSensivityDialogSensorLevel1);

@@ -2,10 +2,7 @@
 <resources>
 
     <string name="app_name">KME Bingo</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
 
-    <string name="lambda_prompt">Test</string>
     <string-array name="lambda_emul_type">
         <item>Course</item>
         <item>Ground</item>
@@ -141,5 +138,117 @@
         <item>PRG 9 Prog</item>
         <item>Reserve</item>
     </string-array>
+    <string name="menu_switchcolor_dark">Switch to Night mode</string>
+    <string name="menu_switchcolor_day">Switch to Day mode</string>
+    <string name="menu_about">About…</string>
+    <string name="menu_stayOn">Stay on</string>
+    <string name="menu_deviceSelect">Select Device</string>
+
+    <string name="paired_devices">Paired devices</string>
+    <string name="no_devices_found">No devices found</string>
+    <string name="none_paired">None paired</string>
+    <string name="scanning">Scanning…</string>
+    <string name="no_bt_device_found">No BT adapter found!</string>
+
+    <string name="about_title">About…</string>
+    <string name="version">Version:</string>
+    <string name="idea_or_improvement">Have you discovered any bug? Or idea for improvement?</string>
+    <string name="feel_free_to_mail">Please feel free to send me an mail:</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="legal_text">Copyright © 2017 all rights reserved.  This program and its contents are protected by copyright.  KME and BINGO are registered trademarks of KME Sp.z o.o.  Not liable for any damage incurred from use of this software.</string>
+
+    <string name="configuration_reset">Reset configuration</string>
+    <string name="sure_to_reset">Are you sure want to reset configuration?\\nThis cannot be undone!</string>
+    <string name="reset_button">Reset</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="error">Error</string>
+    <string name="cannot_reset_on_ignition">Cannot reset when Ignition is turned on!</string>
+    <string name="ok">OK</string>
+    <string name="resetting_please_wait">Resetting configuration…\\nPlease wait</string>
+    <string name="factory_reset">Factory reset…</string>
+
+    <string name="change_levels">Change levels</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="connecting">Connecting…</string>
+    <string name="bt_disabled">BT disabled</string>
+    <string name="no_bt_adapter">No BT Adapter</string>
+    <string name="no_bt_adapter_sorry">We\'re sorry, but no bluetooth adapter has been found.\\nHowever, if your device support USB OTG, you can try connecting USB Bluetooth adapter and try again.</string>
+    <string name="RPM">RPM</string>
+    <string name="TPS">TPS</string>
+    <string name="Actuator">Actuator</string>
+    <string name="Temperature">Temperature</string>
+    <string name="ignition_off">Ignition OFF</string>
+    <string name="on_benzin">On Benzin</string>
+    <string name="temp_too_low">Temp Too LOW</string>
+    <string name="rpm_too_low">RPM Too LOW</string>
+    <string name="cut_off_disabled">Cut-OFF Disabled</string>
+    <string name="ignition_on">Ignition ON</string>
+    <string name="on_lpg">On LPG</string>
+    <string name="cut_off_active">Cut-OFF Active!</string>
+    <string name="rpm_too_high">RPM too High</string>
+    <string name="temp_ok">Temperature OK</string>
+    <string name="rpm_ok">RPM OK</string>
+    <string name="temp_on">ON:</string>
+    <string name="low_level">LOW LEVEL</string>
+    <string name="change_running_time">Change running time</string>
+    <string name="please_enter_running_time">Please enter running time</string>
+    <string name="save">Save</string>
+    <string name="change_registration">Change registration</string>
+    <string name="enter_registration">Enter registration number</string>
+    <string name="change_installation_date">Change installation date</string>
+    <string name="changing">Changing..</string>
+    <string name="registration">Registration...</string>
+    <string name="running_time">Running time...</string>
+    <string name="installation_date">Installation date...</string>
+    <string name="controller_type">Controller Type:</string>
+    <string name="time_on_lpg">Time on LPG:</string>
+    <string name="registration_plate">Registration Plate:</string>
+    <string name="date_of_installation">Date of Installation:</string>
+    <string name="tank_level">Tank level:</string>
+    <string name="change_tank_level_sensor_levels">Change tank level sensor levels</string>
+    <string name="other_devices">Other devices</string>
+    <string name="scan">Scan</string>
+    <string name="packets">Packets:</string>
+    <string name="reset_to_factory_default">Reset to factory default</string>
+    <string name="set_pwa_value">Set PWA value</string>
+    <string name="pwa_value">PWA Value</string>
+    <string name="minimal_open_on_idle">Minimal open on IDLE:</string>
+    <string name="maximum_open_on_idle">Maximum open on IDLE:</string>
+    <string name="minimum_open_on_load">Minimum open on LOAD:</string>
+    <string name="maximum_open_on_load">Maximum open on LOAD:</string>
+    <string name="jump_att_to_position">Jump ATT to position</string>
+    <string name="desired_att_pos">Desired ATT pos</string>
+    <string name="tps_sense_level">TPS sense level:</string>
+    <string name="opening_speed_correction_on_idle">Opening speed correction on IDLE:</string>
+    <string name="closing_speed_correction_on_idle">Closing speed correction on IDLE:</string>
+    <string name="opening_speed_correction_on_load">Opening speed correction on LOAD:</string>
+    <string name="closing_speed_correction_on_load">Closing speed correction on LOAD:</string>
+    <string name="type">Type:</string>
+    <string name="neutral_point">Neutral point:</string>
+    <string name="reading_delay">Reading delay:</string>
+    <string name="emulation_type">Emulation type:</string>
+    <string name="emulation_h_state">Emulation H state:</string>
+    <string name="emulation_l_state">Emulation L state:</string>
+    <string name="temperature_sensor">Temperature sensor:</string>
+    <string name="switch_on_temp">Switch on temp:</string>
+    <string name="economy_type">Economy type:</string>
+    <string name="start_on_lpg">Start on lpg:</string>
+    <string name="start_valve_open_time">Start valve open time:</string>
+    <string name="sensor_type">Sensor type:</string>
+    <string name="bensin_lpg_time">Bensin/LPG time:</string>
+    <string name="ignition_type">Ignition Type:</string>
+    <string name="lpg_switching_point">LPG switching point:</string>
+    <string name="switch_when_rpms">Switch when RPMs:</string>
+    <string name="falling">Falling</string>
+    <string name="rising">Rising</string>
+    <string name="low_rpm_signal_level">Low RPM signal level:</string>
+    <string name="cutoff_enabled">CutOFF enabled:</string>
+    <string name="minimal_rpms_cutoff">Minimal RPMS CutOFF:</string>
+    <string name="lowering_from_pwa">Lowering from PWA:</string>
+    <string name="hight_rpm_limit">Hight RPM limit:</string>
+    <string name="limit">Limit:</string>
+    <string name="tps_type">TPS type:</string>
+    <string name="tps_inertness_on_idle">TPS inertness on IDLE:</string>
 
 </resources>

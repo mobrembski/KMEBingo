@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="lambda_emul_type">
+        <item>Przebieg</item>
+        <item>Masa</item>
+        <item>Odłączona</item>
+    </string-array>
+        <string-array name="ignition_type">
+        <item>1cyl1cewka</item>
+        <item>2cyl1cewka</item>
+        <item>2cyl2cewka</item>
+        <item>3cyl1cewka</item>
+        <item>3cyl3cewka</item>
+        <item>4cyl1cewka</item>
+        <item>4cyl2cewka</item>
+        <item>4cyl4cewka</item>
+        <item>5cyl1cewka</item>
+        <item>5cyl5cewka</item>
+        <item>6cyl1cewka</item>
+        <item>6cyl2cewka</item>
+        <item>6cyl3cewka</item>
+        <item>6cyl6cewka</item>
+    </string-array>
+    <string-array name="switch_on_routes">
+        <item>Wzrastają</item>
+        <item>Spadają</item>
+    </string-array>
+    <string-array name="TPS_type">
+        <item>Lin0–5V</item>
+        <item>LIN5–0V</item>
+        <item>Brak TPS</item>
+        <item>On0–12V</item>
+        <item>On12–0V</item>
+        <item>BOSH-mono</item>
+    </string-array>
+    <string-array name="economy_type">
+        <item>Normalny</item>
+        <item>Ekonomiczny</item>
+        <item>Sportowy</item>
+    </string-array>
+    <string-array name="level_sensor_type">
+        <item>0 Ohm</item>
+        <item>PRG 9 Prog</item>
+        <item>Rezerwa</item>
+    </string-array>
+
+    <string name="app_name">KME Bingo</string>
+    <string name="menu_switchcolor_dark">Włącz tryb nocny</string>
+    <string name="menu_switchcolor_day">Włącz tryb dzienny</string>
+    <string name="menu_about">O aplikacji…</string>
+    <string name="menu_stayOn">Ekran zawsze włączony</string>
+    <string name="menu_deviceSelect">Wybierz urządzenie</string>
+    <string name="paired_devices">Sprawane urządzenia</string>
+    <string name="no_devices_found">Nie znaleziono urządzeń</string>
+    <string name="none_paired">Brak sparowanych urządzeń</string>
+    <string name="scanning">Skanowanie…</string>
+    <string name="no_bt_device_found">Nie znaleziono adaptera BT!</string>
+    <string name="about_title">O aplikacji…</string>
+    <string name="version">Wersja:</string>
+    <string name="idea_or_improvement">Znalazłeś błąd? Albo masz pomysł na ulepszenie aplikacji?</string>
+    <string name="feel_free_to_mail">Śmiało pisz do autora:</string>
+    <string name="thank_you">Dzięki!</string>
+    <string name="legal_text">Copyright © 2017 wszelkie prawa zastrzeżone. Ten program jest chroniony przez prawa autorskie. KME i BINGO są zarejestrowanymi znakami handlowymi firmy KME Sp. z o.o.. \nNie biore odpowiedzialności za jakiekolwiek uszkodzenia spowodowane użytkowaniem aplikacji!</string>
+    <string name="configuration_reset">Reset konfiguracji</string>
+    <string name="sure_to_reset">Na pewno chcesz zresetować konfigurację? \nReset nie może być cofnięty!</string>
+    <string name="reset_button">Reset</string>
+    <string name="cancel_button">Anuluj</string>
+    <string name="error">Błąd</string>
+    <string name="cannot_reset_on_ignition">Nie można wykonać resetu kiedy zapłon jest włączony!</string>
+    <string name="ok">OK</string>
+    <string name="resetting_please_wait">Resetuję konfigurację…\n Proszę czekać</string>
+    <string name="factory_reset">Reset ustawień…</string>
+    <string name="change_levels">Zmień poziomy</string>
+    <string name="connected">Połączony</string>
+    <string name="disconnected">Rozłączony</string>
+    <string name="connecting">Łączenie…</string>
+    <string name="bt_disabled">BT wyłączony</string>
+    <string name="no_bt_adapter">Brak adapter BT</string>
+    <string name="RPM">Obroty</string>
+    <string name="TPS">Przepustnica</string>
+    <string name="Actuator">Aktuator</string>
+    <string name="Temperature">Temperatura</string>
+    <string name="ignition_off">Zapłon WYŁ.</string>
+    <string name="on_benzin">Na benzynie</string>
+    <string name="temp_too_low">Temp za mała</string>
+    <string name="rpm_too_low">Obroty za małe</string>
+    <string name="cut_off_disabled">Cut-OFF wyłączony</string>
+    <string name="ignition_on">Zapłon Wł</string>
+    <string name="on_lpg">Na LPG</string>
+    <string name="cut_off_active">Cut-OFF Aktywny!</string>
+    <string name="rpm_too_high">Obroty za wysokie</string>
+    <string name="temp_ok">Temperatura OK</string>
+    <string name="rpm_ok">Obroty OK</string>
+    <string name="temp_on">Wł:</string>
+    <string name="low_level">NISKI POZIOM</string>
+    <string name="change_running_time">Zmień całkowity czas pracy</string>
+    <string name="please_enter_running_time">Wpisz nowy czas pracy</string>
+    <string name="save">Zapisz</string>
+    <string name="change_registration">Zmień rejestrację</string>
+    <string name="enter_registration">Wpisz rejestrację</string>
+    <string name="change_installation_date">Zmień datę instalacji</string>
+    <string name="changing">Zmieniam…</string>
+    <string name="registration">Rejestracja…</string>
+    <string name="running_time">Czas pracy…</string>
+    <string name="installation_date">Data instalacji…</string>
+    <string name="controller_type">Typ sterownika:</string>
+    <string name="time_on_lpg">Czas pracy na LPG:</string>
+    <string name="registration_plate">Rejestracja poj. :</string>
+    <string name="date_of_installation">Data instalacji:</string>
+    <string name="tank_level">Poziom zbiornika:</string>
+    <string name="change_tank_level_sensor_levels">Zmień poziomy czujnika zbiornika gazu</string>
+    <string name="other_devices">Inne urządzenia</string>
+    <string name="scan">Wyszukaj</string>
+    <string name="packets">Pakiety</string>
+    <string name="reset_to_factory_default">Reset do ustawień fabrycznych</string>
+    <string name="set_pwa_value">PWA włączone</string>
+    <string name="pwa_value">Wartość PWA</string>
+    <string name="minimal_open_on_idle">Minimalne otwarcie na bieg jał.:</string>
+    <string name="maximum_open_on_idle">Maksymalne otwarcie na biegu jał.:</string>
+    <string name="minimum_open_on_load">Minimalne otwarcie przy obc.:</string>
+    <string name="maximum_open_on_load">Maksymalne otwarcie przy obc.:</string>
+    <string name="jump_att_to_position">Skok ATT do pozycji</string>
+    <string name="desired_att_pos">Docelowa pozycja ATT</string>
+    <string name="tps_sense_level">Poziom czułości TPS:</string>
+    <string name="opening_speed_correction_on_idle">Korekcja prędk. otwarcia na biegu jał.:</string>
+    <string name="closing_speed_correction_on_idle">Korekcja prędk. zamknięcia na biegu jał.:</string>
+    <string name="opening_speed_correction_on_load">Korekcja prędk. otwarcia przy obci.:</string>
+    <string name="closing_speed_correction_on_load">Korekcja prędkości zamknięcia przy obc.:</string>
+    <string name="type">Typ:</string>
+    <string name="neutral_point">Punkt neutralny:</string>
+    <string name="reading_delay">Opóźnienie odczytu:</string>
+    <string name="emulation_type">Typ emulacji:</string>
+    <string name="emulation_h_state">Stan H emulacji:</string>
+    <string name="emulation_l_state">Stan L emulacji:</string>
+    <string name="temperature_sensor">Czujnik temperatury:</string>
+    <string name="switch_on_temp">Temp. przełączania:</string>
+    <string name="economy_type">Rodzaj jazdy:</string>
+    <string name="start_on_lpg">Uruchom na LPG:</string>
+    <string name="start_valve_open_time">Czas otwarcia zaworu:</string>
+    <string name="sensor_type">Typ czujnika:</string>
+    <string name="bensin_lpg_time">Czas Benzyna/LPG:</string>
+    <string name="ignition_type">Typ zapłonu:</string>
+    <string name="lpg_switching_point">Punkt przełączania na LPG:</string>
+    <string name="switch_when_rpms">Przełącz, gdy obroty:</string>
+    <string name="falling">Spadają</string>
+    <string name="rising">Rosną</string>
+    <string name="low_rpm_signal_level">Niski poziom sygnału obrotów:</string>
+    <string name="cutoff_enabled">CutOFF włączony:</string>
+    <string name="minimal_rpms_cutoff">Minimalne obroty CutOFF:</string>
+    <string name="lowering_from_pwa">Obniżanie z PWA:</string>
+    <string name="hight_rpm_limit">Limit obrotów:</string>
+    <string name="limit">Limit:</string>
+    <string name="tps_type">Typ TPS:</string>
+    <string name="tps_inertness_on_idle">Bezwładność TPS na biegu jał.:</string>
+</resources>

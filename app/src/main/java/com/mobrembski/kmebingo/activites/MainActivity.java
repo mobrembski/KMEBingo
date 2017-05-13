@@ -60,9 +60,14 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private ViewPagerAdapter viewPagerAdapter;
     private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
     private TextSwitcher connStatusText;
+    private boolean darkMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
+        darkMode = prefs.getBoolean("com.mobrembski.kmebingo.DarkMode", true);
+        if (darkMode)
+            setTheme(R.style.MyMaterialThemeDark);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -79,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         setupTabIcons();
 
         connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
-        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
         setupConnectionStatusTextSwitcher();
     }
 
@@ -149,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private void openSelectDeviceDialog() {
         if (!CheckIfBtAdapterExist()) return;
         DeviceListDialog deviceListDialog = new DeviceListDialog(this);
-        deviceListDialog.setTitle("SelectDevice");
+        deviceListDialog.setTitle(R.string.menu_deviceSelect);
         deviceListDialog.setOnDeviceSelectedCallback(this);
         deviceListDialog.show();
     }
@@ -213,7 +217,10 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem switchModeItem = menu.findItem(R.id.action_SwitchColorMode);
+        switchModeItem.setTitle(darkMode ? R.string.menu_switchcolor_day
+                : R.string.menu_switchcolor_dark);
         return true;
     }
 
@@ -250,12 +257,20 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 return true;
             case R.id.action_About:
                 AboutDialog about = new AboutDialog(this);
-                about.setTitle("About...");
+                about.setTitle(R.string.about_title);
                 about.show();
+                return true;
+            case R.id.action_SwitchColorMode:
+                switchTheme();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void switchTheme() {
+        prefs.edit().putBoolean("com.mobrembski.kmebingo.DarkMode", !prefs.getBoolean("com.mobrembski.kmebingo.DarkMode", true)).commit();
+        recreate();
     }
 
     @Subscribe
@@ -270,16 +285,16 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
             @Override
             public void run() {
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
-                    connStatusText.setText("Connected");
+                    connStatusText.setText(getString(R.string.connected));
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
-                    connStatusText.setText("Disconnected");
+                    connStatusText.setText(getString(R.string.disconnected));
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
-                    connStatusText.setText("Connecting...");
+                    connStatusText.setText(getString(R.string.connecting));
                 }
                 if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
-                    connStatusText.setText("BT disabled!");
+                    connStatusText.setText(getString(R.string.bt_disabled));
                 }
             }
         });
@@ -309,11 +324,9 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( this);
-            alertDialogBuilder.setTitle("No BT Adapter");
-            alertDialogBuilder.setMessage("We're sorry, but no bluetooth adapter has been found.\n" +
-                    "However, if your device support USB OTG, you can try connecting" +
-                    "USB Bluetooth adapter and try again.");
-            alertDialogBuilder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            alertDialogBuilder.setTitle(R.string.no_bt_adapter);
+            alertDialogBuilder.setMessage(R.string.no_bt_adapter_sorry);
+            alertDialogBuilder.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

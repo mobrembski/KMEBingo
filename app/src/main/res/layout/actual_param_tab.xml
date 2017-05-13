@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="RPM"
+                example:expandableText="@string/RPM"
                 example:animationDuration="150"
                 example:content="@+id/GraphViewForRPM"
                 example:contentVisible="@+id/rpmView">
@@ -49,7 +49,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="TPS"
+                example:expandableText="@string/TPS"
                 example:animationDuration="150"
                 example:unitText="V"
                 example:content="@+id/GraphViewForTPS"
@@ -103,7 +103,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="Actuator"
+                example:expandableText="@string/Actuator"
                 example:animationDuration="150"
                 example:content="@+id/GraphViewForActuator"
                 example:contentVisible="@+id/ActuatorView">
@@ -130,7 +130,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="Temperature"
+                example:expandableText="@string/Temperature"
                 example:animationDuration="150"
                 example:unitText="°C"
                 example:content="@+id/GraphViewForTemperature">
@@ -158,7 +158,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Ignition OFF" />
+                        android:text="@string/ignition_off" />
 
                     <TextView
                         android:id="@+id/FuelTypeStatusValue"
@@ -167,7 +167,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="On Benzin" />
+                        android:text="@string/on_benzin" />
                 </TableRow>
 
                 <TableRow android:layout_gravity="center_horizontal">
@@ -179,7 +179,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Temp Too LOW" />
+                        android:text="@string/temp_too_low" />
 
                     <TextView
                         android:id="@+id/RPMStatusValue"
@@ -188,7 +188,7 @@
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="RPM Too LOW" />
+                        android:text="@string/rpm_too_low" />
                 </TableRow>
             </TableLayout>
 
@@ -198,7 +198,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Cut-OFF Disabled" />
+                android:text="@string/cut_off_disabled" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Type:" />
+            android:text="@string/type" />
 
         <Spinner
             android:id="@+id/LambdaTypeSpinner"
@@ -40,7 +40,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="Neutral point:" />
+            android:text="@string/neutral_point" />
 
         <Spinner
             android:id="@+id/LambdaNeutralPointSpinner"
@@ -60,7 +60,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="Reading delay:" />
+            android:text="@string/reading_delay" />
 
         <Spinner
             android:id="@+id/LambdaDelaySpinner"
@@ -81,7 +81,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="Emulation type:" />
+            android:text="@string/emulation_type" />
 
         <Spinner
             android:id="@+id/LambdaEmulationTypeSpinner"
@@ -102,7 +102,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:text="Emulation H state:" />
+            android:text="@string/emulation_h_state" />
 
         <Spinner
             android:id="@+id/LambdaEmulationHStateSpinner"
@@ -123,7 +123,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:text="Emulation L state:" />
+            android:text="@string/emulation_l_state" />
 
         <Spinner
             android:id="@+id/LambdaEmulationLStateSpinner"

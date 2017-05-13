@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Paired devices"
+        android:text="@string/paired_devices"
         android:textColor="@android:color/holo_blue_light"
         android:visibility="gone" />
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="Other devices"
+        android:text="@string/other_devices"
         android:textColor="@android:color/holo_blue_light"
         android:visibility="gone" />
 
@@ -55,5 +55,5 @@
         android:id="@+id/button_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scan" />
+        android:text="@string/scan" />
 </LinearLayout>

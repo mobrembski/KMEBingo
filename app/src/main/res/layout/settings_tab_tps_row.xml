@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="TPS type:" />
+            android:text="@string/tps_type" />
 
         <Spinner
             android:id="@+id/TpsTypeSpinner"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="TPS inertness on IDLE:" />
+            android:text="@string/tps_inertness_on_idle" />
 
         <Spinner
             android:id="@+id/TpsInertnessSpinner"

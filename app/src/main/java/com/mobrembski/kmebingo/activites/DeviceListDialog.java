@@ -99,9 +99,8 @@ public class DeviceListDialog extends Dialog implements DialogInterface.OnDismis
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                setTitle("Select device");
                 if (mNewDevicesArrayAdapter.getCount() == 0) {
-                    mNewDevicesArrayAdapter.add("No devices found");
+                    mNewDevicesArrayAdapter.add(getContext().getString(R.string.no_devices_found));
                 }
             }
         }
@@ -168,7 +167,7 @@ public class DeviceListDialog extends Dialog implements DialogInterface.OnDismis
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBtAdapter == null) {
-            Toast.makeText(getContext(), "No BT device found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.no_bt_device_found, Toast.LENGTH_LONG).show();
             //setResult(Activity.RESULT_CANCELED);
             //finish();
             dismiss();
@@ -185,7 +184,7 @@ public class DeviceListDialog extends Dialog implements DialogInterface.OnDismis
                 pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
             }
         } else {
-            pairedDevicesArrayAdapter.add("None paired");
+            pairedDevicesArrayAdapter.add(getContext().getString(R.string.none_paired));
         }
 
         this.setOnDismissListener(this);
@@ -212,7 +211,7 @@ public class DeviceListDialog extends Dialog implements DialogInterface.OnDismis
 
         // Indicate scanning in the title
         //setProgressBarIndeterminateVisibility(true);
-        setTitle("Scanning...");
+        setTitle(getContext().getString(R.string.scanning));
 
         // Turn on sub-title for new devices
         findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);

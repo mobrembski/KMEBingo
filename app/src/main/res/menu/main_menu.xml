@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_DeviceSelect"
+        app:showAsAction="never"
+        android:icon="@drawable/search_24x24"
+        android:title="@string/menu_deviceSelect" />
+    <item
+        android:id="@+id/action_StayScreenOn"
+        app:showAsAction="never"
+        android:icon="@drawable/brightness_24x24"
+        android:title="@string/menu_stayOn"
+        android:checkable="true"
+        android:checked="false" />
+
+    <item
+        android:id="@+id/action_SwitchColorMode"
+        app:showAsAction="never"
+        android:icon="@drawable/question_24x24"
+        android:title="@string/menu_switchcolor_dark" />
+
+    <item
+        android:id="@+id/action_About"
+        app:showAsAction="never"
+        android:icon="@drawable/question_24x24"
+        android:title="@string/menu_about" />
+
+</menu>

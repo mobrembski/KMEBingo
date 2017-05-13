@@ -77,6 +77,6 @@
             android:id="@+id/factoryResetBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reset to factory default"/>
+            android:text="@string/reset_to_factory_default"/>
     </LinearLayout>
 </ScrollView>

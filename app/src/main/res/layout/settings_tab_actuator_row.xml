@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Set PWA value" />
+            android:text="@string/set_pwa_value" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="fill_parent"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Value" />
+            android:text="@string/pwa_value" />
 
         <Spinner
             android:id="@+id/SetPWAValueSpinner"
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Minimal open on IDLE:" />
+            android:text="@string/minimal_open_on_idle" />
 
         <Spinner
             android:id="@+id/MinimalOpenOnIDLESpinner"
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Maximum open on IDLE:" />
+            android:text="@string/maximum_open_on_idle" />
 
         <Spinner
             android:id="@+id/MaximumOpenOnIDLESpinner"
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Minimum open on LOAD:" />
+            android:text="@string/minimum_open_on_load" />
 
         <Spinner
             android:id="@+id/MinimalOpenOnLOADSpinner"
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Maximum open on LOAD:" />
+            android:text="@string/maximum_open_on_load" />
 
         <Spinner
             android:id="@+id/MaximumOpenOnLOADSpinner"
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Jump ATT to position" />
+            android:text="@string/jump_att_to_position" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Desired ATT pos" />
+            android:text="@string/desired_att_pos" />
 
         <Spinner
             android:id="@+id/DesiredATTPosSpinner"
@@ -161,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="TPS sense level:" />
+            android:text="@string/tps_sense_level" />
 
         <Spinner
             android:id="@+id/TPSSenseLevelSpinner"
@@ -180,7 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Opening speed correction on IDLE:" />
+            android:text="@string/opening_speed_correction_on_idle" />
 
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningIdleSpinner"
@@ -198,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Closing speed correction on IDLE:" />
+            android:text="@string/closing_speed_correction_on_idle" />
 
         <Spinner
             android:id="@+id/SpeedCorrectionClosingIdleSpinner"
@@ -216,7 +216,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Opening speed correction on LOAD:" />
+            android:text="@string/opening_speed_correction_on_load" />
 
         <Spinner
             android:id="@+id/SpeedCorrectionOpeningLoadSpinner"
@@ -234,7 +234,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Closing speed correction on LOAD:" />
+            android:text="@string/closing_speed_correction_on_load" />
 
         <Spinner
             android:id="@+id/SpeedCorrectionClosingLoadSpinner"

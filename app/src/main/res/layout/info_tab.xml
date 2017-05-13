@@ -30,7 +30,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Controller Type:" />
+                    android:text="@string/controller_type" />
 
                 <TextView
                     android:id="@+id/ControllerTypeValue"
@@ -48,7 +48,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Version:" />
+                    android:text="@string/version" />
 
                 <TextView
                     android:id="@+id/VersionValue"
@@ -67,7 +67,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Time on GAS:" />
+                    android:text="@string/time_on_lpg" />
 
                 <TextView
                     android:id="@+id/TimeOnGasValue"
@@ -86,7 +86,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Registration Plate: " />
+                    android:text="@string/registration_plate" />
 
                 <TextView
                     android:id="@+id/RegistrationPlateValue"
@@ -105,7 +105,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date of Installation:" />
+                    android:text="@string/date_of_installation" />
 
                 <TextView
                     android:id="@+id/DateOfInstallationValue"
@@ -124,7 +124,7 @@
                     style="@style/InfoRowParameterName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tank level:" />
+                    android:text="@string/tank_level" />
 
                 <TextView
                     android:id="@+id/TankLevelValue"
@@ -137,25 +137,25 @@
                 android:id="@+id/ChangeRunningCounterBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change running time" />
+                android:text="@string/change_running_time" />
 
             <Button
                 android:id="@+id/ChangeRegPlateBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change registration" />
+                android:text="@string/change_registration" />
 
             <Button
                 android:id="@+id/ChangeInstallDateBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change installation date" />
+                android:text="@string/change_installation_date" />
 
             <Button
                 android:id="@+id/ChangeSensorLevelBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Change tank level sensor levels" />
+                android:text="@string/change_tank_level_sensor_levels" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

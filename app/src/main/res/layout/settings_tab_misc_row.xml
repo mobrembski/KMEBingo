@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Temperature sensor:" />
+            android:text="@string/temperature_sensor" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Switch on temp:" />
+            android:text="@string/switch_on_temp" />
 
         <Spinner
             android:id="@+id/SwitchOnTempSpinner"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Economy type:" />
+            android:text="@string/economy_type" />
 
         <Spinner
             android:id="@+id/EconomyTypeSpinner"
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Start on gas:" />
+            android:text="@string/start_on_lpg" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Start valve open time:" />
+            android:text="@string/start_valve_open_time" />
 
         <Spinner
             android:id="@+id/StartOnLPGOpenTimeSpinner"
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Sensor type:" />
+            android:text="@string/sensor_type" />
 
         <Spinner
             android:id="@+id/LevelSensorTypeSpinner"
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Bensin/Gas time:" />
+            android:text="@string/bensin_lpg_time" />
 
         <Spinner
             android:id="@+id/BensinGasTimeSpinner"

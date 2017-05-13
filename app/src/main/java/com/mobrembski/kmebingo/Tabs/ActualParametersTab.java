@@ -206,56 +206,56 @@ public class ActualParametersTab extends KMEViewerTab {
 
                 private void UpdateViewsForIgnitionTurnedOff() {
                     IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
-                    IgnitionTV.setText("Ignition OFF");
-                    RPMStatusTV.setText("RPM Too LOW");
+                    IgnitionTV.setText(R.string.ignition_off);
+                    RPMStatusTV.setText(R.string.rpm_too_low);
                     RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                    TempTV.setText("Temp Too Low");
+                    TempTV.setText(R.string.temp_too_low);
                     TempTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                    CutOFFTV.setText("Cut-OFF Disabled");
+                    CutOFFTV.setText(R.string.cut_off_disabled);
                     CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
-                    FuelTypeTV.setText("On Benzin");
+                    FuelTypeTV.setText(R.string.on_benzin);
                     FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
                 }
 
                 private void UpdateViewsForIgnitionTurnedOn() {
                     IgnitionTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
-                    IgnitionTV.setText("Ignition ON");
+                    IgnitionTV.setText(R.string.ignition_on);
                     if (dtn.WorkingOnGas) {
-                        FuelTypeTV.setText("On LPG");
+                        FuelTypeTV.setText(R.string.on_lpg);
                         FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
                     } else {
-                        FuelTypeTV.setText("On Benzin");
+                        FuelTypeTV.setText(R.string.on_benzin);
                         FuelTypeTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
                     }
                     if (dtn.CutOffActivated) {
-                        CutOFFTV.setText("Cut-OFF Active!");
+                        CutOFFTV.setText(R.string.cut_off_active);
                         CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
                     } else {
-                        CutOFFTV.setText("Cut-OFF Disabled");
+                        CutOFFTV.setText(R.string.cut_off_disabled);
                         CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextDisabled);
                     }
                     if (dtn.RPMTooHigh) {
-                        CutOFFTV.setText("RPM too High");
+                        CutOFFTV.setText(R.string.rpm_too_high);
                         CutOFFTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
                     }
                     if (dtn.TemperatureOK) {
-                        TempTV.setText("Temperature OK");
+                        TempTV.setText(R.string.temp_ok);
                         TempTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
                     } else {
-                        TempTV.setText("Temperature LOW");
+                        TempTV.setText(R.string.temp_too_low);
                         TempTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
                     }
                     if (dtn.RPOK) {
-                        RPMStatusTV.setText("RPM OK");
+                        RPMStatusTV.setText(R.string.rpm_ok);
                         RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextNormal);
                     } else {
-                        RPMStatusTV.setText("RPM Too LOW");
+                        RPMStatusTV.setText(R.string.rpm_too_low);
                         RPMStatusTV.setTextAppearance(getActivity(), R.style.StatusTextCritical);
                     }
                 }
 
                 private void UpdateViewsDependOnTemperature() {
-                    TemperatureRowView.setAdditionalText("ON: " +
+                    TemperatureRowView.setAdditionalText(getString(R.string.temp_on) +
                             String.valueOf(BitUtils.GetTemperature(
                                    actualSettings.getLPGOnTemperature())) + " °C");
                     TemperatureRowView.setValueText(String.valueOf(dtn.ActualTemp));

@@ -30,19 +30,19 @@
                 android:layout_gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="by Michał Obrembski"/>
+                android:text="Michał Obrembski"/>
             <TextView
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="for KME Sp.z.o.o"/>
+                android:text=""/>
             <TextView
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="http://www.kme.eu"
+                android:text=""
                 android:linksClickable="true"
                 android:autoLink="web"/>
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_height="fill_parent"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="Version:"/>
+                android:text="@string/version"/>
 
         </LinearLayout>
     </TableRow>
@@ -65,7 +65,7 @@
             android:textSize="10sp"
             android:textStyle="italic"
             android:layout_span="2"
-            android:text="Have you discovered any bug? Or idea for improvement?"/>
+            android:text="@string/idea_or_improvement"/>
     </TableRow>
     <TableRow>
         <TextView
@@ -75,7 +75,7 @@
             android:textSize="10sp"
             android:textStyle="italic"
             android:layout_span="2"
-            android:text="Please feel free to send me an mail:"/>
+            android:text="@string/feel_free_to_mail"/>
     </TableRow>
     <TableRow>
         <TextView
@@ -98,7 +98,7 @@
             android:textStyle="bold"
             android:layout_span="2"
             android:layout_margin="8dip"
-            android:text="Thank you!" />
+            android:text="@string/thank_you" />
     </TableRow>
     <TableRow>
         <TextView
@@ -109,9 +109,6 @@
             android:textStyle="italic"
             android:layout_span="2"
             android:layout_margin="8dip"
-            android:text="Copyright © 2015 all rights reserved.
-            \nThis program and its contents are protected by copyright.
-            \nKME and BINGO are registered trademarks of KME Sp.z o.o.
-            \nNot liable for any damage incurred from use of this software."/>
+            android:text="@string/legal_text"/>
     </TableRow>
 </TableLayout>

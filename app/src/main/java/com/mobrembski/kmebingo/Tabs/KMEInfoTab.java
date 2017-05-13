@@ -1,12 +1,13 @@
 package com.mobrembski.kmebingo.Tabs;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class KMEInfoTab extends KMEViewerTab {
     private Button changeRunningTimeBtn;
     private Button changeSensorLevelLevelsBtn;
     private KMEDataInfo currentDataInfo;
+    private TypedValue dialogStyleTypedValue;
 
     public KMEInfoTab() {
         this.layoutId = R.layout.info_tab;
@@ -45,6 +47,9 @@ public class KMEInfoTab extends KMEViewerTab {
                              Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         assert v != null;
+        dialogStyleTypedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.dialog_style, dialogStyleTypedValue, true);
+
         registrationChangeBtn = (Button) v.findViewById(R.id.ChangeRegPlateBtn);
         installationDateChangeBtn = (Button) v.findViewById(R.id.ChangeInstallDateBtn);
         changeRunningTimeBtn = (Button) v.findViewById(R.id.ChangeRunningCounterBtn);
@@ -70,8 +75,10 @@ public class KMEInfoTab extends KMEViewerTab {
         changeSensorLevelLevelsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TypedValue typedValue = new TypedValue();
+                getContext().getTheme().resolveAttribute(R.attr.sensors_dialog_style, typedValue, true);
                 LPGSensorSensivityChangeDialog dialog =
-                        new LPGSensorSensivityChangeDialog(getActivity(), btManager);
+                        new LPGSensorSensivityChangeDialog(getActivity(), btManager, typedValue.resourceId);
                 dialog.show();
             }
         });
@@ -144,7 +151,7 @@ public class KMEInfoTab extends KMEViewerTab {
                         tv.setText("25%");
                         break;
                     case 0:
-                        tv.setText("LOW LEVEL");
+                        tv.setText(getString(R.string.low_level));
                         break;
                 }
             }
@@ -162,18 +169,18 @@ public class KMEInfoTab extends KMEViewerTab {
         minutesPicker.setMaxValue(60);
         minutesPicker.setMinValue(0);
         minutesPicker.setValue(currentDataInfo.minutesOnGas);
-        new AlertDialog.Builder(v.getContext())
+        new AlertDialog.Builder(v.getContext(), dialogStyleTypedValue.resourceId)
                 .setView(npView)
-                .setTitle("Change running time")
-                .setMessage("Please enter running time")
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.change_running_time)
+                .setMessage(R.string.please_enter_running_time)
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         new changeRunningTimeTask().execute(hoursPicker.getValue(),
                                 minutesPicker.getValue());
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel_button, null)
                 .show();
     }
 
@@ -183,17 +190,17 @@ public class KMEInfoTab extends KMEViewerTab {
         inputText.setGravity(Gravity.CENTER);
         inputText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(7)});
         new AlertDialog.Builder(v.getContext())
-                .setTitle("Change registration")
-                .setMessage("Enter registration number")
+                .setTitle(R.string.change_registration)
+                .setMessage(R.string.enter_registration)
                 .setView(inputText)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String newRegNumber = inputText.getText().toString();
                         new changeRegistrationTask().execute(newRegNumber);
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel_button, null)
                 .show();
     }
 
@@ -211,7 +218,7 @@ public class KMEInfoTab extends KMEViewerTab {
                         new changeInstallationDateTask().execute(year, month, day);
                     }
                 }, mYear, mMonth, mDay);
-        dpd.setTitle("Change installation date");
+        dpd.setTitle(R.string.change_installation_date);
         dpd.show();
     }
 
@@ -225,8 +232,8 @@ public class KMEInfoTab extends KMEViewerTab {
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(7);
-            waitDialog.setMessage("Changing..");
-            waitDialog.setTitle("Registration...");
+            waitDialog.setMessage(getString(R.string.changing));
+            waitDialog.setTitle(R.string.registration);
             waitDialog.show();
         }
 
@@ -262,8 +269,8 @@ public class KMEInfoTab extends KMEViewerTab {
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(3);
-            waitDialog.setMessage("Changing..");
-            waitDialog.setTitle("Running time...");
+            waitDialog.setMessage(getString(R.string.changing));
+            waitDialog.setTitle(R.string.running_time);
             waitDialog.show();
         }
 
@@ -301,8 +308,8 @@ public class KMEInfoTab extends KMEViewerTab {
             waitDialog = new ProgressDialog(myView.getContext());
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(2);
-            waitDialog.setMessage("Changing..");
-            waitDialog.setTitle("Installation date...");
+            waitDialog.setMessage(getString(R.string.changing));
+            waitDialog.setTitle(R.string.installation_date);
             waitDialog.show();
         }
 
