@@ -210,7 +210,9 @@ public class KMEInfoTab extends KMEViewerTab {
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog dpd = new DatePickerDialog(v.getContext(),
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.progress_dialog_style, typedValue, true);
+        DatePickerDialog dpd = new DatePickerDialog(v.getContext(), typedValue.resourceId,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
