@@ -41,7 +41,7 @@ public class LPGSensorSensivityChangeDialog extends Dialog {
     private BluetoothConnectionManager btManager;
 
     public LPGSensorSensivityChangeDialog(Activity parentActivity, BluetoothConnectionManager btManager) {
-        super(parentActivity);
+        super(parentActivity, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
         // TODO: Why this is needed? Need to verify.
         setOwnerActivity(parentActivity);
         this.btManager = btManager;
