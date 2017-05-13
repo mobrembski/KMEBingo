@@ -266,6 +266,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
             case R.id.action_SwitchColorMode:
                 switchTheme();
                 return true;
+            case android.R.id.home:
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
