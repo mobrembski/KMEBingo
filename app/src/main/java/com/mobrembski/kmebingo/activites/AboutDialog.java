@@ -19,8 +19,8 @@ import com.mobrembski.kmebingo.R;
 * */
 public class AboutDialog extends Dialog {
 
-    public AboutDialog(Context context) {
-        super(context, R.style.AboutTheme);
+    public AboutDialog(Context context, int themeId) {
+        super(context, themeId);
     }
 
     @Override

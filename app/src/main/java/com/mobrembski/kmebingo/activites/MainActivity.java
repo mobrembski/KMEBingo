@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -256,7 +257,9 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 getWindow().getDecorView().getRootView().setKeepScreenOn(item.isChecked());
                 return true;
             case R.id.action_About:
-                AboutDialog about = new AboutDialog(this);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(R.attr.progress_dialog_style, typedValue, true);
+                AboutDialog about = new AboutDialog(this, typedValue.resourceId);
                 about.setTitle(R.string.about_title);
                 about.show();
                 return true;

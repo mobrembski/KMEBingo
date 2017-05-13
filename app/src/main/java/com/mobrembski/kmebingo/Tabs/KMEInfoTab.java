@@ -37,6 +37,7 @@ public class KMEInfoTab extends KMEViewerTab {
     private Button changeSensorLevelLevelsBtn;
     private KMEDataInfo currentDataInfo;
     private TypedValue dialogStyleTypedValue;
+    private int progressDialogStyleResId;
 
     public KMEInfoTab() {
         this.layoutId = R.layout.info_tab;
@@ -83,6 +84,9 @@ public class KMEInfoTab extends KMEViewerTab {
                 dialog.show();
             }
         });
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.progress_dialog_style, typedValue, true);
+        progressDialogStyleResId = typedValue.resourceId;
         return v;
     }
 
@@ -232,7 +236,7 @@ public class KMEInfoTab extends KMEViewerTab {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            waitDialog = new ProgressDialog(myView.getContext());
+            waitDialog = new ProgressDialog(myView.getContext(), progressDialogStyleResId);
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(7);
             waitDialog.setMessage(getString(R.string.changing));
@@ -269,7 +273,7 @@ public class KMEInfoTab extends KMEViewerTab {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            waitDialog = new ProgressDialog(myView.getContext());
+            waitDialog = new ProgressDialog(myView.getContext(), progressDialogStyleResId);
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(3);
             waitDialog.setMessage(getString(R.string.changing));
@@ -308,7 +312,7 @@ public class KMEInfoTab extends KMEViewerTab {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            waitDialog = new ProgressDialog(myView.getContext());
+            waitDialog = new ProgressDialog(myView.getContext(), progressDialogStyleResId);
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(2);
             waitDialog.setMessage(getString(R.string.changing));
