@@ -40,6 +40,7 @@ public class KMEInfoTab extends KMEViewerTab {
 
     public KMEInfoTab() {
         this.layoutId = R.layout.info_tab;
+        currentDataInfo = new KMEDataInfo();
     }
 
     @Override

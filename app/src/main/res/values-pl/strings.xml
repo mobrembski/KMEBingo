@@ -154,4 +154,5 @@
     <string name="tps_type">Typ TPS:</string>
     <string name="tps_inertness_on_idle">Bezwładność TPS na biegu jał.:</string>
     <string name="no_bt_adapter_sorry">Przepraszamy, ale nie znaleziono adaptera bluetooth.\\nJeżeli twoje urządzenie wspiera USB OTG, możesz spróbować podłączyć adapter USB Bluetooth i spróbować ponownie.</string>
+    <string name="cannot_reset_without_connection">Nie można zresetować ustawień bez połączenia z urządzeniem!</string>
 </resources>

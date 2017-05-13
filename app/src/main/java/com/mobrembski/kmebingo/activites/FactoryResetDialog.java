@@ -78,7 +78,8 @@ public class FactoryResetDialog extends AppCompatDialog {
     }
 
     private void tryToResetConfiguration() {
-        // TODO: Make KMEFrame askForFrame static
+        if (!checkIfBTManagerIsConnected())
+            return;
         KMEDataActual actual = btManager.runRequestNow(new KMEDataActual());
         if (actual.Ignition) {
             new AlertDialog.Builder(myView)
@@ -94,6 +95,23 @@ public class FactoryResetDialog extends AppCompatDialog {
             return;
         }
         new resetConfigurationTask().execute(onResetFinished);
+    }
+
+    private boolean checkIfBTManagerIsConnected() {
+        if (btManager == null || !btManager.isConnected()) {
+            new AlertDialog.Builder(myView)
+                    .setTitle(R.string.error)
+                    .setMessage(R.string.cannot_reset_without_connection)
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+            return false;
+        }
+        return true;
     }
 
     private class resetConfigurationTask extends AsyncTask<OnResetFinishedInterface, Integer, Void> {
