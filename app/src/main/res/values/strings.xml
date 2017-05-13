@@ -251,5 +251,8 @@
     <string name="tps_type">TPS type:</string>
     <string name="tps_inertness_on_idle">TPS inertness on IDLE:</string>
     <string name="cannot_reset_without_connection">Cannot reset without connection!</string>
+    <string name="graph_time">Time</string>
+    <string name="voltage">Voltage</string>
+    <string name="steps">Steps</string>
 
 </resources>

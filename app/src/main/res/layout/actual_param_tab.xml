@@ -40,7 +40,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForRPM"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    app:YTitle="@string/RPM"
+                    app:XTitle="@string/graph_time"/>
 
             </com.mobrembski.kmebingo.ExpandableRowView>
 
@@ -67,7 +69,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTPS"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    app:XTitle="@string/graph_time"
+                    app:YTitle="@string/voltage"/>
 
             </com.mobrembski.kmebingo.ExpandableRowView>
 
@@ -94,7 +98,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForLambda"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    app:XTitle="@string/graph_time"
+                    app:YTitle="@string/voltage"/>
 
             </com.mobrembski.kmebingo.ExpandableRowView>
 
@@ -121,7 +127,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForActuator"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    app:XTitle="@string/graph_time"
+                    app:YTitle="@string/steps"/>
 
             </com.mobrembski.kmebingo.ExpandableRowView>
 
@@ -139,7 +147,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTemperature"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    app:XTitle="@string/graph_time"
+                    app:YTitle="°C"/>
 
             </com.mobrembski.kmebingo.ExpandableRowView>
 
