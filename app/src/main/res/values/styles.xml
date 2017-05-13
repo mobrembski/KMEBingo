@@ -125,6 +125,7 @@
         <item name="dialog_style">@style/Theme.AppCompat.Light.Dialog</item>
         <item name="sensors_dialog_style">@style/Theme.AppCompat.Light.Dialog.MinWidth</item>
         <item name="action_bar_color">@color/ActionBarLight</item>
+        <item name="progress_dialog_style">@style/ProgressDialogLight</item>
     </style>
 
     <style name="MyMaterialThemeDark" parent="ThemeOverlay.AppCompat.Dark">
@@ -139,6 +140,7 @@
         <item name="sensors_dialog_style">@style/Theme.AppCompat.Dialog.MinWidth</item>
         <item name="action_bar_color">@color/ActionBarDark</item>
         <item name="android:popupMenuStyle">@style/Widget.AppCompat.PopupMenu</item>
+        <item name="progress_dialog_style">@style/ProgressDialogDark</item>
     </style>
 
     <style name="SettingsTableRow">
@@ -151,10 +153,15 @@
         <item name="android:layout_marginRight">@dimen/screen_item_padding_small</item>
     </style>
 
-    <attr name="dialog_style" format="reference"/>
+    <style name="ProgressDialogDark" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="android:background">@color/ActionBarDark</item>
+    </style>
+    <style name="ProgressDialogLight" parent="Base.Theme.AppCompat.Light.Dialog"/>
 
+    <attr name="dialog_style" format="reference"/>
     <attr name="sensors_dialog_style" format="reference"/>
     <attr name="action_bar_color" format="reference"/>
+    <attr name="progress_dialog_style" format="reference"/>
 
 
 </resources>

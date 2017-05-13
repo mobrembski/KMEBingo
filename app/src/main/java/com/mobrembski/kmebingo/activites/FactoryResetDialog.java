@@ -159,7 +159,9 @@ public class FactoryResetDialog extends AppCompatDialog {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            waitDialog = new ProgressDialog(myView);
+            TypedValue typedValue = new TypedValue();
+            getContext().getTheme().resolveAttribute(R.attr.progress_dialog_style, typedValue, true);
+            waitDialog = new ProgressDialog(myView, typedValue.resourceId);
             waitDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             waitDialog.setMax(framesToSend.length);
             waitDialog.setMessage(getContext().getString(R.string.resetting_please_wait));
