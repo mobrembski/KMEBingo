@@ -173,7 +173,7 @@
     <string name="connecting">Connecting…</string>
     <string name="bt_disabled">BT disabled</string>
     <string name="no_bt_adapter">No BT Adapter</string>
-    <string name="no_bt_adapter_sorry">We\'re sorry, but no bluetooth adapter has been found.\\nHowever, if your device support USB OTG, you can try connecting USB Bluetooth adapter and try again.</string>
+    <string name="no_bt_adapter_sorry">We\'re sorry, but no bluetooth adapter has been found.\nHowever, if your device support USB OTG, you can try connecting USB Bluetooth adapter and try again.</string>
     <string name="RPM">RPM</string>
     <string name="TPS">TPS</string>
     <string name="Actuator">Actuator</string>
@@ -221,7 +221,7 @@
     <string name="desired_att_pos">Desired ATT pos</string>
     <string name="tps_sense_level">TPS sense level:</string>
     <string name="opening_speed_correction_on_idle">Opening speed correction on IDLE:</string>
-    <string name="closing_speed_correction_on_idle">Closing speed correction on IDLE:</string>
+    <string name="closing_speed_correction_on_idle">Closing speed correction on  IDLE:</string>
     <string name="opening_speed_correction_on_load">Opening speed correction on LOAD:</string>
     <string name="closing_speed_correction_on_load">Closing speed correction on LOAD:</string>
     <string name="type">Type:</string>
