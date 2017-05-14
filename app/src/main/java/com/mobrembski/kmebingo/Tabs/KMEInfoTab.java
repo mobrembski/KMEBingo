@@ -77,11 +77,7 @@ public class KMEInfoTab extends KMEViewerTab {
         changeSensorLevelLevelsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TypedValue typedValue = new TypedValue();
-                getContext().getTheme().resolveAttribute(R.attr.sensors_dialog_style, typedValue, true);
-                LPGSensorSensivityChangeDialog dialog =
-                        new LPGSensorSensivityChangeDialog(getActivity(), btManager, typedValue.resourceId);
-                dialog.show();
+                sensorSensivityDialog();
             }
         });
         TypedValue typedValue = new TypedValue();
@@ -164,6 +160,7 @@ public class KMEInfoTab extends KMEViewerTab {
     }
 
     private void changeRunningCounterBtnClick(View v) {
+        if(!checkIfBTManagerIsConnected()) return;
         View npView = View.inflate(v.getContext(), R.layout.running_counter_change_dialog, null);
         final NumberPicker hoursPicker = (NumberPicker) npView.findViewById(R.id.RunningHoursPicker);
         hoursPicker.setMaxValue(65535);
@@ -190,6 +187,7 @@ public class KMEInfoTab extends KMEViewerTab {
     }
 
     private void registrationChangeBtnClick(View v) {
+        if(!checkIfBTManagerIsConnected()) return;
         final EditText inputText = new EditText(v.getContext());
         inputText.setText(this.currentDataInfo.RegistrationPlate);
         inputText.setGravity(Gravity.CENTER);
@@ -210,6 +208,7 @@ public class KMEInfoTab extends KMEViewerTab {
     }
 
     private void installationDateChangeOpenDialog(View v) {
+        if(!checkIfBTManagerIsConnected()) return;
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
@@ -227,6 +226,32 @@ public class KMEInfoTab extends KMEViewerTab {
                 }, mYear, mMonth, mDay);
         dpd.setTitle(R.string.change_installation_date);
         dpd.show();
+    }
+
+    private void sensorSensivityDialog() {
+        if(!checkIfBTManagerIsConnected()) return;
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(R.attr.sensors_dialog_style, typedValue, true);
+        LPGSensorSensivityChangeDialog dialog =
+                new LPGSensorSensivityChangeDialog(getActivity(), btManager, typedValue.resourceId);
+        dialog.show();
+    }
+
+    private boolean checkIfBTManagerIsConnected() {
+        if (btManager == null || !btManager.isConnected()) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.error)
+                    .setMessage(R.string.cannot_change_without_connection)
+                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+            return false;
+        }
+        return true;
     }
 
     //region Tasks
