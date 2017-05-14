@@ -14,16 +14,16 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
-import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 public class FactoryResetDialog extends AppCompatDialog {
 
     private Activity myView;
     private OnDismissListener listener;
     private OnResetFinishedInterface onResetFinished;
-    private BluetoothConnectionManager btManager;
+    private ISerialConnectionManager btManager;
 
-    public FactoryResetDialog(Activity parent, final BluetoothConnectionManager btManager) {
+    public FactoryResetDialog(Activity parent, final ISerialConnectionManager btManager) {
         super(parent);
         // TODO: Why this is needed? Need to verify.
         setOwnerActivity(parent);

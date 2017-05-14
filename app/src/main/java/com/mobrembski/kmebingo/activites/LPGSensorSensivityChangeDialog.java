@@ -13,7 +13,7 @@ import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.SensorLevelView;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
-import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,9 +38,9 @@ public class LPGSensorSensivityChangeDialog extends AppCompatDialog {
                         new changeSensivityTask().execute(4, level4.getSeekbarValue());
                 }
             };
-    private BluetoothConnectionManager btManager;
+    private ISerialConnectionManager btManager;
 
-    public LPGSensorSensivityChangeDialog(Activity parentActivity, BluetoothConnectionManager btManager, int themeId) {
+    public LPGSensorSensivityChangeDialog(Activity parentActivity, ISerialConnectionManager btManager, int themeId) {
         super(parentActivity, themeId);
         // TODO: Why this is needed? Need to verify.
         setOwnerActivity(parentActivity);

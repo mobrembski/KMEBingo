@@ -34,6 +34,7 @@ import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
 import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
 import com.mobrembski.kmebingo.Tabs.SettingsTab.KMESettingsTab;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 import com.mobrembski.kmebingo.bluetoothmanager.SerialConnectionStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private SharedPreferences prefs;
     private String btAddress;
     // TODO Fix this dep
-    public BluetoothConnectionManager btManager;
+    public ISerialConnectionManager btManager;
     ScheduledExecutorService packetsInfoSchedule;
     private Toolbar toolbar;
     private ViewPager viewPager;

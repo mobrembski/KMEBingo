@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,7 +15,7 @@ public abstract class KMEViewerTab extends android.support.v4.app.Fragment {
     protected int layoutId;
     protected View myView = null;
     private View noConnectOverlay;
-    protected BluetoothConnectionManager btManager;
+    protected ISerialConnectionManager btManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

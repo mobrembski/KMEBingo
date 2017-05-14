@@ -72,7 +72,7 @@ public class KMESettingsTab extends KMEViewerTab {
         MainActivity mainActivity = (MainActivity) getActivity();
         this.btManager = mainActivity.btManager;
         for(IRefreshSettingViews view : views) {
-            view.setBluetoothManager(btManager);
+            view.setConnectionManager(btManager);
         }
         sendRequestsToDevice();
     }

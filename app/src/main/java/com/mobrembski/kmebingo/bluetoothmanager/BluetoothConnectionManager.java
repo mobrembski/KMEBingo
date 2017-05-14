@@ -45,7 +45,7 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     }
 
     @Override
-    public void postNewRequest(final KMEFrame requestData, int priority) {
+    public <T extends KMEFrame> void postNewRequest(final T requestData, int priority) {
         Log.d("DebugBT", "Requested new frame with name" + requestData.getClass().getSimpleName());
         final BluetoothCommandJob jb = new BluetoothCommandJob(requestData, priority, this);
         commandQueue.add(jb);

@@ -20,7 +20,7 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.TPSView;
 import com.mobrembski.kmebingo.activites.MainActivity;
-import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,7 +40,7 @@ public class ActualParametersTab extends KMEViewerTab {
     private int LambdaRedColor;
     private float TpsMaxValue = 5.0f;
     private KMEDataConfig actualConfig;
-    private BluetoothConnectionManager btManager;
+    private ISerialConnectionManager btManager;
     private GraphView TemperatureGraphView;
     private ExpandableRowView RpmRowView;
     private ExpandableRowView TpsRowView;

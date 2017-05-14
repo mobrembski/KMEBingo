@@ -4,14 +4,14 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
-import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 public class Base_worker implements IRefreshSettingViews {
 
-    protected BluetoothConnectionManager btManager;
+    protected ISerialConnectionManager btManager;
 
     @Override
-    public void setBluetoothManager(BluetoothConnectionManager btManager) {
+    public void setConnectionManager(ISerialConnectionManager btManager) {
         this.btManager = btManager;
     }
 
