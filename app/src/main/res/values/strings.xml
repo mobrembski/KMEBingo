@@ -158,13 +158,13 @@
     <string name="legal_text">Copyright © 2017 all rights reserved.  This program and its contents are protected by copyright.  KME and BINGO are registered trademarks of KME Sp.z o.o.  Not liable for any damage incurred from use of this software.</string>
 
     <string name="configuration_reset">Reset configuration</string>
-    <string name="sure_to_reset">Are you sure want to reset configuration?\\nThis cannot be undone!</string>
+    <string name="sure_to_reset">Are you sure want to reset configuration? \nThis cannot be undone!</string>
     <string name="reset_button">Reset</string>
     <string name="cancel_button">Cancel</string>
     <string name="error">Error</string>
     <string name="cannot_reset_on_ignition">Cannot reset when Ignition is turned on!</string>
     <string name="ok">OK</string>
-    <string name="resetting_please_wait">Resetting configuration…\\nPlease wait</string>
+    <string name="resetting_please_wait">Resetting configuration… \nPlease wait</string>
     <string name="factory_reset">Factory reset…</string>
 
     <string name="change_levels">Change levels</string>
@@ -198,9 +198,9 @@
     <string name="enter_registration">Enter registration number</string>
     <string name="change_installation_date">Change installation date</string>
     <string name="changing">Changing..</string>
-    <string name="registration">Registration...</string>
-    <string name="running_time">Running time...</string>
-    <string name="installation_date">Installation date...</string>
+    <string name="registration">Registration…</string>
+    <string name="running_time">Running time…</string>
+    <string name="installation_date">Installation date…</string>
     <string name="controller_type">Controller Type:</string>
     <string name="time_on_lpg">Time on LPG:</string>
     <string name="registration_plate">Registration Plate:</string>
