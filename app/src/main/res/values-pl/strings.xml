@@ -156,6 +156,7 @@
     <string name="no_bt_adapter_sorry">Przepraszamy, ale nie znaleziono adaptera bluetooth.\nJeżeli twoje urządzenie wspiera USB OTG, możesz spróbować podłączyć adapter USB Bluetooth i spróbować ponownie.</string>
     <string name="cannot_reset_without_connection">Nie można zresetować ustawień bez połączenia z urządzeniem!</string>
     <string name="cannot_change_without_connection">Nie można zmienić ustawień bez połączenia z urządzeniem!</string>
+    <string name="cannot_run_without_bluetooth">Aplikacja nie może działać z wyłączonym modułem BT!</string>
     <string name="graph_time">Czas</string>
     <string name="voltage">Napięcie</string>
     <string name="steps">Kroki</string>

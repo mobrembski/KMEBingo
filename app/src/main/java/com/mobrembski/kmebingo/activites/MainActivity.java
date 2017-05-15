@@ -1,6 +1,5 @@
 package com.mobrembski.kmebingo.activites;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
     private TextSwitcher connStatusText;
     private boolean darkMode;
+    private boolean doBTEnabledCheck = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private boolean CheckIfBtAdapterIsEnabled() {
         if (btAdapter == null)
             return false;
+        if (!doBTEnabledCheck) return true;
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
@@ -363,10 +365,27 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 // FIXME: For some reason we've got RESULT_CANCELLED when user has defined address
                 // and Bluetooth wasn't turned on. Can we get ENABLE_BLUETOOTH result twice?
                 // Need to be checked.
+                closeBtManager();
+                // TODO: I have no idea how to solve this in better way :(
+                doBTEnabledCheck = false;
+                showBtMustBeEnabledDialog();
                 return;
             }
             openBtManager(btAddress);
             return;
         }
+    }
+
+    private void showBtMustBeEnabledDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle(R.string.error)
+            .setMessage(R.string.cannot_run_without_bluetooth)
+            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            })
+            .show();
     }
 }
