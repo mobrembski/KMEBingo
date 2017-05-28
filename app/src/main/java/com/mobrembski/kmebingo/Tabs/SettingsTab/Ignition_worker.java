@@ -192,23 +192,29 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
             LowRPMSignalSwitch.setChecked(isChecked);
             actualDS.setLowRPMSignalLevel(isChecked);
             int raw = actualDS.getLowRPMSingalLevelRaw();
-            Log.d("Ignition_worker", "LowRPMSignalSwitch: "+raw);
-            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
+            if (LowRPMSignalSwitch.isPressed()) {
+                Log.d("Ignition_worker", "LowRPMSignalSwitch: "+raw);
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
+            }
         }
         if (buttonView == CutOFFEnabledSwitch) {
             LoweringToRPMSSpinner.setEnabled(isChecked);
             LoweringToPWASpinner.setEnabled(isChecked);
             actualDS.setCutOffEnabled(isChecked);
             int raw = actualDS.getCutOffEnabledRaw();
-            Log.d("Ignition_worker", "CutOFFEnabledSwitch: "+raw);
-            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            if (CutOFFEnabledSwitch.isPressed()) {
+                Log.d("Ignition_worker", "CutOFFEnabledSwitch: "+raw);
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            }
         }
         if (buttonView == HighRPMLimitSwitch) {
             HighRPMLimitSpinner.setEnabled(isChecked);
             actualDS.setCutOffHighRPMEnabled(isChecked);
             int raw = actualDS.getCutOffHighRPMEnabledRaw();
-            Log.d("Ignition_worker", "HighRPMLimitSwitch: "+raw);
-            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            if (HighRPMLimitSwitch.isPressed()) {
+                Log.d("Ignition_worker", "HighRPMLimitSwitch: "+raw);
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            }
         }
         this.parent.sendRequestsToDevice();
     }

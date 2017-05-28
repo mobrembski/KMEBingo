@@ -45,7 +45,8 @@ class BluetoothCommandJob<T extends KMEFrame> implements Callable<T> {
         byte[] responseBytes = new byte[requestData.answerSize + 1];
         outStream.write(requestData.askFrame);
         outStream.flush();
-        Log.v("DebugBT", "Request was send");
+        Log.v("DebugBT", "Request was send: " + String.format("0x%02x, 0x%02x, 0x%02x",
+                requestData.askFrame[0],requestData.askFrame[1],requestData.askFrame[2]));
         int responseBytesPtr = 0;
         byte[] tmp = new byte[1];
         while (responseBytesPtr < (requestData.answerSize + 1))

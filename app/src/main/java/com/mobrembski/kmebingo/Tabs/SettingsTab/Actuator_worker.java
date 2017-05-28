@@ -154,7 +154,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
             actualDS.setPWAEnabled(!isChecked);
             int raw = actualDS.getPWAEnabledRaw();
             Log.d("Actuator_worker", "PWAEnabledSwitch: "+raw);
-            if (btManager != null)
+            if (btManager != null && PWAEnabledSwitch.isPressed())
                 btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         if (buttonView == SetATTPosSwitch) {
@@ -163,7 +163,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
             actualDS.setATTEnabled(isChecked);
             int raw = actualDS.getATTEnabledRaw();
             Log.d("Actuator_worker", "SetATTPosSwitch: "+raw);
-            if (btManager != null)
+            if (btManager != null && SetATTPosSwitch.isPressed())
                 btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
         parent.sendRequestsToDevice();

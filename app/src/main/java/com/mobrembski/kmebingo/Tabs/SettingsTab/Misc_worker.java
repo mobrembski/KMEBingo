@@ -161,15 +161,19 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
             SwitchOnTempSpinner.setEnabled(isChecked);
             actualDS.setTemperatureSensorEnabled(isChecked);
             int raw = actualDS.getTemperatureSensorEnabledRaw();
-            Log.d("Misc_worker", "TemperatureSensorEnabledSwitch: "+raw);
-            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            if (btManager != null && TemperatureSensorEnabledSwitch.isPressed()) {
+                Log.d("Misc_worker", "TemperatureSensorEnabledSwitch: " + raw);
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
+            }
         }
         if (buttonView == StartOnGasSwitch) {
             ValveOpenSpinner.setEnabled(isChecked);
             actualDS.setStartOnLPG(isChecked);
             int raw = actualDS.getStartOnLPGRaw();
-            Log.d("Misc_worker", "StartOnGasSwitch: "+raw);
-            btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
+            if (btManager != null && StartOnGasSwitch.isPressed()) {
+                Log.d("Misc_worker", "StartOnGasSwitch: " + raw);
+                btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
+            }
         }
         this.parent.sendRequestsToDevice();
     }
