@@ -50,12 +50,15 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements DeviceListDialog.onDeviceSelectedInterface {
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
+    private static final String PACKAGE_NAME = "com.mobrembski.kmebingo";
+    private static final String DARK_MODE_PREF_NAME = PACKAGE_NAME + ".DarkMode";
+    private static final String DEVICE_PREF_NAME = PACKAGE_NAME + ".Device";
+    private static final String STAY_ON_KEY_NAME = "StayScreenOn";
+
     private BluetoothAdapter btAdapter;
     private SharedPreferences prefs;
     private String btAddress;
-    // TODO Fix this dep
-    public ISerialConnectionManager btManager;
-    ScheduledExecutorService packetsInfoSchedule;
+    private ScheduledExecutorService packetsInfoSchedule;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -63,16 +66,21 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
     private TextSwitcher connStatusText;
     private boolean darkMode;
+    private boolean stayScreenOnEnabled = false;
     private boolean doBTEnabledCheck = true;
+    // TODO Fix this dep
+    public ISerialConnectionManager btManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        prefs = this.getSharedPreferences("com.mobrembski.kmebingo", Context.MODE_PRIVATE);
-        darkMode = prefs.getBoolean("com.mobrembski.kmebingo.DarkMode", true);
-        if (darkMode)
-            setTheme(R.style.MyMaterialThemeDark);
+        prefs = this.getSharedPreferences(PACKAGE_NAME, Context.MODE_PRIVATE);
+        setupDarkMode(prefs);
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        setupKeepingScreenOn(savedInstanceState);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,6 +96,20 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
         connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
         setupConnectionStatusTextSwitcher();
+    }
+
+    private void setupDarkMode(SharedPreferences prefs) {
+        darkMode = prefs.getBoolean(DARK_MODE_PREF_NAME, true);
+        if (darkMode) {
+            setTheme(R.style.MyMaterialThemeDark);
+        }
+    }
+
+    private void setupKeepingScreenOn(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            stayScreenOnEnabled = savedInstanceState.getBoolean(STAY_ON_KEY_NAME, false);
+        }
+        setStayScreenOn(stayScreenOnEnabled);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -136,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
-        btAddress = prefs.getString("com.mobrembski.kmebingo.Device", "NULL");
+        btAddress = prefs.getString(DEVICE_PREF_NAME, "NULL");
         if (!btAddress.equals("NULL")) {
             openBtManager(btAddress);
         } else {
@@ -165,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     public void onDeviceSelected(BluetoothDevice device) {
         if (device != null) {
             btAddress = device.getAddress();
-            prefs.edit().putString("com.mobrembski.kmebingo.Device", btAddress).apply();
+            prefs.edit().putString(DEVICE_PREF_NAME, btAddress).apply();
             openBtManager(btAddress);
             initializePacketInfoSchedule();
             viewPagerAdapter.getItem(viewPager.getCurrentItem()).onResume();
@@ -209,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(STAY_ON_KEY_NAME, stayScreenOnEnabled);
         super.onSaveInstanceState(outState);
     }
 
@@ -224,6 +247,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         MenuItem switchModeItem = menu.findItem(R.id.action_SwitchColorMode);
         switchModeItem.setTitle(darkMode ? R.string.menu_switchcolor_day
                 : R.string.menu_switchcolor_dark);
+        MenuItem stayOnItem = menu.findItem(R.id.action_StayScreenOn);
+        stayOnItem.setChecked(stayScreenOnEnabled);
         return true;
     }
 
@@ -256,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 return true;
             case R.id.action_StayScreenOn:
                 item.setChecked(!item.isChecked());
-                getWindow().getDecorView().getRootView().setKeepScreenOn(item.isChecked());
+                setStayScreenOn(item.isChecked());
                 return true;
             case R.id.action_About:
                 TypedValue typedValue = new TypedValue();
@@ -275,8 +300,13 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         }
     }
 
+    private void setStayScreenOn(boolean stayOn) {
+        getWindow().getDecorView().getRootView().setKeepScreenOn(stayOn);
+        stayScreenOnEnabled = stayOn;
+    }
+
     private void switchTheme() {
-        prefs.edit().putBoolean("com.mobrembski.kmebingo.DarkMode", !prefs.getBoolean("com.mobrembski.kmebingo.DarkMode", true)).commit();
+        prefs.edit().putBoolean(DARK_MODE_PREF_NAME, !prefs.getBoolean(DARK_MODE_PREF_NAME, true)).commit();
         recreate();
     }
 
