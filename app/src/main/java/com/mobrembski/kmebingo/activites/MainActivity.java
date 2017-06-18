@@ -43,6 +43,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -58,18 +59,17 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private BluetoothAdapter btAdapter;
     private SharedPreferences prefs;
     private String btAddress;
-    private ScheduledExecutorService packetsInfoSchedule;
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
-    private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
-    private TextSwitcher connStatusText;
+    private TextView footerPrompt;
     private boolean darkMode;
     private boolean stayScreenOnEnabled = false;
     private boolean doBTEnabledCheck = true;
     // TODO Fix this dep
     public ISerialConnectionManager btManager;
+    private footerDisplayManager footerDisplayManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +94,14 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
-        connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
-        setupConnectionStatusTextSwitcher();
+        footerDisplayManager = new footerDisplayManager();
+        footerPrompt = (TextView) findViewById(R.id.FooterPrompt);
+        footerPrompt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                footerDisplayManager.moveToNextDisplayMode();
+            }
+        });
     }
 
     private void setupDarkMode(SharedPreferences prefs) {
@@ -164,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         } else {
             openSelectDeviceDialog();
         }
-        initializePacketInfoSchedule();
+        footerDisplayManager.setBTManager(btManager);
         super.onResume();
     }
 
@@ -189,14 +195,14 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
             btAddress = device.getAddress();
             prefs.edit().putString(DEVICE_PREF_NAME, btAddress).apply();
             openBtManager(btAddress);
-            initializePacketInfoSchedule();
+            footerDisplayManager.setBTManager(btManager);
             viewPagerAdapter.getItem(viewPager.getCurrentItem()).onResume();
         }
     }
 
     private void closeBtManager() {
+        if (footerDisplayManager != null) footerDisplayManager.closeManager();
         if (btManager != null) btManager.stopConnections();
-        if (packetsInfoSchedule != null) packetsInfoSchedule.shutdownNow();
     }
 
     private void openBtManager(String btAddress) {
@@ -206,26 +212,140 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         btManager.startConnecting();
     }
 
-    private void initializePacketInfoSchedule() {
-        packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
-        packetsInfoSchedule.scheduleAtFixedRate(new Runnable() {
+    public enum FooterDisplayMode {
+        PACKETS, TIME;
+
+        private static FooterDisplayMode[] vals = values();
+        public FooterDisplayMode nextMode()
+        {
+            return vals[(this.ordinal()+1) % vals.length];
+        }
+    }
+
+    private class footerDisplayManager {
+        private final TextSwitcher connStatusText;
+        FooterDisplayMode currentMode = FooterDisplayMode.PACKETS;
+        private final TextView packetCountLabel, errorsCountLabel, footerPrompt, dividerLabel;
+        ScheduledExecutorService packetsInfoSchedule;
+        ISerialConnectionManager btManager;
+        private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
+
+        Runnable updateRunnable = new Runnable() {
+
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (btManager == null) return;
-                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
-                        packets = (TextView) findViewById(R.id.errorsCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getErrorsCount()));
+                        switch(currentMode) {
+                            case PACKETS:
+                                showHideUnneededViews(false);
+                                displayPackets();
+                                break;
+                            case TIME:
+                                showHideUnneededViews(true);
+                                displayTime();
+                                break;
+                        }
                         setConnectionStateText(btManager.getConnectionStatus());
                     }
                 });
             }
-        }, 0, 250, TimeUnit.MILLISECONDS);
+        };
+
+        private void displayPackets() {
+            footerPrompt.setText(R.string.packets);
+            packetCountLabel.setText(String.valueOf(btManager.getTransmittedPacketCount()));
+            errorsCountLabel.setText(String.valueOf(btManager.getErrorsCount()));
+        }
+
+        private void displayTime() {
+            footerPrompt.setText(R.string.time);
+            long timeConnected = btManager.getConnectedTime();
+            packetCountLabel.setText(
+            String.format(Locale.getDefault(), "%02dm:%02ds",
+                    TimeUnit.MILLISECONDS.toMinutes(timeConnected),
+                    TimeUnit.MILLISECONDS.toSeconds(timeConnected) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeConnected))
+            ));
+        }
+
+        private void showHideUnneededViews(boolean hide) {
+            if (hide) {
+                errorsCountLabel.setVisibility(View.GONE);
+                dividerLabel.setVisibility(View.GONE);
+            } else {
+                errorsCountLabel.setVisibility(View.VISIBLE);
+                dividerLabel.setVisibility(View.VISIBLE);
+            }
+        }
+
+        public footerDisplayManager() {
+            packetCountLabel = (TextView) findViewById(R.id.packetCountLabel);
+            errorsCountLabel = (TextView) findViewById(R.id.errorsCountLabel);
+            dividerLabel = (TextView) findViewById(R.id.FooterDivider);
+            footerPrompt = (TextView) findViewById(R.id.FooterPrompt);
+            connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
+            setupConnectionStatusTextSwitcher();
+        }
+
+        public void setBTManager(ISerialConnectionManager btManager) {
+            this.btManager = btManager;
+            packetsInfoSchedule = Executors.newSingleThreadScheduledExecutor();
+            packetsInfoSchedule.scheduleAtFixedRate(updateRunnable, 0, 250, TimeUnit.MILLISECONDS);
+        }
+
+        private void setupConnectionStatusTextSwitcher() {
+            TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
+            connected.setFactory(new ViewSwitcher.ViewFactory() {
+                @Override
+                public View makeView() {
+                    AppCompatTextView connectionStatusText = new AppCompatTextView(MainActivity.this);
+                    connectionStatusText.setGravity(Gravity.CENTER);
+                    connectionStatusText.setTextAppearance(
+                            getApplicationContext(), android.R.style.TextAppearance_Large);
+                    connectionStatusText.setTextColor(
+                            getResources().getColor(android.R.color.holo_green_dark));
+                    return connectionStatusText;
+                }
+            });
+            Animation in = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+            connected.setInAnimation(in);
+            Animation out = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_out_right);
+            connected.setOutAnimation(out);
+        }
+
+        public void closeManager() {
+            if (packetsInfoSchedule != null)
+                packetsInfoSchedule.shutdownNow();
+        }
+
+        public void moveToNextDisplayMode() {
+            currentMode = currentMode.nextMode();
+        }
+
+        public void setConnectionStateText(final SerialConnectionStatusEvent.SerialConnectionStatus status) {
+            if(currentConnectionStatus == status) return;
+            currentConnectionStatus = status;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
+                        connStatusText.setText(getString(R.string.connected));
+                    }
+                    if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
+                        connStatusText.setText(getString(R.string.disconnected));
+                    }
+                    if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
+                        connStatusText.setText(getString(R.string.connecting));
+                    }
+                    if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
+                        connStatusText.setText(getString(R.string.bt_disabled));
+                    }
+                }
+            });
+        }
     }
 
 
@@ -312,49 +432,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
     @Subscribe
     public void onEvent(final SerialConnectionStatusEvent config) {
-        setConnectionStateText(config.currentStatus);
-    }
-
-    private void setConnectionStateText(final SerialConnectionStatusEvent.SerialConnectionStatus status) {
-        if(currentConnectionStatus == status) return;
-        currentConnectionStatus = status;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
-                    connStatusText.setText(getString(R.string.connected));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
-                    connStatusText.setText(getString(R.string.disconnected));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
-                    connStatusText.setText(getString(R.string.connecting));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
-                    connStatusText.setText(getString(R.string.bt_disabled));
-                }
-            }
-        });
-    }
-
-    private void setupConnectionStatusTextSwitcher() {
-        TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
-        connected.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                AppCompatTextView connectionStatusText = new AppCompatTextView(MainActivity.this);
-                connectionStatusText.setGravity(Gravity.CENTER);
-                connectionStatusText.setTextAppearance(
-                        getApplicationContext(), android.R.style.TextAppearance_Large);
-                connectionStatusText.setTextColor(
-                        getResources().getColor(android.R.color.holo_green_dark));
-                return connectionStatusText;
-            }
-        });
-        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-        connected.setInAnimation(in);
-        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
-        connected.setOutAnimation(out);
+        footerDisplayManager.setConnectionStateText(config.currentStatus);
     }
 
     private boolean CheckIfBtAdapterExist() {

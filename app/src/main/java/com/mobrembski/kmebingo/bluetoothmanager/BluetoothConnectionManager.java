@@ -36,6 +36,7 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     Lock pauseJobsThread = new ReentrantLock();
     int transmittedPackets = 0;
     int errorsCount = 0;
+    long connectionStartTime = 0;
 
     public BluetoothConnectionManager(String deviceAddress) {
         commandQueue = new LinkedBlockingQueue<>();
@@ -78,6 +79,7 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     public void onConnectionStarted(BluetoothSocket socket) {
         this.bluetoothSocket = socket;
         startJobsThread();
+        connectionStartTime = System.currentTimeMillis();
     }
 
     private void startJobsThread() {
@@ -156,6 +158,14 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     @Override
     public int getErrorsCount() {
         return errorsCount;
+    }
+
+    @Override
+    public long getConnectedTime() {
+        if (getConnectionStatus() == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED)
+            return System.currentTimeMillis() - connectionStartTime;
+        else
+            return 0;
     }
 
     private void onJobException(BluetoothCommandJob job) {

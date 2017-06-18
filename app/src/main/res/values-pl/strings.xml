@@ -112,7 +112,7 @@
     <string name="change_tank_level_sensor_levels">Zmień poziomy czujnika zbiornika gazu</string>
     <string name="other_devices">Inne urządzenia</string>
     <string name="scan">Wyszukaj</string>
-    <string name="packets">Pakiety</string>
+    <string name="packets">Pakiety:</string>
     <string name="reset_to_factory_default">Reset do ustawień fabrycznych</string>
     <string name="set_pwa_value">PWA włączone</string>
     <string name="pwa_value">Wartość PWA</string>
@@ -160,4 +160,5 @@
     <string name="graph_time">Czas</string>
     <string name="voltage">Napięcie</string>
     <string name="steps">Kroki</string>
+    <string name="time">Czas:</string>
 </resources>
