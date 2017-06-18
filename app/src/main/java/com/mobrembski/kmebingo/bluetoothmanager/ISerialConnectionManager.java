@@ -11,4 +11,5 @@ public interface ISerialConnectionManager {
     void stopConnections();
     int getTransmittedPacketCount();
     int getErrorsCount();
+    long getConnectedTime();
 }
