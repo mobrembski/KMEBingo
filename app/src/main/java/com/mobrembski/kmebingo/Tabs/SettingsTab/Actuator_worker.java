@@ -68,6 +68,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (SelectedListenerFired++ < 1 || btManager == null) return;
+        if (!DataConfigLoaded) return;
         if (parent == PWAValueSpinner) {
             Log.d("Actuator_worker", "PWAValueSpinner: " + position);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x13, position), 2));
@@ -124,6 +125,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
                 dc.ActuatorMinOpenOnLoad.GetValue());
         Utils.setSpinnerSelectionWithoutCallingListener(MaximumOpenLoadSpinner,
                 dc.ActuatorMaxOpenOnLoad.GetValue());
+        DataConfigLoaded = true;
     }
 
     @Override
@@ -144,6 +146,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
                 Log.d("Actuator_worker", String.valueOf(ds.getATTEnabled()));
             }
         });
+        DataSettingLoaded = true;
     }
 
     @Override

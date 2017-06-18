@@ -21,7 +21,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class BluetoothConnectionManager implements ISerialConnectionManager, IConnectionStarted {
 
-    private final int maximumWaitingTimeForResponse = 1;
+    private final int maximumWaitingTimeForResponse = 2;
     private final int maxExceptionCountForJob = 3;
 
     ExecutorService jobsExecutor;
@@ -62,6 +62,7 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
     public void stopConnections() {
         runJobsThread = false;
         try {
+            if (doJobsThread != null) doJobsThread.interrupt();
             // TODO: Why this check is needed?
             if (doJobsThread != null)
                 doJobsThread.join(10);
@@ -98,7 +99,7 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
             returnObject = jobInProgress.get(maximumWaitingTimeForResponse, TimeUnit.SECONDS);
             transmittedPackets++;
         } catch (Exception ex) {
-            Log.e("DebugBT", "Something wrong while running job", ex);
+            Log.e("DebugBT", "Something wrong while running immediate job", ex);
             ++errorsCount;
         }
         //startJobsThread();
@@ -125,6 +126,10 @@ public class BluetoothConnectionManager implements ISerialConnectionManager, ICo
                         jobInProgress.get(maximumWaitingTimeForResponse, TimeUnit.SECONDS);
                         pauseJobsThread.unlock();
                         ++transmittedPackets;
+                    } catch (InterruptedException iex) {
+                        pauseJobsThread.unlock();
+                        jobInProgress.cancel(true);
+                        connectRunnable.closeSocket();
                     } catch (Exception ex) {
                         pauseJobsThread.unlock();
                         ++errorsCount;

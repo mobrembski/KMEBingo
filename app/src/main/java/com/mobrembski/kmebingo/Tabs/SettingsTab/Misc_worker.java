@@ -52,7 +52,7 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (actualDS == null) return;
-
+        if (!DataSettingLoaded) return;
         if (parent == SwitchOnTempSpinner) {
             // TODO: verify if its correct because its not :(
             int raw = BitUtils.GetTemperatureRaw(position);
@@ -152,11 +152,13 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
                 ds.getStartOnGasOpenTime());
         Utils.setSpinnerSelectionWithoutCallingListener(GasBenzinTimeSpinner,
                 ds.getGasBenzineTime());
+        DataSettingLoaded = true;
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (actualDS == null) return;
+        if (!DataSettingLoaded) return;
         if (buttonView == TemperatureSensorEnabledSwitch) {
             SwitchOnTempSpinner.setEnabled(isChecked);
             actualDS.setTemperatureSensorEnabled(isChecked);

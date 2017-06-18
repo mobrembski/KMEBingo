@@ -9,6 +9,9 @@ import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 public class Base_worker implements IRefreshSettingViews {
 
     protected ISerialConnectionManager btManager;
+    protected boolean DataSettingLoaded = false;
+    protected boolean DataConfigLoaded = false;
+    protected boolean DataInfoLoaded = false;
 
     @Override
     public void setConnectionManager(ISerialConnectionManager btManager) {

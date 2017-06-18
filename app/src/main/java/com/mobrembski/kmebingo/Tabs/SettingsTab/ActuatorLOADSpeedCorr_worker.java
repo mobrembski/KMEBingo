@@ -29,6 +29,7 @@ class ActuatorLOADSpeedCorr_worker extends Base_worker implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (actualDi == null) return;
+        if (!DataInfoLoaded) return;
         if (parent == OpeningCorrectionSpinner) {
             actualDi.ActuatorSpeedLoadOpeningCorrection.SetValue(position);
             int raw = actualDi.ActuatorSpeedLoadOpeningCorrection.GenerateRawByte();
@@ -56,5 +57,6 @@ class ActuatorLOADSpeedCorr_worker extends Base_worker implements AdapterView.On
                 di.ActuatorSpeedLoadOpeningCorrection.GetValue());
         Utils.setSpinnerSelectionWithoutCallingListener(ClosingCorrectionSpinner,
                 di.ActuatorSpeedLoadClosingCorrection.GetValue());
+        DataInfoLoaded = true;
     }
 }

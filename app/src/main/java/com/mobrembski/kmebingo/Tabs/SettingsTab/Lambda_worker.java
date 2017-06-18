@@ -57,6 +57,7 @@ class Lambda_worker extends Base_worker implements AdapterView.OnItemSelectedLis
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (actualDS == null) return;
+        if (!DataSettingLoaded) return;
         if (parent == LambdaTypeSpinner) {
             Log.d("Lambda_worker", "LambdaTypeSpinner: " + position);
             actualDS.setLambdaType(position);
@@ -198,6 +199,7 @@ class Lambda_worker extends Base_worker implements AdapterView.OnItemSelectedLis
                 LambdaEmulationLStateSpinner.setEnabled(false);
                 break;
         }
+        DataSettingLoaded = true;
     }
 
     private List<String> generateTimeList() {

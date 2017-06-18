@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -24,6 +25,8 @@ public class BluetoothConnectRunnable implements Runnable  {
     // bug? isConnected from socket always returns false somehow...
     private boolean isConnected = false;
     private SerialConnectionStatusEvent.SerialConnectionStatus currentSerialLineStatus;
+    private Future<?> connectingFuture;
+    private ExecutorService socketConnectService;
 
     BluetoothConnectRunnable(IConnectionStarted connectionStartedListener, String deviceAddress) {
         this._bluetooth = BluetoothAdapter.getDefaultAdapter();
@@ -62,8 +65,8 @@ public class BluetoothConnectRunnable implements Runnable  {
 
         Log.d("DebugBT","startConnecting thread class invoked");
         Log.d("DebugBT","Discovery canceled.");
-        ExecutorService socketConnectService = Executors.newSingleThreadExecutor();
-        Future<?> connectingFuture = socketConnectService.submit(new Runnable() {
+        socketConnectService = Executors.newSingleThreadExecutor();
+        connectingFuture = socketConnectService.submit(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -83,7 +86,9 @@ public class BluetoothConnectRunnable implements Runnable  {
             }
         });
         try {
-            connectingFuture.get(8, TimeUnit.SECONDS);
+            connectingFuture.get(15, TimeUnit.SECONDS);
+        } catch (CancellationException cex) {
+            Log.d("DebugBT", "Connection trying has been cancelled");
         } catch (Exception ex) {
             Log.d("DebugBT", "Exception future:",ex);
             closeSocket();
@@ -104,17 +109,19 @@ public class BluetoothConnectRunnable implements Runnable  {
 
     public void closeSocket() {
         try {
+            if (connectingFuture != null) connectingFuture.cancel(true);
+            if (socketConnectService != null) socketConnectService.shutdownNow();
             if (socket != null) {
                 socket.getInputStream().close();
                 socket.getOutputStream().close();
                 socket.close();
             }
             isConnected = false;
-            Log.d("DebugBT", "closing bluetoothSocket due to exception");
+            Log.d("DebugBT", "Closing socket");
             saveStatusAndEmitEvent(
                     SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED);
         } catch (IOException ioe) {
-
+            Log.d("DebugBT", "Closing bluetoothSocket due to exception" + ioe.getLocalizedMessage());
         }
     }
 

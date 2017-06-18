@@ -92,6 +92,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (actualDC == null) return;
+        if (!DataConfigLoaded) return;
         Log.d("Ignition_worker", "onItemSelected" + view + parent);
         if (parent == IgnitionTypeSpinner) {
             actualDC.IgnitionType.SetValue(position + 1);
@@ -162,6 +163,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
                 LowRPMSignalSwitch.setEnabled(true);
             }
         });
+        DataSettingLoaded = true;
     }
 
     @Override
@@ -177,6 +179,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
                 dc.IgnitionType.GetValue() - 1);
         Utils.setSpinnerSelectionWithoutCallingListener(LoweringToPWASpinner,
                 pwaAdapter.getPosition(String.valueOf(dc.CutoffMixtureImpoverishment.GetValue())));
+        DataConfigLoaded = true;
     }
 
     private void setSpinnerRPMValue(Spinner spinner, int valueHigh, int valueLow) {
@@ -188,6 +191,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (actualDS == null) return;
+        if (!DataSettingLoaded) return;
         if (buttonView == LowRPMSignalSwitch) {
             LowRPMSignalSwitch.setChecked(isChecked);
             actualDS.setLowRPMSignalLevel(isChecked);

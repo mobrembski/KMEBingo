@@ -29,6 +29,7 @@ class TPS_worker extends Base_worker implements AdapterView.OnItemSelectedListen
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (actualDS == null) return;
+        if (!DataSettingLoaded) return;
         if (parent == TPSTypeSpinner) {
             actualDS.setTPSType(position);
             int raw = actualDS.getTPSTypeRaw();
@@ -54,5 +55,6 @@ class TPS_worker extends Base_worker implements AdapterView.OnItemSelectedListen
         actualDS = ds;
         Utils.setSpinnerSelectionWithoutCallingListener(TPSTypeSpinner, ds.getTPSType());
         Utils.setSpinnerSelectionWithoutCallingListener(TPSInertness, ds.getTPSInertness());
+        DataSettingLoaded = true;
     }
 }
