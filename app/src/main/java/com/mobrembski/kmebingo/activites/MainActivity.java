@@ -15,20 +15,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
-import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
+import com.mobrembski.kmebingo.FooterView;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
 import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
@@ -62,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     private ViewPagerAdapter viewPagerAdapter;
     private SerialConnectionStatusEvent.SerialConnectionStatus currentConnectionStatus;
     private TextSwitcher connStatusText;
+    private FooterView footerView;
     private boolean darkMode;
     private boolean doBTEnabledCheck = true;
 
@@ -87,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         setupTabIcons();
 
         connStatusText = (TextSwitcher) findViewById(R.id.connectedLabel);
-        setupConnectionStatusTextSwitcher();
+        //setupConnectionStatusTextSwitcher();
+        footerView = (FooterView) findViewById(R.id.footerView);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -193,13 +189,16 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                     @Override
                     public void run() {
                         if (btManager == null) return;
-                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
-                        packets = (TextView) findViewById(R.id.errorsCountLabel);
-                        if (packets != null)
-                            packets.setText(String.valueOf(btManager.getErrorsCount()));
-                        setConnectionStateText(btManager.getConnectionStatus());
+                        if (footerView == null) return;
+                        footerView.updatePacketLabels(btManager.getTransmittedPacketCount(), btManager.getErrorsCount());
+//                        TextView packets = (TextView) findViewById(R.id.packetCountLabel);
+//                        if (packets != null)
+//                            packets.setText(String.valueOf(btManager.getTransmittedPacketCount()));
+//                        packets = (TextView) findViewById(R.id.errorsCountLabel);
+//                        if (packets != null)
+//                            packets.setText(String.valueOf(btManager.getErrorsCount()));
+                        footerView.setConnectionStateText(btManager.getConnectionStatus());
+                        //setConnectionStateText(btManager.getConnectionStatus());
                     }
                 });
             }
@@ -282,49 +281,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
     @Subscribe
     public void onEvent(final SerialConnectionStatusEvent config) {
-        setConnectionStateText(config.currentStatus);
-    }
-
-    private void setConnectionStateText(final SerialConnectionStatusEvent.SerialConnectionStatus status) {
-        if(currentConnectionStatus == status) return;
-        currentConnectionStatus = status;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTED) {
-                    connStatusText.setText(getString(R.string.connected));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.DISCONNECTED) {
-                    connStatusText.setText(getString(R.string.disconnected));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.CONNECTING) {
-                    connStatusText.setText(getString(R.string.connecting));
-                }
-                if (status == SerialConnectionStatusEvent.SerialConnectionStatus.ADAPTER_OFF) {
-                    connStatusText.setText(getString(R.string.bt_disabled));
-                }
-            }
-        });
-    }
-
-    private void setupConnectionStatusTextSwitcher() {
-        TextSwitcher connected = (TextSwitcher) findViewById(R.id.connectedLabel);
-        connected.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                AppCompatTextView connectionStatusText = new AppCompatTextView(MainActivity.this);
-                connectionStatusText.setGravity(Gravity.CENTER);
-                connectionStatusText.setTextAppearance(
-                        getApplicationContext(), android.R.style.TextAppearance_Large);
-                connectionStatusText.setTextColor(
-                        getResources().getColor(android.R.color.holo_green_dark));
-                return connectionStatusText;
-            }
-        });
-        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-        connected.setInAnimation(in);
-        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
-        connected.setOutAnimation(out);
+        //setConnectionStateText(config.currentStatus);
+        footerView.setConnectionStateText(config.currentStatus);
     }
 
     private boolean CheckIfBtAdapterExist() {

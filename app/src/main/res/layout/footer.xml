@@ -5,8 +5,9 @@
     android:gravity="bottom"
     android:orientation="horizontal">
 
-    <TextView
+    <TextSwitcher
         style="@style/FooterStyleSmall"
+        android:id="@+id/footerPromptText"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="@string/packets"

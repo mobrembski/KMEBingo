@@ -35,9 +35,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <include
-        layout="@layout/footer"
+    <com.mobrembski.kmebingo.FooterView
+        android:id="@+id/footerView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"/>
+
+    <!--<include-->
+        <!--layout="@layout/footer"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom" />-->
 </LinearLayout>
