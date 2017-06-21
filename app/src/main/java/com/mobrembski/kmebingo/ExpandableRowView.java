@@ -148,19 +148,18 @@ public class ExpandableRowView extends LinearLayout {
      * collapsedHeight, the handle will be hidden.
      */
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, int heightMeasureSpec) {
         if(mVisibleContentId != 0) {
             mContentVisible = findViewById(mVisibleContentId);
-            mContentVisible.requestLayout();
-            mContentVisible.measure(widthMeasureSpec, heightMeasureSpec);
-
-            int dd2 = mContentVisible.getMeasuredHeight();
-            int dd = mContentVisible.getHeight();
-            android.view.ViewGroup.LayoutParams lp;
-            lp = mContentVisible.getLayoutParams();
-            lp.height = dd2;
-            //mContentVisible.setLayoutParams(lp);
-            mContentVisibleHeight = dd2;
+            final int finalHeightMeasureSpec = heightMeasureSpec;
+            mContentVisible.post(new Runnable() {
+                @Override
+                public void run() {
+                    mContentVisible.measure(widthMeasureSpec, finalHeightMeasureSpec);
+                    int height = mContentVisible.getMeasuredHeight();
+                    mContentVisibleHeight = height;
+                }
+            });
         }
         // First, measure how high content wants to be
         mContent.measure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);

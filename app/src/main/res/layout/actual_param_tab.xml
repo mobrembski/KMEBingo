@@ -61,7 +61,7 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/TPSView"
                     android:layout_width="fill_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="20dp"
                     app:TPSViewBorderWidth="3dp"
                     app:TPSViewRectPadding="2dp" />
 
@@ -90,9 +90,9 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/lambdaView"
                     android:layout_width="fill_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="30dp"
                     app:LambdaViewBorderWidth="3dp"
-                    app:LambdaViewRectPadding="3dp"
+                    app:LambdaViewRectPadding="2dp"
                     app:LambdaViewRectSize="3dp" />
                 <com.mobrembski.kmebingo.GraphView
                     style="@style/DefaultDisplayItem"
@@ -118,7 +118,7 @@
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/ActuatorView"
                     android:layout_width="fill_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="40dp"
                     app:ActuatorViewBarBottomPadding="3dp"
                     app:ActuatorViewBorderWidth="3dp"
                     app:ActuatorViewRectPadding="1dp" />
