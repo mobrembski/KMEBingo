@@ -42,7 +42,7 @@ class ActuatorIDLESpeedCorr_worker extends Base_worker implements AdapterView.On
             Log.d("ActuatorIdleSpeedCorr", "ClosingCorrectionSpinner: "+raw);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0D, raw), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override

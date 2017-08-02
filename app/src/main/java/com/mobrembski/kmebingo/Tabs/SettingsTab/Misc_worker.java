@@ -103,7 +103,7 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
             Log.d("Misc_worker", "GasBenzinTimeSpinner: "+raw);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0F, raw), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override
@@ -177,7 +177,7 @@ class Misc_worker extends Base_worker implements AdapterView.OnItemSelectedListe
                 btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0A, raw), 2));
             }
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     private ArrayAdapter<String> createAdapterForTemp() {

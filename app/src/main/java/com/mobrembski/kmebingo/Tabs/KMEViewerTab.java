@@ -53,6 +53,7 @@ public abstract class KMEViewerTab extends android.support.v4.app.Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             EventBus.getDefault().register(this);
+            sendInitialRequestsToDevice();
         } else {
             super.onPause();
             try {
@@ -61,5 +62,14 @@ public abstract class KMEViewerTab extends android.support.v4.app.Fragment {
                 Log.e("KMEViewerTab", "Exception during unregistering event", e);
             }
         }
+    }
+
+    public void setBtManager(ISerialConnectionManager manager) {
+        btManager = manager;
+        sendInitialRequestsToDevice();
+    }
+
+    protected void sendInitialRequestsToDevice() {
+        if(btManager == null) return;
     }
 }

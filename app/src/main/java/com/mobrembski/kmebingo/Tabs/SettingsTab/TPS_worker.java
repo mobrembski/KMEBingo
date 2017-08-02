@@ -42,7 +42,7 @@ class TPS_worker extends Base_worker implements AdapterView.OnItemSelectedListen
             Log.d("TPS_worker", "TPSInertness: "+raw);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1E, raw), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override

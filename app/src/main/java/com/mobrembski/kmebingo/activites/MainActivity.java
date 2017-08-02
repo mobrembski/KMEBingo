@@ -27,6 +27,7 @@ import com.mobrembski.kmebingo.FooterManager;
 import com.mobrembski.kmebingo.R;
 import com.mobrembski.kmebingo.Tabs.ActualParametersTab;
 import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
+import com.mobrembski.kmebingo.Tabs.KMEViewerTab;
 import com.mobrembski.kmebingo.Tabs.SettingsTab.KMESettingsTab;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
     @Override
     protected void onResume() {
+        super.onResume();
         EventBus.getDefault().register(this);
         if (DEMO_MODE) {
             openDemoManager();
@@ -167,8 +169,16 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 openBtManager(btAddress);
             }
         }
+        informTabsAboutNewManager(btManager);
         footerDisplayManager.setBTManager(btManager);
-        super.onResume();
+
+    }
+
+    private void informTabsAboutNewManager(ISerialConnectionManager manager) {
+        for(int i = 0; i < viewPagerAdapter.getCount(); i++) {
+            KMEViewerTab tab = (KMEViewerTab) viewPagerAdapter.getItem(i);
+            tab.setBtManager(manager);
+        }
     }
 
     @Override
@@ -207,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         CheckIfBtAdapterExist();
         btManager = new BluetoothConnectionManager(btAddress);
         btManager.startConnecting();
+        informTabsAboutNewManager(btManager);
     }
 
     private void openDemoManager() {

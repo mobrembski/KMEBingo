@@ -97,7 +97,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
             Log.d("Actuator_worker", "DesiredATTPosSpinner: "+position);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x15, position), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override
@@ -169,7 +169,7 @@ class Actuator_worker extends Base_worker implements AdapterView.OnItemSelectedL
             if (btManager != null && SetATTPosSwitch.isPressed())
                 btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
-        parent.sendRequestsToDevice();
+        parent.sendInitialRequestsToDevice();
     }
 
     private ArrayAdapter<String> createTPSenseAdapter() {

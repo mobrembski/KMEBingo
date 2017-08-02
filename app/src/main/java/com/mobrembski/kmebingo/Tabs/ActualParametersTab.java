@@ -19,8 +19,6 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataActual;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataConfig;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.TPSView;
-import com.mobrembski.kmebingo.activites.MainActivity;
-import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,7 +38,6 @@ public class ActualParametersTab extends KMEViewerTab {
     private int LambdaRedColor;
     private float TpsMaxValue = 5.0f;
     private KMEDataConfig actualConfig;
-    private ISerialConnectionManager btManager;
     private GraphView TemperatureGraphView;
     private ExpandableRowView RpmRowView;
     private ExpandableRowView TpsRowView;
@@ -103,22 +100,6 @@ public class ActualParametersTab extends KMEViewerTab {
         packetReceived(new KMEDataActual());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        this.btManager = mainActivity.btManager;
-        sendInitialRequestsToDevice();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            sendInitialRequestsToDevice();
-        }
-    }
-
     @Subscribe
     public void onEvent(final KMEDataActual ignored) {
         Log.d("DebugBT", "EventReceived Actual");
@@ -144,7 +125,8 @@ public class ActualParametersTab extends KMEViewerTab {
         packetReceived(actualSettings);
     }
 
-    private void sendInitialRequestsToDevice() {
+    @Override
+    protected void sendInitialRequestsToDevice() {
         if (btManager == null) return;
         btManager.postNewRequest(new KMEDataSettings(), 1);
         btManager.postNewRequest(new KMEDataConfig(), 1);

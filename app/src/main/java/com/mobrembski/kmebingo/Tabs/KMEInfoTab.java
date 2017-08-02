@@ -24,7 +24,6 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataIdent;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMESetDataFrame;
 import com.mobrembski.kmebingo.activites.LPGSensorSensivityChangeDialog;
-import com.mobrembski.kmebingo.activites.MainActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -87,23 +86,8 @@ public class KMEInfoTab extends KMEViewerTab {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        this.btManager = mainActivity.btManager;
-        sendRequestsToDevice();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            sendRequestsToDevice();
-        }
-    }
-
-    private void sendRequestsToDevice() {
-        if(btManager == null) return;
+    protected void sendInitialRequestsToDevice() {
+        if (btManager == null) return;
         btManager.postNewRequest(new KMEDataInfo(), 1);
         btManager.postNewRequest(new KMEDataIdent(), 1);
     }
@@ -283,7 +267,7 @@ public class KMEInfoTab extends KMEViewerTab {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            sendRequestsToDevice();
+            sendInitialRequestsToDevice();
         }
 
         @Override
@@ -322,7 +306,7 @@ public class KMEInfoTab extends KMEViewerTab {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            sendRequestsToDevice();
+            sendInitialRequestsToDevice();
         }
 
         @Override
@@ -357,7 +341,7 @@ public class KMEInfoTab extends KMEViewerTab {
         protected void onPostExecute(Void notUsed) {
             super.onPostExecute(notUsed);
             waitDialog.dismiss();
-            sendRequestsToDevice();
+            sendInitialRequestsToDevice();
         }
 
         @Override

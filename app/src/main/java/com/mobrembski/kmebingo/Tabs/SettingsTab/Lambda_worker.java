@@ -106,7 +106,7 @@ class Lambda_worker extends Base_worker implements AdapterView.OnItemSelectedLis
             Log.d("Lambda_worker", "LambdaEmulationLStateSpinner: " + (position+1));
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x0C, position + 1), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override

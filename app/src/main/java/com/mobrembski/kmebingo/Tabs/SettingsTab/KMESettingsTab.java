@@ -3,7 +3,6 @@ package com.mobrembski.kmebingo.Tabs.SettingsTab;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import com.mobrembski.kmebingo.SerialFrames.KMEDataInfo;
 import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
 import com.mobrembski.kmebingo.Tabs.KMEViewerTab;
 import com.mobrembski.kmebingo.activites.FactoryResetDialog;
-import com.mobrembski.kmebingo.activites.MainActivity;
+import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -63,28 +62,18 @@ public class KMESettingsTab extends KMEViewerTab {
         views.add(new Ignition_worker(this));
         views.add(new Misc_worker(this));
 
+        for(IRefreshSettingViews view : views) {
+            view.setConnectionManager(btManager);
+        }
+
         return v;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        this.btManager = mainActivity.btManager;
+    public void setBtManager(ISerialConnectionManager manager) {
+        super.setBtManager(manager);
         for(IRefreshSettingViews view : views) {
             view.setConnectionManager(btManager);
-        }
-        sendRequestsToDevice();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            Log.d("DebugTab", "KMESettingsTab visible");
-            sendRequestsToDevice();
-        } else {
-            Log.d("DebugTab", "KMESettingsTab not visible");
         }
     }
 
@@ -117,7 +106,8 @@ public class KMESettingsTab extends KMEViewerTab {
         }
     }
 
-    public void sendRequestsToDevice() {
+    @Override
+    public void sendInitialRequestsToDevice() {
         if (btManager == null) return;
         btManager.postNewRequest(new KMEDataActual(), 1);
         btManager.postNewRequest(new KMEDataSettings(), 1);

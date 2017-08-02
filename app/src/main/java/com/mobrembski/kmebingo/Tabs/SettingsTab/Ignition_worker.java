@@ -132,7 +132,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
             Log.d("Ignition_worker", "HighRPMLimitSpinner raw MSB: "+rawRpm[0]);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x1D, rawRpm[0]), 2));
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override
@@ -220,7 +220,7 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
                 btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
             }
         }
-        this.parent.sendRequestsToDevice();
+        this.parent.sendInitialRequestsToDevice();
     }
 
     @Override
@@ -244,6 +244,6 @@ class Ignition_worker extends Base_worker implements AdapterView.OnItemSelectedL
             Log.d("Ignition_worker", "TurnOnIncreasingRPM: "+raw);
             btManager.runRequestNow(new KMESetDataFrame(BitUtils.packFrame(0x06, raw), 2));
         }
-        parent.sendRequestsToDevice();
+        parent.sendInitialRequestsToDevice();
     }
 }
