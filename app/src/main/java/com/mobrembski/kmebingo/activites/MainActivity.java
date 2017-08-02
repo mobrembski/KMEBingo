@@ -30,6 +30,7 @@ import com.mobrembski.kmebingo.Tabs.KMEInfoTab;
 import com.mobrembski.kmebingo.Tabs.SettingsTab.KMESettingsTab;
 import com.mobrembski.kmebingo.bluetoothmanager.BluetoothConnectionManager;
 import com.mobrembski.kmebingo.bluetoothmanager.ISerialConnectionManager;
+import com.mobrembski.kmebingo.bluetoothmanager.NullConnectionManager;
 import com.mobrembski.kmebingo.bluetoothmanager.SerialConnectionStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DeviceListDialog.onDeviceSelectedInterface {
+    private static final boolean DEMO_MODE = false;
     private static final int REQUEST_DISCOVERY = 0x1;
     private static final int REQUEST_BT_ENABLE = 0x2;
     private static final String PACKAGE_NAME = "com.mobrembski.kmebingo";
@@ -155,11 +157,15 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
     @Override
     protected void onResume() {
         EventBus.getDefault().register(this);
-        btAddress = prefs.getString(DEVICE_PREF_NAME, "NULL");
-        if (!btAddress.equals("NULL")) {
-            openBtManager(btAddress);
+        if (DEMO_MODE) {
+            openDemoManager();
         } else {
-            openSelectDeviceDialog();
+            btAddress = prefs.getString(DEVICE_PREF_NAME, "NULL");
+            if (btAddress.equals("NULL")) {
+                openSelectDeviceDialog();
+            } else {
+                openBtManager(btAddress);
+            }
         }
         footerDisplayManager.setBTManager(btManager);
         super.onResume();
@@ -200,6 +206,12 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         closeBtManager();
         CheckIfBtAdapterExist();
         btManager = new BluetoothConnectionManager(btAddress);
+        btManager.startConnecting();
+    }
+
+    private void openDemoManager() {
+        closeBtManager();
+        btManager = new NullConnectionManager();
         btManager.startConnecting();
     }
 
