@@ -149,18 +149,6 @@ public class ExpandableRowView extends LinearLayout {
      */
     @Override
     protected void onMeasure(final int widthMeasureSpec, int heightMeasureSpec) {
-        if(mVisibleContentId != 0) {
-            mContentVisible = findViewById(mVisibleContentId);
-            final int finalHeightMeasureSpec = heightMeasureSpec;
-            mContentVisible.post(new Runnable() {
-                @Override
-                public void run() {
-                    mContentVisible.measure(widthMeasureSpec, finalHeightMeasureSpec);
-                    int height = mContentVisible.getMeasuredHeight();
-                    mContentVisibleHeight = height;
-                }
-            });
-        }
         // First, measure how high content wants to be
         mContent.measure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
 
@@ -173,11 +161,6 @@ public class ExpandableRowView extends LinearLayout {
             mHandle.setVisibility(View.VISIBLE);
         }
         heightMeasureSpec = mContent.getMeasuredHeight();
-        // Then let the usual thing happen
-        if (mContentVisible != null) {
-            //mContentVisible.measure(widthMeasureSpec, MeasureSpec.UNSPECIFIED);
-            //mContentVisibleHeight = mContentVisible.getMeasuredHeight();
-        }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
