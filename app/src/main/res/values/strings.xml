@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">KME Bingo</string>
+    <string name="settings_actuator_category">Actuator</string>
+    <string name="settings_misc_category">Misc</string>
+    <string name="settings_rpms_category">RPMs</string>
 
     <string-array name="lambda_emul_type">
         <item>Course</item>

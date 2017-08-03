@@ -31,7 +31,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="Actuator"
+                example:expandableText="@string/settings_actuator_category"
                 example:animationDuration="150"
                 example:content="@+id/actuator_row_table_layout">
                 <include layout="@layout/settings_tab_actuator_row"/>
@@ -54,7 +54,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="RPMS"
+                example:expandableText="@string/settings_rpms_category"
                 example:animationDuration="150"
                 example:content="@+id/rpms_row_table_layout">
                 <include layout="@layout/settings_tab_rpms_row"/>
@@ -65,7 +65,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                example:expandableText="Misc"
+                example:expandableText="@string/settings_misc_category"
                 example:animationDuration="150"
                 example:content="@+id/misc_row_table_layout">
                 <include layout="@layout/settings_tab_misc_row"/>

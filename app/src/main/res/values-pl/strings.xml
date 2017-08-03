@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="settings_actuator_category">Aktuator</string>
+    <string name="settings_misc_category">Różne</string>
+    <string name="settings_rpms_category">Obroty</string>
+
     <string-array name="lambda_emul_type">
         <item>Przebieg</item>
         <item>Masa</item>
