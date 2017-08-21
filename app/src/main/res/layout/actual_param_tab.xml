@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:id="@+id/RpmRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 example:content="@+id/GraphViewForRPM"
                 example:contentVisible="@+id/rpmView">
 
-                <com.mobrembski.kmebingo.RPMView
+                <com.mobrembski.kmebingo.v2.RPMView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/rpmView"
                     android:layout_width="fill_parent"
@@ -35,7 +35,7 @@
                     app:RPMViewMarkerTextPadding="10dp"
                     app:RPMViewMarkerTextSize="8dp"
                     app:RPMViewRectPadding="1dp" />
-                <com.mobrembski.kmebingo.GraphView
+                <com.mobrembski.kmebingo.v2.GraphView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForRPM"
                     android:layout_width="match_parent"
@@ -43,9 +43,9 @@
                     app:YTitle="@string/RPM"
                     app:XTitle="@string/graph_time"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:id="@+id/TpsRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 example:content="@+id/GraphViewForTPS"
                 example:contentVisible="@+id/TPSView">
 
-                <com.mobrembski.kmebingo.TPSView
+                <com.mobrembski.kmebingo.v2.TPSView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/TPSView"
                     android:layout_width="fill_parent"
@@ -64,7 +64,7 @@
                     app:TPSViewBorderWidth="3dp"
                     app:TPSViewRectPadding="2dp" />
 
-                <com.mobrembski.kmebingo.GraphView
+                <com.mobrembski.kmebingo.v2.GraphView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTPS"
                     android:layout_width="match_parent"
@@ -72,9 +72,9 @@
                     app:XTitle="@string/graph_time"
                     app:YTitle="@string/voltage"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:id="@+id/LambdaRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 example:content="@+id/GraphViewForLambda"
                 example:contentVisible="@+id/lambdaView">
 
-                <com.mobrembski.kmebingo.LambdaView
+                <com.mobrembski.kmebingo.v2.LambdaView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/lambdaView"
                     android:layout_width="fill_parent"
@@ -93,7 +93,7 @@
                     app:LambdaViewBorderWidth="3dp"
                     app:LambdaViewRectPadding="2dp"
                     app:LambdaViewRectSize="3dp" />
-                <com.mobrembski.kmebingo.GraphView
+                <com.mobrembski.kmebingo.v2.GraphView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForLambda"
                     android:layout_width="match_parent"
@@ -101,9 +101,9 @@
                     app:XTitle="@string/graph_time"
                     app:YTitle="@string/voltage"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:id="@+id/ActuatorRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
                 example:content="@+id/GraphViewForActuator"
                 example:contentVisible="@+id/ActuatorView">
 
-                <com.mobrembski.kmebingo.ActuatorView
+                <com.mobrembski.kmebingo.v2.ActuatorView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/ActuatorView"
                     android:layout_width="fill_parent"
@@ -122,7 +122,7 @@
                     app:ActuatorViewBorderWidth="3dp"
                     app:ActuatorViewRectPadding="1dp" />
 
-                <com.mobrembski.kmebingo.GraphView
+                <com.mobrembski.kmebingo.v2.GraphView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForActuator"
                     android:layout_width="match_parent"
@@ -130,9 +130,9 @@
                     app:XTitle="@string/graph_time"
                     app:YTitle="@string/steps"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:id="@+id/TemperatureRowView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 example:unitText="°C"
                 example:content="@+id/GraphViewForTemperature">
 
-                <com.mobrembski.kmebingo.GraphView
+                <com.mobrembski.kmebingo.v2.GraphView
                     style="@style/DefaultDisplayItem"
                     android:id="@+id/GraphViewForTemperature"
                     android:layout_width="match_parent"
@@ -150,7 +150,7 @@
                     app:XTitle="@string/graph_time"
                     app:YTitle="°C"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
             <TableLayout
                 android:layout_width="fill_parent"

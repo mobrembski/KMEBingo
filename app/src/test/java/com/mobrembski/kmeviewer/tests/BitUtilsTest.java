@@ -1,6 +1,6 @@
 package com.mobrembski.kmebingo.tests;
 
-import com.mobrembski.kmebingo.BitUtils;
+import com.mobrembski.kmebingo.v2.BitUtils;
 
 import org.junit.After;
 import org.junit.Before;

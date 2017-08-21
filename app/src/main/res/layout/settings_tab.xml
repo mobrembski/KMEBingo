@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -24,10 +24,10 @@
                 example:content="@+id/lambda_row_table_layout">
                     <include layout="@layout/settings_tab_lambda_row"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -36,10 +36,10 @@
                 example:content="@+id/actuator_row_table_layout">
                 <include layout="@layout/settings_tab_actuator_row"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -48,9 +48,9 @@
                 example:content="@+id/tps_row_table_layout">
                 <include layout="@layout/settings_tab_tps_row"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -59,9 +59,9 @@
                 example:content="@+id/rpms_row_table_layout">
                 <include layout="@layout/settings_tab_rpms_row"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
 
-            <com.mobrembski.kmebingo.ExpandableRowView
+            <com.mobrembski.kmebingo.v2.ExpandableRowView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -70,7 +70,7 @@
                 example:content="@+id/misc_row_table_layout">
                 <include layout="@layout/settings_tab_misc_row"/>
 
-            </com.mobrembski.kmebingo.ExpandableRowView>
+            </com.mobrembski.kmebingo.v2.ExpandableRowView>
         </LinearLayout>
 
         <Button

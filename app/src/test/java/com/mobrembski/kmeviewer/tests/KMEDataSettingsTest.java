@@ -1,12 +1,10 @@
 package com.mobrembski.kmebingo.tests;
 
-import com.mobrembski.kmebingo.SerialFrames.KMEDataSettings;
+import com.mobrembski.kmebingo.v2.SerialFrames.KMEDataSettings;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.Exception;
 
 public class KMEDataSettingsTest {
 
