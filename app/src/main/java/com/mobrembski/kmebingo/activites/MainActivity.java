@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setContentInsetsAbsolute(0,0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
 
     private void openBtManager(String btAddress) {
         closeBtManager();
-        CheckIfBtAdapterExist();
+        if (!CheckIfBtAdapterExist()) return;
         btManager = new BluetoothConnectionManager(btAddress);
         btManager.startConnecting();
         informTabsAboutNewManager(btManager);
@@ -338,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
         if (!btAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_BT_ENABLE);
-            return true;
+            return false;
         }
         return true;
     }
@@ -356,6 +357,8 @@ public class MainActivity extends AppCompatActivity implements DeviceListDialog.
                 showBtMustBeEnabledDialog();
                 return;
             }
+            // TODO: Fix this, it shoulnt be blocked in this way
+            while (btAdapter.getState() != BluetoothAdapter.STATE_ON);
             openBtManager(btAddress);
             return;
         }
