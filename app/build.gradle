@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.mobrembski.kmebingo.v2"
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
     }
 
     buildTypes {
@@ -19,11 +19,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'org.jraf:android-switch-backport:1.4.0'
-    compile group: 'org.achartengine', name: 'achartengine', version: '1.2.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'org.jraf:android-switch-backport:1.4.0'
+    implementation files('libs/achartengine-1.2.0.jar')
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    testImplementation 'junit:junit:4.12'
 }
